@@ -3,12 +3,8 @@ import { cookies } from "next/headers";
 import createClient from "openapi-fetch";
 import type { paths } from "./schema";
 
-// Cliente para Server Components y Server Functions. Va directo a la API (sin
-// el proxy) con las cookies de la request entrante. Los `Set-Cookie` que
-// responda la API no llegan al navegador.
-//
-// Se arma por request: leer las cookies primero marca el render como de
-// request, como pide `cacheComponents`.
+// Los `Set-Cookie` de la API no llegan al navegador: lo que toque la sesión va por `api`.
+// Leer las cookies antes de crear el cliente marca el render como de request (`cacheComponents`).
 export async function getServerApi() {
   const cookie = (await cookies()).toString();
   return createClient<paths>({

@@ -2,8 +2,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* No hay modo oscuro. Esta variante hace que las clases `dark:` de los componentes de shadcn
-   dependan de una clase `.dark` que nunca se aplica (si no, Tailwind usaría la preferencia del sistema). */
+/* Sin modo oscuro: sin esta línea, Tailwind activaría los `dark:` de shadcn según el sistema. */
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
