@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FullSync Club",
+  title: { default: "Clubsy", template: "%s · Clubsy" },
   description: "Tu tarjeta de sellos digital",
+  icons: { icon: "/icon.png", apple: "/icon.png" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
