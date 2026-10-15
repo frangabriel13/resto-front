@@ -7,7 +7,7 @@ Frontend Next.js de FullSync Club: tarjeta del cliente, panel del comercio y pan
 ## Comandos
 
 ```bash
-pnpm dev        # http://localhost:3000
+pnpm dev        # http://localhost:3002 (el 3000 lo usa otro proyecto)
 pnpm build
 pnpm lint       # ESLint
 pnpm typecheck  # next typegen + tsc (los tipos de rutas como LayoutProps los genera Next)
@@ -18,8 +18,8 @@ pnpm gen:api    # regenera lib/api/schema.d.ts desde el OpenAPI (necesita la API
 
 - **Next 16** con App Router y Turbopack, **Tailwind 4**. Sin carpeta `src/`: las rutas viven en `app/` y el alias `@/*` apunta a la raíz.
 - `next.config.ts` trae `cacheComponents` y `partialPrefetching` activados (vienen de `create-next-app`). Antes de escribir fetching, caché o componentes de servidor, leer la guía correspondiente en `node_modules/next/dist/docs/` (ver `AGENTS.md`).
-- **shadcn/ui** con el preset `base-nova` (primitivas de Base UI, no Radix), color base `neutral` e íconos `lucide-react`. Agregar componentes con `pnpm dlx shadcn@latest add <componente>`; quedan en `components/ui/`. `cn` viene del paquete `cn` (reemplaza a clsx + tailwind-merge) y se reexporta desde `lib/utils.ts`.
-- **Tema:** tokens de shadcn en `app/globals.css` (variables CSS en `:root`). Los colores de cada comercio se aplicarán pisando `--primary` y afines en el contenedor de su tarjeta, no tocando el tema global. Sin modo oscuro por ahora (el bloque `.dark` queda sin usar).
+- **shadcn/ui** con el preset `radix-nova` (primitivas de Radix, paquete `radix-ui`), color base `neutral` e íconos `lucide-react`. Agregar componentes con `pnpm dlx shadcn@latest add <componente>`; quedan en `components/ui/`. `cn` viene del paquete `cn` (reemplaza a clsx + tailwind-merge) y se reexporta desde `lib/utils.ts`.
+- **Tema:** tokens de shadcn en `app/globals.css` (variables CSS en `:root`). Los colores de cada comercio se aplicarán pisando `--primary` y afines en el contenedor de su tarjeta, no tocando el tema global. Sin modo oscuro: no hay variables `.dark` y la variante `dark:` queda atada a una clase que nunca se aplica.
 - **Tipografía:** Geist y Geist Mono con `next/font` (`--font-geist-sans`, `--font-geist-mono`), mapeadas a `font-sans`, `font-heading` y `font-mono`.
 - **pnpm** bloquea los scripts de instalación de las dependencias. La lista de permitidos está en `allowBuilds` de `pnpm-workspace.yaml`.
 
