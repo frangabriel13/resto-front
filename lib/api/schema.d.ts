@@ -4,16 +4,224 @@
  */
 
 export interface paths {
-    "/": {
+    "/auth/staff/login": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        get: operations["AppController_getHello"];
+        get?: never;
+        put?: never;
+        post: operations["StaffAuthController_login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/staff/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["StaffAuthController_logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/staff/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["StaffAuthController_me"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/staff/select-merchant": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["StaffAuthController_selectMerchant"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/staff/password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["StaffAuthController_changePassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/admin/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminAuthController_login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/admin/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminAuthController_logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/admin/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminAuthController_me"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminMerchantsController_list"];
+        put?: never;
+        post: operations["AdminMerchantsController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminMerchantsController_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["AdminMerchantsController_update"];
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/pieces": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminPiecesController_list"];
+        put?: never;
+        post: operations["AdminPiecesController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/pieces/{pieceId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["AdminPiecesController_update"];
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/owner": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminOwnersController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/reward-rules": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["RewardRulesController_list"];
+        put?: never;
+        post: operations["RewardRulesController_create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -27,11 +235,149 @@ export interface components {
         ApiError: {
             statusCode: number;
             /** @enum {string} */
-            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "RATE_LIMITED" | "INTERNAL_ERROR";
+            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "ACTIVE_RULE_REQUIRED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
             message: string;
             details?: {
                 [key: string]: unknown;
             };
+        };
+        LoginBody: {
+            email: string;
+            password: string;
+        };
+        StaffAccount: {
+            user: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                email: string;
+                mustChangePassword: boolean;
+            };
+            merchants: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                slug: string;
+                /** @enum {string} */
+                status: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+                /** @enum {string} */
+                role: "OWNER" | "EMPLOYEE";
+            }[];
+            /** Format: uuid */
+            selectedMerchantId: string | null;
+        };
+        SelectMerchantBody: {
+            /** Format: uuid */
+            merchantId: string;
+        };
+        ChangeStaffPasswordBody: {
+            currentPassword: string;
+            newPassword: string;
+        };
+        AdminAccount: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            email: string;
+        };
+        MerchantSummary: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            slug: string;
+            /** @enum {string} */
+            status: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+            hasActiveRule: boolean;
+            activeOwners: number;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        Merchant: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            slug: string;
+            logoUrl: string | null;
+            primaryColor: string | null;
+            secondaryColor: string | null;
+            googleReviewUrl: string | null;
+            stampCooldownMinutes: number;
+            /** @enum {string} */
+            status: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CreateMerchantBody: {
+            name: string;
+            slug?: string;
+            /** Format: uri */
+            logoUrl?: string | null;
+            primaryColor?: string | null;
+            secondaryColor?: string | null;
+            /** Format: uri */
+            googleReviewUrl?: string | null;
+            stampCooldownMinutes?: number;
+        };
+        UpdateMerchantBody: {
+            name?: string;
+            slug?: string;
+            /** Format: uri */
+            logoUrl?: string | null;
+            primaryColor?: string | null;
+            secondaryColor?: string | null;
+            /** Format: uri */
+            googleReviewUrl?: string | null;
+            stampCooldownMinutes?: number;
+            /** @enum {string} */
+            status?: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+        };
+        Piece: {
+            /** Format: uuid */
+            id: string;
+            publicCode: string;
+            /** @enum {string} */
+            type: "NFC_QR";
+            label: string;
+            active: boolean;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        CreatePieceBody: {
+            label: string;
+        };
+        UpdatePieceBody: {
+            label?: string;
+            active?: boolean;
+        };
+        CreateOwnerBody: {
+            email: string;
+            name: string;
+        };
+        CreatedOwner: {
+            /** Format: uuid */
+            staffUserId: string;
+            email: string;
+            name: string;
+            newUser: boolean;
+            temporaryPassword: string | null;
+        };
+        RewardRule: {
+            /** Format: uuid */
+            id: string;
+            version: number;
+            stampsRequired: number;
+            rewardDescription: string;
+            conditions: string | null;
+            active: boolean;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        CreateRewardRuleBody: {
+            stampsRequired: number;
+            rewardDescription: string;
+            conditions: string | null;
         };
     };
     responses: never;
@@ -42,7 +388,65 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    AppController_getHello: {
+    StaffAuthController_login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StaffAccount"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StaffAuthController_logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StaffAuthController_me: {
         parameters: {
             query?: never;
             header?: never;
@@ -55,7 +459,474 @@ export interface operations {
                 headers: {
                     [name: string]: unknown;
                 };
+                content: {
+                    "application/json": components["schemas"]["StaffAccount"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StaffAuthController_selectMerchant: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SelectMerchantBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StaffAccount"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StaffAuthController_changePassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ChangeStaffPasswordBody"];
+            };
+        };
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
                 content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminAuthController_login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminAccount"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminAuthController_logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminAuthController_me: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminAccount"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMerchantsController_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MerchantSummary"][];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMerchantsController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateMerchantBody"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Merchant"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMerchantsController_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Merchant"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMerchantsController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateMerchantBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Merchant"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminPiecesController_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Piece"][];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminPiecesController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreatePieceBody"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Piece"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminPiecesController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                pieceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdatePieceBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Piece"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminOwnersController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateOwnerBody"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreatedOwner"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RewardRulesController_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RewardRule"][];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    RewardRulesController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateRewardRuleBody"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RewardRule"];
+                };
             };
             /** @description Error */
             default: {

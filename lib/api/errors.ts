@@ -14,3 +14,10 @@ export function isApiError(error: unknown): error is ApiError {
     typeof error.message === "string"
   );
 }
+
+export const connectionErrorMessage =
+  "No pudimos conectarnos. Revisá tu conexión y probá de nuevo.";
+
+export function apiErrorMessage(error: unknown): string {
+  return isApiError(error) ? error.message : connectionErrorMessage;
+}
