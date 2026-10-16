@@ -132,6 +132,54 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/customer/otp/request": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["CustomerAuthController_request"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/customer/otp/verify": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["CustomerAuthController_verify"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/customer/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["CustomerAuthController_logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/merchants": {
         parameters: {
             query?: never;
@@ -228,6 +276,86 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public/pieces/{code}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PublicPiecesController_find"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["MeController_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["MeController_update"];
+        trace?: never;
+    };
+    "/me/memberships": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["MeMembershipsController_list"];
+        put?: never;
+        post: operations["MeMembershipsController_join"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/memberships/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["MeMembershipsController_getCard"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/memberships/{id}/consent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["MeMembershipsController_updateConsent"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -235,7 +363,7 @@ export interface components {
         ApiError: {
             statusCode: number;
             /** @enum {string} */
-            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "ACTIVE_RULE_REQUIRED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
+            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "NAME_REQUIRED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "ACTIVE_RULE_REQUIRED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
             message: string;
             details?: {
                 [key: string]: unknown;
@@ -260,6 +388,7 @@ export interface components {
                 slug: string;
                 /** @enum {string} */
                 status: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+                hasActiveRule: boolean;
                 /** @enum {string} */
                 role: "OWNER" | "EMPLOYEE";
             }[];
@@ -279,6 +408,26 @@ export interface components {
             id: string;
             name: string;
             email: string;
+        };
+        RequestOtpBody: {
+            phone: string;
+        };
+        OtpRequested: {
+            expiresInSeconds: number;
+            resendInSeconds: number;
+        };
+        VerifyOtpBody: {
+            phone: string;
+            code: string;
+            name?: string;
+        };
+        CustomerLogin: {
+            customer: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+            };
+            isNew: boolean;
         };
         MerchantSummary: {
             /** Format: uuid */
@@ -378,6 +527,134 @@ export interface components {
             stampsRequired: number;
             rewardDescription: string;
             conditions: string | null;
+        };
+        PublicPiece: {
+            /** @enum {string} */
+            state: "PIECE_INACTIVE";
+        } | {
+            /** @enum {string} */
+            state: "CLUB_NOT_OPEN";
+        } | {
+            /** @enum {string} */
+            state: "ACTIVE" | "PAUSED" | "ENDED";
+            canJoin: boolean;
+            merchant: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                slug: string;
+                logoUrl: string | null;
+                primaryColor: string | null;
+                secondaryColor: string | null;
+                googleReviewUrl: string | null;
+            };
+            rewardRule: {
+                stampsRequired: number;
+                rewardDescription: string;
+                conditions: string | null;
+            } | null;
+        };
+        Me: {
+            /** Format: uuid */
+            id: string;
+            name: string;
+            phoneE164: string;
+        };
+        UpdateMeBody: {
+            name: string;
+        };
+        MembershipSummary: {
+            /** Format: uuid */
+            id: string;
+            merchant: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                slug: string;
+                logoUrl: string | null;
+                primaryColor: string | null;
+                secondaryColor: string | null;
+                /** @enum {string} */
+                status: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+            };
+            cycle: number;
+            balance: number;
+            stampsRequired: number;
+            remaining: number;
+            canRedeem: boolean;
+            marketingConsent: boolean;
+            /** Format: date-time */
+            joinedAt: string;
+        };
+        MembershipCard: {
+            /** Format: uuid */
+            id: string;
+            merchant: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                slug: string;
+                logoUrl: string | null;
+                primaryColor: string | null;
+                secondaryColor: string | null;
+                googleReviewUrl: string | null;
+                /** @enum {string} */
+                status: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+            };
+            cycleRule: {
+                stampsRequired: number;
+                rewardDescription: string;
+                conditions: string | null;
+            };
+            nextCycleRule: {
+                stampsRequired: number;
+                rewardDescription: string;
+                conditions: string | null;
+            } | null;
+            cycle: number;
+            cycleStamps: number;
+            carryOver: number;
+            balance: number;
+            remaining: number;
+            canRedeem: boolean;
+            totalStamps: number;
+            marketingConsent: boolean;
+            /** Format: date-time */
+            joinedAt: string;
+            history: ({
+                /** @enum {string} */
+                type: "STAMP";
+                /** Format: uuid */
+                id: string;
+                /** Format: date-time */
+                at: string;
+                cycle: number;
+                voided: boolean;
+            } | {
+                /** @enum {string} */
+                type: "REDEMPTION";
+                /** Format: uuid */
+                id: string;
+                /** Format: date-time */
+                at: string;
+                cycle: number;
+                voided: boolean;
+                rewardDescription: string;
+            })[];
+        };
+        JoinClubBody: {
+            /** Format: uuid */
+            merchantId: string;
+            /** @default false */
+            marketingConsent: boolean;
+            pieceCode?: string;
+        };
+        JoinClubResult: {
+            membership: components["schemas"]["MembershipSummary"];
+            isNew: boolean;
+        };
+        UpdateConsentBody: {
+            marketingConsent: boolean;
         };
     };
     responses: never;
@@ -610,6 +887,96 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["AdminAccount"];
                 };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CustomerAuthController_request: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RequestOtpBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OtpRequested"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CustomerAuthController_verify: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VerifyOtpBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerLogin"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    CustomerAuthController_logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Error */
             default: {
@@ -926,6 +1293,220 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RewardRule"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PublicPiecesController_find: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicPiece"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    MeController_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Me"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    MeController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateMeBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Me"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    MeMembershipsController_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MembershipSummary"][];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    MeMembershipsController_join: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["JoinClubBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JoinClubResult"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    MeMembershipsController_getCard: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MembershipCard"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    MeMembershipsController_updateConsent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateConsentBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MembershipSummary"];
                 };
             };
             /** @description Error */

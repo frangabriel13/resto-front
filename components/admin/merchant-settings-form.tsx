@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ColorField } from "@/components/form/color-field";
 import { FormAlert } from "@/components/form/form-alert";
+import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
 import { TextField } from "@/components/form/text-field";
 import { FieldGroup } from "@/components/ui/field";
@@ -36,7 +37,7 @@ export function MerchantSettingsForm({ merchant }: { merchant: AdminMerchant }) 
       }),
     );
     if (!result.ok) {
-      form.setError("root", { message: result.message });
+      showApiError(form, result);
       return;
     }
     setSaved(true);

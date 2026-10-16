@@ -33,7 +33,7 @@ export function PanelShell({
   return (
     <div className="flex flex-1 border-t-4 border-brand">
       <aside className="sticky top-0 hidden h-svh w-60 shrink-0 flex-col gap-8 border-r px-3 py-5 md:flex">
-        <Image src={logoLateral} alt="Clubsy" priority className="h-auto w-36 px-1" />
+        <Image src={logoLateral} alt="Clubsy" loading="eager" className="h-auto w-36 px-1" />
         {sidebar}
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">

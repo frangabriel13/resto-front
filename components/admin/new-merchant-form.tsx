@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { FormAlert } from "@/components/form/form-alert";
+import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
 import { TextField } from "@/components/form/text-field";
 import { FieldGroup } from "@/components/ui/field";
@@ -41,7 +42,7 @@ export function NewMerchantForm() {
   async function onSubmit(body: NewMerchantValues) {
     const result = await callApi(api.POST("/admin/merchants", { body }));
     if (!result.ok) {
-      form.setError("root", { message: result.message });
+      showApiError(form, result);
       return;
     }
     form.reset();

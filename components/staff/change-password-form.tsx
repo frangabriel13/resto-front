@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { FormAlert } from "@/components/form/form-alert";
+import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
 import { TextField } from "@/components/form/text-field";
 import { FieldGroup } from "@/components/ui/field";
@@ -24,7 +25,7 @@ export function ChangePasswordForm() {
       api.POST("/auth/staff/password", { body: { currentPassword, newPassword } }),
     );
     if (!changed.ok) {
-      form.setError("root", { message: changed.message });
+      showApiError(form, changed);
       return;
     }
     form.reset();

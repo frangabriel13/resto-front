@@ -3,11 +3,13 @@ import type { components } from "@/lib/api/schema";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
+// Mismo criterio que la API: solo direcciones https.
 const optionalUrl = z
   .string()
   .trim()
-  .refine((value) => value === "" || /^https?:\/\/\S+$/.test(value), {
-    message: "Ingresá una URL completa (https://…).",
+  .max(500, "Hasta 500 caracteres.")
+  .refine((value) => value === "" || /^https:\/\/\S+$/.test(value), {
+    message: "Usá una dirección completa que empiece con https://",
   });
 
 const optionalColor = z
