@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { initials } from "./text";
+import { initials, stampCount } from "./text";
 
 describe("initials", () => {
   it("usa la inicial de las dos primeras palabras", () => {
@@ -20,5 +20,13 @@ describe("initials", () => {
 
   it("devuelve vacío si no hay letras", () => {
     expect(initials("  ")).toBe("");
+  });
+});
+
+describe("stampCount", () => {
+  it("singular y plural", () => {
+    expect(stampCount(1)).toBe("1 sello");
+    expect(stampCount(0)).toBe("0 sellos");
+    expect(stampCount(8)).toBe("8 sellos");
   });
 });

@@ -9,10 +9,12 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "gen:api": "openapi-typescript http://localhost:3001/docs/json -o lib/api/schema.d.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "postinstall": "node scripts/copy-zxing-wasm.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "5.9.1",
+    "barcode-detector": "3.2.2",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.4.0",
     "lucide-react": "^1.56.0",

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { LoadingBlock } from "@/components/loading-block";
 import { SectionCard } from "@/components/section-card";
-import { BackLink } from "@/components/admin/back-link";
+import { BackLink } from "@/components/back-link";
 import { MerchantSettingsForm } from "@/components/admin/merchant-settings-form";
 import { MerchantStatusControl } from "@/components/admin/merchant-status-control";
 import { NewPieceForm } from "@/components/admin/new-piece-form";

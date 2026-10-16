@@ -340,6 +340,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/me/memberships/{id}/stamp-token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["MeMembershipsController_stampToken"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/me/memberships/{id}/consent": {
         parameters: {
             query?: never;
@@ -356,6 +372,86 @@ export interface paths {
         patch: operations["MeMembershipsController_updateConsent"];
         trace?: never;
     };
+    "/panel/scans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["StampsController_scan"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/stamps": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["StampsController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/stamps/{id}/void": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["StampsController_void"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/customers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PanelCustomersController_search"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/customers/{membershipId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PanelCustomersController_detail"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -363,7 +459,7 @@ export interface components {
         ApiError: {
             statusCode: number;
             /** @enum {string} */
-            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "NAME_REQUIRED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "ACTIVE_RULE_REQUIRED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
+            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "NAME_REQUIRED" | "STAMP_TOKEN_INVALID" | "STAMP_TOKEN_EXPIRED" | "CUSTOMER_OF_OTHER_MERCHANT" | "MEMBERSHIP_LEFT" | "COOLDOWN_ACTIVE" | "VOID_NOT_ALLOWED" | "STAMP_IN_REDEEMED_CYCLE" | "STAMP_ALREADY_VOIDED" | "IDEMPOTENCY_KEY_REUSED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "ACTIVE_RULE_REQUIRED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
             message: string;
             details?: {
                 [key: string]: unknown;
@@ -642,6 +738,12 @@ export interface components {
                 rewardDescription: string;
             })[];
         };
+        StampToken: {
+            token: string;
+            /** Format: date-time */
+            expiresAt: string;
+            refreshInSeconds: number;
+        };
         JoinClubBody: {
             /** Format: uuid */
             merchantId: string;
@@ -655,6 +757,124 @@ export interface components {
         };
         UpdateConsentBody: {
             marketingConsent: boolean;
+        };
+        ScanBody: {
+            stampToken: string;
+        };
+        ScanResult: {
+            membership: components["schemas"]["PanelMembership"];
+            cooldown: components["schemas"]["CooldownStatus"];
+        };
+        PanelMembership: {
+            /** Format: uuid */
+            id: string;
+            customer: {
+                name: string | null;
+                phone: string | null;
+            };
+            cycle: number;
+            balance: number;
+            stampsRequired: number;
+            remaining: number;
+            canRedeem: boolean;
+            totalStamps: number;
+        };
+        CooldownStatus: {
+            active: boolean;
+            /** Format: date-time */
+            lastStampAt: string | null;
+            retryAfterSeconds: number;
+        };
+        CreateStampBody: {
+            stampToken: string;
+            /** Format: uuid */
+            idempotencyKey: string;
+            /** @default false */
+            cooldownOverride: boolean;
+        } | {
+            /** Format: uuid */
+            membershipId: string;
+            /** Format: uuid */
+            idempotencyKey: string;
+            /** @default false */
+            cooldownOverride: boolean;
+        };
+        StampResult: {
+            stamp: {
+                /** Format: uuid */
+                id: string;
+                /** Format: date-time */
+                createdAt: string;
+                cycle: number;
+                /** @enum {string} */
+                source: "QR_SCAN" | "MANUAL";
+                cooldownOverride: boolean;
+            };
+            membership: components["schemas"]["PanelMembership"];
+            replayed: boolean;
+        };
+        VoidStampBody: {
+            reason: string;
+        };
+        VoidStampResult: {
+            stamp: {
+                /** Format: uuid */
+                id: string;
+                /** Format: date-time */
+                voidedAt: string;
+                voidReason: string;
+            };
+            membership: components["schemas"]["PanelMembership"];
+        };
+        SearchCustomersQuery: {
+            query: string;
+        };
+        CustomerDetail: {
+            membership: components["schemas"]["PanelMembership"];
+            /** Format: date-time */
+            joinedAt: string;
+            /** Format: date-time */
+            leftAt: string | null;
+            marketingConsent: boolean;
+            cooldown: components["schemas"]["CooldownStatus"];
+            history: ({
+                /** @enum {string} */
+                type: "STAMP";
+                /** Format: uuid */
+                id: string;
+                /** Format: date-time */
+                at: string;
+                cycle: number;
+                /** @enum {string} */
+                source: "QR_SCAN" | "MANUAL";
+                cooldownOverride: boolean;
+                grantedBy: string;
+                voided: {
+                    /** Format: date-time */
+                    at: string;
+                    by: string | null;
+                    reason: string | null;
+                } | null;
+                canVoid: boolean;
+            } | {
+                /** @enum {string} */
+                type: "REDEMPTION";
+                /** Format: uuid */
+                id: string;
+                /** Format: date-time */
+                at: string;
+                cycle: number;
+                stampsUsed: number;
+                carryOver: number;
+                rewardDescription: string;
+                confirmedBy: string;
+                voided: {
+                    /** Format: date-time */
+                    at: string;
+                    by: string | null;
+                    reason: string | null;
+                } | null;
+            })[];
         };
     };
     responses: never;
@@ -1486,6 +1706,36 @@ export interface operations {
             };
         };
     };
+    MeMembershipsController_stampToken: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StampToken"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     MeMembershipsController_updateConsent: {
         parameters: {
             query?: never;
@@ -1507,6 +1757,162 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MembershipSummary"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StampsController_scan: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ScanBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ScanResult"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StampsController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateStampBody"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StampResult"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StampsController_void: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VoidStampBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["VoidStampResult"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelCustomersController_search: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PanelMembership"][];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelCustomersController_detail: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                membershipId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CustomerDetail"];
                 };
             };
             /** @description Error */
