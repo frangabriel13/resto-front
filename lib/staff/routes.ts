@@ -10,6 +10,8 @@ export const panelRoutes = {
 
 export type PanelRoute = (typeof panelRoutes)[keyof typeof panelRoutes];
 
+export const panelCustomerRoute = (membershipId: string) => `${panelRoutes.customers}/${membershipId}`;
+
 export const staffRoutes = {
   login: "/panel/ingresar",
   changePassword: "/panel/cambiar-contrasena",

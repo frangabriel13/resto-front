@@ -8,3 +8,8 @@ export function initials(name: string): string {
     .map((word) => word.match(/\p{L}/u)![0].toUpperCase())
     .join("");
 }
+
+// "1 sello" / "3 sellos".
+export function stampCount(n: number): string {
+  return n === 1 ? "1 sello" : `${n} sellos`;
+}

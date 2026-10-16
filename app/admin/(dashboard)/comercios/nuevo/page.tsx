@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { SectionCard } from "@/components/section-card";
-import { BackLink } from "@/components/admin/back-link";
+import { BackLink } from "@/components/back-link";
 import { NewMerchantForm } from "@/components/admin/new-merchant-form";
 import { adminRoutes } from "@/lib/admin/routes";
 

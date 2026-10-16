@@ -1,6 +1,6 @@
-type Progress = { balance: number; stampsRequired: number; remaining: number; canRedeem: boolean };
+import { stampCount as stamps } from "@/lib/text";
 
-const stamps = (n: number) => (n === 1 ? "1 sello" : `${n} sellos`);
+type Progress = { balance: number; stampsRequired: number; remaining: number; canRedeem: boolean };
 
 export function filledStamps({ balance, stampsRequired }: Progress): number {
   return Math.min(balance, stampsRequired);

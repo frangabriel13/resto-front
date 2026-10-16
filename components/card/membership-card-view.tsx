@@ -3,8 +3,11 @@ import { ClubShell } from "@/components/club/club-shell";
 import { ReviewLink } from "@/components/club/review-link";
 import { StampGrid } from "@/components/rewards/stamp-grid";
 import { filledStamps, progressMessage } from "@/lib/customer/card";
+import { showStampQr } from "@/lib/customer/stamp-qr";
 import type { Customer, MembershipCard } from "@/lib/customer/types";
+import { stampCount } from "@/lib/text";
 import { CardHistory } from "./card-history";
+import { StampQr } from "./stamp-qr";
 import { CustomerLogout } from "@/components/account/customer-logout";
 
 const statusNotices: Partial<Record<MembershipCard["merchant"]["status"], string>> = {
@@ -34,6 +37,10 @@ export function MembershipCardView({ card, customer }: { card: MembershipCard; c
         <p className="font-medium">{progressMessage(progress)}</p>
       </section>
 
+      {showStampQr(merchant.status, card.canRedeem) && (
+        <StampQr membershipId={card.id} forRedemption={merchant.status === "PAUSED"} />
+      )}
+
       <section className="flex flex-col gap-2">
         <h2 className="font-heading text-lg font-semibold">Tu premio</h2>
         <p>
@@ -56,7 +63,7 @@ export function MembershipCardView({ card, customer }: { card: MembershipCard; c
           </p>
         )}
         <p className="text-sm text-muted-foreground">
-          Tarjeta n.º {card.cycle} · {card.totalStamps === 1 ? "1 sello" : `${card.totalStamps} sellos`} en
+          Tarjeta n.º {card.cycle} · {stampCount(card.totalStamps)} en
           total desde que te sumaste.
         </p>
       </section>

@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { ComingSoon } from "@/components/panel/coming-soon";
+import { CustomerSearch } from "@/components/customers/customer-search";
+import { PageHeader } from "@/components/panel/page-header";
 
 export const metadata: Metadata = { title: "Clientes" };
 
 export default function CustomersPage() {
   return (
-    <ComingSoon
-      title="Clientes"
-      description="Buscá clientes por nombre o teléfono y mirá su tarjeta."
-    />
+    <div className="mx-auto flex w-full max-w-xl flex-col">
+      <PageHeader title="Clientes" description="Buscá por nombre o teléfono para ver su tarjeta." />
+      <CustomerSearch />
+    </div>
   );
 }

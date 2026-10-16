@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generado en postinstall (scripts/copy-zxing-wasm.mjs)
+/public/vendor/
