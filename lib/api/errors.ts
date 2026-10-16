@@ -21,3 +21,15 @@ export const connectionErrorMessage =
 export function apiErrorMessage(error: unknown): string {
   return isApiError(error) ? error.message : connectionErrorMessage;
 }
+
+export type FieldIssue = { path: string; message: string };
+
+// Detalle por campo que manda la API en un VALIDATION_ERROR.
+export function validationIssues(error: ApiError | undefined): FieldIssue[] {
+  const issues = error?.code === "VALIDATION_ERROR" ? error.details?.issues : undefined;
+  if (!Array.isArray(issues)) return [];
+  return issues.filter(
+    (issue): issue is FieldIssue =>
+      typeof issue?.path === "string" && typeof issue?.message === "string",
+  );
+}

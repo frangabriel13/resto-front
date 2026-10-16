@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormAlert } from "@/components/form/form-alert";
+import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
 import { TextField } from "@/components/form/text-field";
 import { Button } from "@/components/ui/button";
@@ -78,7 +79,7 @@ function RenamePieceDialog({ merchantId, piece }: { merchantId: string; piece: P
   async function onSubmit({ label }: PieceValues) {
     const result = await updatePiece(merchantId, piece.id, { label });
     if (!result.ok) {
-      form.setError("root", { message: result.message });
+      showApiError(form, result);
       return;
     }
     setOpen(false);

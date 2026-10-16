@@ -6,6 +6,7 @@ import { useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CopyButton } from "@/components/copy-button";
 import { FormAlert } from "@/components/form/form-alert";
+import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
 import { TextField } from "@/components/form/text-field";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -36,7 +37,7 @@ export function OwnerForm({ merchantId }: { merchantId: string }) {
       }),
     );
     if (!result.ok) {
-      form.setError("root", { message: result.message });
+      showApiError(form, result);
       return;
     }
     form.reset();

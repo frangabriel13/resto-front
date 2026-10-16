@@ -83,8 +83,8 @@ describe("staffRedirect", () => {
 
 describe("currentMerchant", () => {
   const merchants: StaffAccount["merchants"] = [
-    { id: "01a14015-6b7b-75cd-a8b2-1ae5bd684538", name: "Panadería", slug: "panaderia", status: "ACTIVE", role: "OWNER" },
-    { id: "01a14015-6bbd-76dd-9528-5f20308248ee", name: "Heladería", slug: "heladeria", status: "PAUSED", role: "EMPLOYEE" },
+    { id: "01a14015-6b7b-75cd-a8b2-1ae5bd684538", name: "Panadería", slug: "panaderia", status: "ACTIVE", hasActiveRule: true, role: "OWNER" },
+    { id: "01a14015-6bbd-76dd-9528-5f20308248ee", name: "Heladería", slug: "heladeria", status: "PAUSED", hasActiveRule: true, role: "EMPLOYEE" },
   ];
 
   it("devuelve el comercio elegido en la sesión", () => {

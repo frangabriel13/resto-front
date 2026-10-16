@@ -31,7 +31,7 @@ export function AdminShell({
       <header className="sticky top-0 z-30 border-b bg-background">
         <div className="mx-auto flex h-16 w-full max-w-5xl items-center gap-3 px-4">
           <Link href={adminRoutes.merchants} className="flex items-center gap-2">
-            <Image src={logoLateral} alt="Clubsy" priority className="h-auto w-28" />
+            <Image src={logoLateral} alt="Clubsy" loading="eager" className="h-auto w-28" />
             <span className="rounded-md bg-primary px-1.5 py-0.5 text-xs font-semibold text-primary-foreground">
               Admin
             </span>

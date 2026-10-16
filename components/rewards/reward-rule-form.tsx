@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useLayoutEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { FormAlert } from "@/components/form/form-alert";
+import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
 import { TextareaField } from "@/components/form/textarea-field";
 import { TextField } from "@/components/form/text-field";
@@ -42,7 +43,7 @@ export function RewardRuleForm({ activeRule }: { activeRule: RewardRule | undefi
       api.POST("/panel/reward-rules", { body: toCreateRewardRuleBody(values) }),
     );
     if (!result.ok) {
-      form.setError("root", { message: result.message });
+      showApiError(form, result);
       return;
     }
     setSaved(true);

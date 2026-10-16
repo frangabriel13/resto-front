@@ -31,7 +31,7 @@ pnpm gen:api    # regenera lib/api/schema.d.ts desde el OpenAPI (necesita la API
 - `components/section-card.tsx`: tarjeta con título y descripción para agrupar cada sección de una página (panel y admin).
 - Fechas: `formatDate` de `lib/format.ts`, siempre en hora de Argentina.
 - `lib/<funcionalidad>/`: lógica sin UI y testeable (por ejemplo, `lib/staff/access.ts`, `lib/merchants/slug.ts`). Los tipos que usan componentes del navegador van en archivos sin `server-only` (por ejemplo, `lib/admin/types.ts`).
-- **Formularios:** `react-hook-form` + `zodResolver` con `TextField`. Las llamadas a la API van por `callApi` (`@/lib/api/call-api`), que devuelve `{ ok, data }` o `{ ok: false, message }` con el mensaje de la API o uno de conexión; el error general se muestra con `form.setError("root")` y `FormAlert`.
+- **Formularios:** `react-hook-form` + `zodResolver` con `TextField`. Las llamadas a la API van por `callApi` (`@/lib/api/call-api`), que devuelve `{ ok, data }` o `{ ok: false, message, error? }` (`error` es el `ApiError`, si la respuesta vino de la API). Los errores se muestran con `showApiError(form, result)`: los de validación de la API van debajo de su campo y el resto arriba, en `FormAlert`.
 
 ## Panel del comercio (staff)
 
@@ -40,6 +40,7 @@ pnpm gen:api    # regenera lib/api/schema.d.ts desde el OpenAPI (necesita la API
 - El panel (`app/panel/(dashboard)/`) tiene un layout con barra superior (comercio actual y menú de cuenta), barra lateral en escritorio, barra inferior en el celular y aviso según el estado del comercio. Las páginas obtienen la sesión con `requirePanelSession()` o, si son solo del dueño, `requireOwnerSession()` (un empleado vuelve a Inicio). `getStaffAccount` usa `cache` de React: una sola llamada a la API por carga.
 - **Premio** (`/panel/premio`, solo dueño): cada cambio crea una versión nueva de la regla (`POST /panel/reward-rules`) y se muestra el historial. Con el club pausado o finalizado queda en solo lectura. La vista previa de la tarjeta es `StampPreview` (`components/rewards/`).
 - Las secciones del menú están en `components/panel/nav-items.ts` y sus rutas en `panelRoutes` (`lib/staff/routes.ts`). Una sección nueva reemplaza su página "Próximamente" (`ComingSoon`).
+- El aviso según el estado del comercio sale de `merchantNotice` (`lib/staff/merchant-notice.ts`): en preparación, si ya hay premio dice que falta que Clubsy active el club; si no, al dueño lo lleva a configurarlo.
 - Cerrar sesión recarga la página completa (`window.location.assign`) para no dejar estado de la sesión anterior en el navegador.
 
 ## Estado conservado entre navegaciones
@@ -57,6 +58,19 @@ Con `cacheComponents`, Next no desmonta la página anterior al navegar: la ocult
 - Los cambios de estado que ofrece la UI (`lib/merchants/status.ts`) copian las transiciones de la API; si cambian allá, actualizarlas acá.
 - La URL de cada pieza es `${PUBLIC_SITE_URL}/p/<publicCode>` (ver `.env.example`): es la que se graba en el chip NFC y en el QR, así que en producción tiene que ser el dominio definitivo. El QR se genera en el servidor como SVG (`qrcode`, `lib/pieces/qr.ts`).
 - La contraseña temporal del dueño se muestra una sola vez y no reaparece al volver a la página.
+
+## Cliente
+
+- `/p/[code]` (`app/p/[code]/page.tsx`): entrada por la pieza. Según `GET /public/pieces/:code` muestra "código inexistente", "ya no está activo", "todavía no abrió" (sin datos del club) o la presentación del club (`components/club/club-landing.tsx`). Si el cliente ya es miembro, va a su tarjeta (`/c/[slug]`). Abrir la pieza nunca suma sellos. Con el club finalizado no invita a juntar sellos; sin sesión ofrece "Ver mi historial" (ingresar y volver a la tarjeta).
+- **Alta** (`components/join/`): sin sesión, dos pasos (nombre, celular y consentimiento opcional desmarcado → código de 6 dígitos con reenvío y cambio de número); al validar el código se crea la membresía con el consentimiento y la pieza, y va a la tarjeta. Con sesión y sin membresía: un toque ("Sumarme como …") y "Usar otra cuenta", que cierra la sesión y recarga.
+- **Tarjeta** (`/c/[slug]`, `components/card/`): busca la membresía por slug entre las del cliente y muestra sellos (`StampGrid`, en filas parejas), mensaje de progreso (`lib/customer/card.ts`), premio del ciclo y aviso si el premio cambia desde la próxima tarjeta, historial y "Cerrar sesión". Sin sesión o sin membresía muestra un mensaje (`ClubMessage`).
+- **Cuenta** (`/cuenta`, `components/account/`): sin sesión, ingreso con celular y código (si el celular no tiene cuenta, la API responde `NAME_REQUIRED` sin gastar el código y se pide el nombre); con sesión, "Mis clubes" y cerrar sesión. `?volver=` lleva de vuelta tras ingresar, validado con `safeReturnPath` (solo rutas del propio sitio). Cerrar sesión desde la tarjeta o la cuenta recarga en `/cuenta`.
+- **OTP** compartido entre alta y cuenta (`components/otp/`): `requestOtp` (si la API dice que es muy pronto para otro código, se pasa igual al paso del código con la cuenta regresiva) y `CodeStep`.
+- Las pantallas del cliente con la marca del comercio usan `ClubShell` (encabezado, colores y pie), `ClubNotice` y `ReviewLink` (`components/club/`).
+- Rutas del cliente en `lib/customer/routes.ts`; datos (pieza pública y sesión del cliente) en `lib/customer/data.ts`.
+- **Colores del comercio:** `brandStyle()` (`lib/brand/colors.ts`) pisa `--primary`, `--brand` y sus textos solo dentro del contenedor del club; el texto (blanco o casi negro) se elige por contraste. Sin colores cargados, quedan los de Clubsy. El botón principal usa `bg-cta`: el secundario si contrasta con el blanco (3:1), si no el principal y, si los dos son claros, casi negro (`actionColor`).
+- El logo del comercio es una URL externa (solo `https`, como valida la API): se muestra con `next/image` y `unoptimized`.
+- Imágenes arriba de todo: `loading="eager"` (`priority` está deprecado en Next 16).
 
 ## Conexión con la API
 

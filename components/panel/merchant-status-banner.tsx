@@ -1,18 +1,12 @@
 import { CircleAlertIcon } from "lucide-react";
 import Link from "next/link";
 import type { StaffMerchant } from "@/lib/staff/access";
+import { merchantNotice } from "@/lib/staff/merchant-notice";
 import { panelRoutes } from "@/lib/staff/routes";
 
-const messages: Record<Exclude<StaffMerchant["status"], "ACTIVE">, string> = {
-  DRAFT: "Tu club está en preparación: todavía no recibe clientes.",
-  PAUSED:
-    "El club está pausado: no se pueden sumar sellos ni anotar clientes. Los canjes de tarjetas completas siguen habilitados.",
-  ENDED: "El club finalizó. El panel queda en modo consulta.",
-};
-
 export function MerchantStatusBanner({ merchant }: { merchant: StaffMerchant }) {
-  if (merchant.status === "ACTIVE") return null;
-  const showRewardLink = merchant.status === "DRAFT" && merchant.role === "OWNER";
+  const notice = merchantNotice(merchant);
+  if (!notice) return null;
 
   return (
     <div
@@ -21,8 +15,8 @@ export function MerchantStatusBanner({ merchant }: { merchant: StaffMerchant }) 
     >
       <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-brand" />
       <p>
-        {messages[merchant.status]}{" "}
-        {showRewardLink && (
+        {notice.text}{" "}
+        {notice.rewardLink && (
           <Link href={panelRoutes.reward} className="font-medium text-primary underline underline-offset-4">
             Configurar el premio
           </Link>
