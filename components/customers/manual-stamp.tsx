@@ -78,7 +78,7 @@ export function ManualStamp({ detail }: { detail: CustomerDetail }) {
             <ConfirmView
               scan={attempt.scan}
               checkedAt={attempt.checkedAt}
-              pending={attempt.pending}
+              pending={attempt.pending ? "stamp" : null}
               error={attempt.error}
               onConfirm={confirm}
               onCancel={() => setAttempt(null)}

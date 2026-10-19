@@ -21,22 +21,44 @@ import {
 import { FieldGroup } from "@/components/ui/field";
 import { callApi } from "@/lib/api/call-api";
 import { api } from "@/lib/api/client";
+import type { CustomerHistoryEntry } from "@/lib/customers/types";
 
 const voidSchema = z.object({
   reason: z.string().trim().min(1, "Contá por qué lo anulás.").max(200, "Hasta 200 caracteres."),
 });
 type VoidValues = z.infer<typeof voidSchema>;
 
-// Anular no borra: el sello queda en el historial, tachado, con quién y por qué.
-export function VoidStamp({ stampId }: { stampId: string }) {
+function voidEntry(entry: CustomerHistoryEntry, body: VoidValues) {
+  const params = { path: { id: entry.id } };
+  return entry.type === "REDEMPTION"
+    ? callApi(api.POST("/panel/redemptions/{id}/void", { params, body }))
+    : callApi(api.POST("/panel/stamps/{id}/void", { params, body }));
+}
+
+function texts(entry: CustomerHistoryEntry) {
+  if (entry.type === "REDEMPTION") {
+    return {
+      title: "Anular canje",
+      description: `La tarjeta vuelve a la n.º ${entry.cycle}, con los sellos que tenía antes de canjear. El canje no se borra: queda en el historial como anulado, con tu nombre y el motivo.`,
+      placeholder: "Por ejemplo: se canjeó por error",
+    };
+  }
+  return {
+    title: "Anular sello",
+    description: "El sello no se borra: queda en el historial como anulado, con tu nombre y el motivo.",
+    placeholder: "Por ejemplo: se cargó dos veces",
+  };
+}
+
+// Anular no borra: el movimiento queda en el historial, tachado, con quién y por qué.
+export function VoidEntry({ entry }: { entry: CustomerHistoryEntry }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const form = useForm<VoidValues>({ resolver: zodResolver(voidSchema), defaultValues: { reason: "" } });
+  const { title, description, placeholder } = texts(entry);
 
   async function onSubmit(body: VoidValues) {
-    const result = await callApi(
-      api.POST("/panel/stamps/{id}/void", { params: { path: { id: stampId } }, body }),
-    );
+    const result = await voidEntry(entry, body);
     if (!result.ok) return showApiError(form, result);
     form.reset();
     setOpen(false);
@@ -52,21 +74,14 @@ export function VoidStamp({ stampId }: { stampId: string }) {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Anular sello</DialogTitle>
-          <DialogDescription>
-            El sello no se borra: queda en el historial como anulado, con tu nombre y el motivo.
-          </DialogDescription>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
           <FieldGroup>
             <FormAlert message={form.formState.errors.root?.message} />
-            <TextareaField
-              control={form.control}
-              name="reason"
-              label="Motivo"
-              placeholder="Por ejemplo: se cargó dos veces"
-            />
-            <SubmitButton pending={form.formState.isSubmitting}>Anular sello</SubmitButton>
+            <TextareaField control={form.control} name="reason" label="Motivo" placeholder={placeholder} />
+            <SubmitButton pending={form.formState.isSubmitting}>{title}</SubmitButton>
           </FieldGroup>
         </form>
       </DialogContent>

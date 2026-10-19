@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "Escanear" };
 export default function ScanPage() {
   return (
     <div className="mx-auto flex w-full max-w-md flex-col">
-      <PageHeader title="Escanear" description="Escaneá el QR de la tarjeta del cliente para sumar un sello." />
+      <PageHeader title="Escanear" description="Escaneá el QR de la tarjeta del cliente para sumar un sello o canjear su premio." />
       <Suspense fallback={<LoadingBlock />}>
         <ScanGate />
       </Suspense>
@@ -32,5 +32,5 @@ async function ScanGate() {
       </div>
     );
   }
-  return <ScanFlow />;
+  return <ScanFlow stampsAllowed={merchant.status === "ACTIVE"} />;
 }
