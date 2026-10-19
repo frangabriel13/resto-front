@@ -60,13 +60,23 @@ async function CustomerContent({ params }: Pick<PageProps<"/panel/clientes/[id]"
           stampsRequired={membership.stampsRequired}
           filled={Math.min(membership.balance, membership.stampsRequired)}
         />
-        {membership.canRedeem && <p className="font-medium">¡Ya puede canjear su premio!</p>}
+        {membership.canRedeem && (
+          <p>
+            <span className="font-medium">¡Ya puede canjear su premio!</span>{" "}
+            <span className="opacity-80">Para canjear, escaneá el QR de su tarjeta.</span>
+          </p>
+        )}
       </section>
 
       {canStamp && <ManualStamp detail={detail} />}
 
       <SectionCard title="Movimientos" description={`${stampCount(membership.totalStamps)} en total.`}>
-        <CustomerHistory entries={detail.history} />
+        <CustomerHistory
+          entries={detail.history}
+          currentCycle={membership.cycle}
+          isOwner={merchant.role === "OWNER"}
+          readOnly={merchant.status === "ENDED"}
+        />
       </SectionCard>
     </div>
   );

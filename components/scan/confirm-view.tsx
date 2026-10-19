@@ -1,24 +1,40 @@
 "use client";
 
-import { ClockIcon, GiftIcon } from "lucide-react";
+import { ClockIcon, GiftIcon, PauseIcon } from "lucide-react";
 import { FormAlert } from "@/components/form/form-alert";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { balanceAfterStamp, timeAgo } from "@/lib/stamps/scan";
+import { balanceAfterStamp, balanceText, scanActions, timeAgo } from "@/lib/stamps/scan";
 import type { ScanResult } from "@/lib/stamps/types";
+
+export type PendingAction = "stamp" | "redeem" | null;
 
 type ConfirmViewProps = {
   scan: ScanResult;
   checkedAt: number;
-  pending: boolean;
+  pending: PendingAction;
   error?: string;
+  stampsAllowed?: boolean;
   onConfirm: (cooldownOverride: boolean) => void;
+  // Sin esto (sello manual desde la ficha) no se ofrece canjear.
+  onRedeem?: () => void;
   onCancel: () => void;
 };
 
-export function ConfirmView({ scan, checkedAt, pending, error, onConfirm, onCancel }: ConfirmViewProps) {
+export function ConfirmView({
+  scan,
+  checkedAt,
+  pending,
+  error,
+  stampsAllowed = true,
+  onConfirm,
+  onRedeem,
+  onCancel,
+}: ConfirmViewProps) {
   const { membership, cooldown } = scan;
+  const actions = scanActions(scan, { stampsAllowed, redeemAvailable: Boolean(onRedeem) });
+  const busy = pending !== null;
 
   return (
     <div className="flex flex-col gap-4">
@@ -31,21 +47,28 @@ export function ConfirmView({ scan, checkedAt, pending, error, onConfirm, onCanc
           <span className="text-sm text-muted-foreground">{membership.customer.phone}</span>
         )}
         <span className="mt-2 text-base">
-          Tiene {membership.balance} de {membership.stampsRequired} · queda en{" "}
-          <span className="font-semibold">
-            {balanceAfterStamp(membership.balance, membership.stampsRequired)}
-          </span>
+          Tiene {balanceText(membership.balance, membership.stampsRequired)}
+          {actions.stamp && !actions.redeem && (
+            <>
+              {" "}
+              · queda en{" "}
+              <span className="font-semibold">
+                {balanceAfterStamp(membership.balance, membership.stampsRequired)}
+              </span>
+            </>
+          )}
         </span>
       </div>
 
-      {membership.canRedeem && (
-        <Alert className="border-brand/40 bg-brand/10">
-          <GiftIcon className="text-brand" />
-          <AlertTitle>¡Ya puede canjear su premio!</AlertTitle>
-          <AlertDescription>Si sumás este sello, pasa a la próxima tarjeta.</AlertDescription>
+      {membership.canRedeem && <RedeemNotice redeemHere={actions.redeem} stampsAllowed={stampsAllowed} />}
+      {!actions.stamp && !actions.redeem && (
+        <Alert>
+          <PauseIcon />
+          <AlertTitle>El club está pausado</AlertTitle>
+          <AlertDescription>No se pueden sumar sellos. Solo se canjean tarjetas completas.</AlertDescription>
         </Alert>
       )}
-      {cooldown.active && cooldown.lastStampAt && (
+      {actions.stamp === "override" && cooldown.lastStampAt && (
         <Alert className="border-brand/40 bg-brand/10">
           <ClockIcon className="text-brand" />
           <AlertTitle>Recibió un sello {timeAgo(cooldown.lastStampAt, checkedAt)}</AlertTitle>
@@ -55,18 +78,53 @@ export function ConfirmView({ scan, checkedAt, pending, error, onConfirm, onCanc
 
       <FormAlert message={error} />
 
+      {actions.redeem && (
+        <Button size="lg" className="h-14 text-lg" disabled={busy} onClick={onRedeem}>
+          {pending === "redeem" ? <Spinner /> : <GiftIcon />}
+          Canjear premio
+        </Button>
+      )}
+      {actions.stamp && (
+        <Button
+          variant={actions.redeem ? "outline" : "default"}
+          size="lg"
+          className={actions.redeem ? "h-12" : "h-14 text-lg"}
+          disabled={busy}
+          onClick={() => onConfirm(actions.stamp === "override")}
+        >
+          {pending === "stamp" && <Spinner />}
+          {stampLabel(actions.stamp, actions.redeem)}
+        </Button>
+      )}
       <Button
+        variant={actions.stamp || actions.redeem ? "ghost" : "outline"}
         size="lg"
-        className="h-14 text-lg"
-        disabled={pending}
-        onClick={() => onConfirm(cooldown.active)}
+        className="h-12"
+        disabled={busy}
+        onClick={onCancel}
       >
-        {pending && <Spinner />}
-        {cooldown.active ? "Sí, es otro consumo: sumar sello" : "Sumar sello"}
-      </Button>
-      <Button variant="outline" size="lg" className="h-12" disabled={pending} onClick={onCancel}>
-        Cancelar
+        {actions.stamp || actions.redeem ? "Cancelar" : "Escanear otro"}
       </Button>
     </div>
   );
+}
+
+function RedeemNotice({ redeemHere, stampsAllowed }: { redeemHere: boolean; stampsAllowed: boolean }) {
+  const text = redeemHere
+    ? stampsAllowed
+      ? "Si en vez de canjear sumás un sello, pasa a la próxima tarjeta."
+      : null
+    : "Para canjear, escaneá el QR de su tarjeta. Si sumás este sello, pasa a la próxima tarjeta.";
+  return (
+    <Alert className="border-brand/40 bg-brand/10">
+      <GiftIcon className="text-brand" />
+      <AlertTitle>¡Ya puede canjear su premio!</AlertTitle>
+      {text && <AlertDescription>{text}</AlertDescription>}
+    </Alert>
+  );
+}
+
+function stampLabel(stamp: "normal" | "override", redeem: boolean): string {
+  if (stamp === "override") return redeem ? "Es otro consumo: sumar sello igual" : "Sí, es otro consumo: sumar sello";
+  return redeem ? "Sumar sello igual" : "Sumar sello";
 }

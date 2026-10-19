@@ -1,9 +1,11 @@
 "use client";
 
-import { CameraOffIcon, CircleCheckIcon, CircleXIcon, type LucideIcon } from "lucide-react";
+import { CameraOffIcon, CircleCheckIcon, CircleXIcon, GiftIcon, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { panelRoutes } from "@/lib/staff/routes";
+import { nextCardText } from "@/lib/redemptions/next-card";
+import type { RedemptionResult } from "@/lib/redemptions/types";
 import type { StampResult } from "@/lib/stamps/types";
 import type { CameraProblem } from "./qr-camera";
 
@@ -57,9 +59,36 @@ export function DoneView({ result, onNext }: { result: StampResult; onNext: () =
   );
 }
 
-export function ErrorView({ message, onRetry }: { message: string; onRetry: () => void }) {
+export function RedeemedView({ result, onNext }: { result: RedemptionResult; onNext: () => void }) {
+  const { redemption, membership, replayed } = result;
   return (
-    <ResultView icon={CircleXIcon} tone="problem" title="No se pudo sumar el sello" text={message}>
+    <ResultView
+      icon={GiftIcon}
+      tone="ok"
+      title={`Premio canjeado a ${membership.customer.name ?? "el cliente"}`}
+      text={nextCardText(membership)}
+    >
+      <div className="mb-2 flex flex-col gap-1 rounded-xl bg-brand/10 px-4 py-3">
+        <span className="text-sm text-muted-foreground">Entregale</span>
+        <span className="font-heading text-lg font-semibold break-words text-primary">
+          {redemption.rewardDescription}
+        </span>
+      </div>
+      {replayed && (
+        <p className="text-sm text-muted-foreground">
+          Este canje ya estaba registrado: no se hizo otro.
+        </p>
+      )}
+      <Button size="lg" className="h-14 text-lg" autoFocus onClick={onNext}>
+        Escanear otro
+      </Button>
+    </ResultView>
+  );
+}
+
+export function ErrorView({ title, message, onRetry }: { title: string; message: string; onRetry: () => void }) {
+  return (
+    <ResultView icon={CircleXIcon} tone="problem" title={title} text={message}>
       <Button size="lg" className="h-12" autoFocus onClick={onRetry}>
         Escanear de nuevo
       </Button>
