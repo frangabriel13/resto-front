@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { LoadingBlock } from "@/components/loading-block";
 import { ScanCallout } from "@/components/panel/scan-callout";
+import { ClubSummary } from "@/components/stats/club-summary";
+import { getStats } from "@/lib/activity/data";
 import { requirePanelSession } from "@/lib/staff/session";
 
 export const metadata: Metadata = { title: "Inicio" };
@@ -11,6 +13,9 @@ export default function PanelHomePage() {
     <div className="flex max-w-xl flex-col gap-6">
       <Suspense fallback={<LoadingBlock />}>
         <Welcome />
+      </Suspense>
+      <Suspense fallback={<LoadingBlock />}>
+        <Summary />
       </Suspense>
     </div>
   );
@@ -30,4 +35,9 @@ async function Welcome() {
       <ScanCallout status={merchant.status} />
     </>
   );
+}
+
+async function Summary() {
+  await requirePanelSession();
+  return <ClubSummary stats={await getStats()} />;
 }

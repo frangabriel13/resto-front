@@ -1,10 +1,13 @@
 import { GiftIcon } from "lucide-react";
 import { CustomerLogout } from "@/components/account/customer-logout";
+import { LeaveClub } from "@/components/account/leave-club";
+import { MarketingConsent } from "@/components/account/marketing-consent";
 import { ClubNotice } from "@/components/club/club-notice";
 import { ClubShell } from "@/components/club/club-shell";
 import { ReviewLink } from "@/components/club/review-link";
 import { StampGrid } from "@/components/rewards/stamp-grid";
 import { cardTitle, carryOverMessage, filledStamps, progressMessage } from "@/lib/customer/card";
+import { showConsentToggle } from "@/lib/customer/privacy";
 import { showStampQr } from "@/lib/customer/stamp-qr";
 import type { Customer, MembershipCard } from "@/lib/customer/types";
 import { stampCount } from "@/lib/text";
@@ -88,6 +91,14 @@ export function MembershipCardView({ card, customer }: { card: MembershipCard; c
       </section>
 
       <ReviewLink url={merchant.googleReviewUrl} />
+
+      <section className="flex flex-col gap-4 border-t pt-6">
+        <h2 className="font-heading text-lg font-semibold">Tu participación</h2>
+        {showConsentToggle(merchant.status, card.marketingConsent) && (
+          <MarketingConsent membershipId={card.id} merchantName={merchant.name} initial={card.marketingConsent} />
+        )}
+        <LeaveClub membershipId={card.id} merchantName={merchant.name} />
+      </section>
     </ClubShell>
   );
 }

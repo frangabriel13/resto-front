@@ -84,6 +84,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/staff/password-reset/request": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["PasswordResetController_request"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/staff/password-reset/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["PasswordResetController_confirm"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/admin/login": {
         parameters: {
             query?: never;
@@ -302,7 +334,7 @@ export interface paths {
         get: operations["MeController_get"];
         put?: never;
         post?: never;
-        delete?: never;
+        delete: operations["MeController_deleteAccount"];
         options?: never;
         head?: never;
         patch: operations["MeController_update"];
@@ -334,7 +366,7 @@ export interface paths {
         get: operations["MeMembershipsController_getCard"];
         put?: never;
         post?: never;
-        delete?: never;
+        delete: operations["MeMembershipsController_leave"];
         options?: never;
         head?: never;
         patch?: never;
@@ -484,6 +516,118 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/panel/activity": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ActivityController_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["StatsController_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/settings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["SettingsController_get"];
+        put: operations["SettingsController_update"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/staff": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["StaffController_list"];
+        put?: never;
+        post: operations["StaffController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/staff/{staffUserId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["StaffController_update"];
+        trace?: never;
+    };
+    "/panel/staff/{staffUserId}/reset-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["StaffController_resetPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ExportController_customers"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -491,7 +635,7 @@ export interface components {
         ApiError: {
             statusCode: number;
             /** @enum {string} */
-            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "NAME_REQUIRED" | "STAMP_TOKEN_INVALID" | "STAMP_TOKEN_EXPIRED" | "CUSTOMER_OF_OTHER_MERCHANT" | "MEMBERSHIP_LEFT" | "COOLDOWN_ACTIVE" | "VOID_NOT_ALLOWED" | "STAMP_IN_REDEEMED_CYCLE" | "STAMP_ALREADY_VOIDED" | "INSUFFICIENT_BALANCE" | "REDEMPTION_ALREADY_VOIDED" | "REDEMPTION_NOT_LAST" | "NEW_CYCLE_HAS_STAMPS" | "IDEMPOTENCY_KEY_REUSED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "ACTIVE_RULE_REQUIRED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
+            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "NAME_REQUIRED" | "STAMP_TOKEN_INVALID" | "STAMP_TOKEN_EXPIRED" | "CUSTOMER_OF_OTHER_MERCHANT" | "MEMBERSHIP_LEFT" | "COOLDOWN_ACTIVE" | "VOID_NOT_ALLOWED" | "STAMP_IN_REDEEMED_CYCLE" | "STAMP_ALREADY_VOIDED" | "INSUFFICIENT_BALANCE" | "REDEMPTION_ALREADY_VOIDED" | "REDEMPTION_NOT_LAST" | "NEW_CYCLE_HAS_STAMPS" | "INVALID_DATE_RANGE" | "IDEMPOTENCY_KEY_REUSED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "ACTIVE_RULE_REQUIRED" | "RESET_TOKEN_INVALID" | "STAFF_IS_OWNER" | "STAFF_ACCOUNT_SHARED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
             message: string;
             details?: {
                 [key: string]: unknown;
@@ -529,6 +673,13 @@ export interface components {
         };
         ChangeStaffPasswordBody: {
             currentPassword: string;
+            newPassword: string;
+        };
+        RequestPasswordResetBody: {
+            email: string;
+        };
+        ConfirmPasswordResetBody: {
+            token: string;
             newPassword: string;
         };
         AdminAccount: {
@@ -890,9 +1041,6 @@ export interface components {
             };
             membership: components["schemas"]["PanelMembership"];
         };
-        SearchCustomersQuery: {
-            query: string;
-        };
         CustomerDetail: {
             membership: components["schemas"]["PanelMembership"];
             /** Format: date-time */
@@ -940,6 +1088,157 @@ export interface components {
                 } | null;
                 canVoid: boolean;
             })[];
+        };
+        ActivityPage: {
+            items: ({
+                /** @enum {string} */
+                type: "STAMP";
+                id: string;
+                /** Format: date-time */
+                at: string;
+                customer: {
+                    /** Format: uuid */
+                    membershipId: string;
+                    name: string | null;
+                    phone: string | null;
+                };
+                by: string;
+                /** @enum {string} */
+                source: "QR_SCAN" | "MANUAL";
+                cooldownOverride: boolean;
+                voided: boolean;
+            } | {
+                /** @enum {string} */
+                type: "STAMP_VOIDED";
+                id: string;
+                /** Format: date-time */
+                at: string;
+                customer: {
+                    /** Format: uuid */
+                    membershipId: string;
+                    name: string | null;
+                    phone: string | null;
+                };
+                by: string;
+                reason: string | null;
+            } | {
+                /** @enum {string} */
+                type: "REDEMPTION";
+                id: string;
+                /** Format: date-time */
+                at: string;
+                customer: {
+                    /** Format: uuid */
+                    membershipId: string;
+                    name: string | null;
+                    phone: string | null;
+                };
+                by: string;
+                cycle: number;
+                rewardDescription: string;
+                voided: boolean;
+            } | {
+                /** @enum {string} */
+                type: "REDEMPTION_VOIDED";
+                id: string;
+                /** Format: date-time */
+                at: string;
+                customer: {
+                    /** Format: uuid */
+                    membershipId: string;
+                    name: string | null;
+                    phone: string | null;
+                };
+                by: string;
+                reason: string | null;
+            } | {
+                /** @enum {string} */
+                type: "JOINED";
+                id: string;
+                /** Format: date-time */
+                at: string;
+                customer: {
+                    /** Format: uuid */
+                    membershipId: string;
+                    name: string | null;
+                    phone: string | null;
+                };
+                pieceLabel: string | null;
+                marketingConsent: boolean;
+            })[];
+            nextCursor: string | null;
+        };
+        Stats: {
+            range: {
+                /** Format: date */
+                from: string;
+                /** Format: date */
+                to: string;
+            };
+            members: {
+                active: number;
+                returning: number;
+                marketingConsent: number;
+            };
+            period: {
+                joined: number;
+                stamps: number;
+                manualStamps: number;
+                cooldownOverrides: number;
+                redemptions: number;
+                voidedStamps: number;
+                voidedRedemptions: number;
+            };
+            daily: {
+                /** Format: date */
+                day: string;
+                joined: number;
+                stamps: number;
+                redemptions: number;
+            }[];
+        };
+        SettingsView: {
+            merchant: {
+                name: string;
+                slug: string;
+                logoUrl: string | null;
+                /** @enum {string} */
+                status: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+            };
+            settings: components["schemas"]["MerchantSettings"];
+        };
+        MerchantSettings: {
+            primaryColor: string | null;
+            secondaryColor: string | null;
+            /** Format: uri */
+            googleReviewUrl: string | null;
+            stampCooldownMinutes: number;
+        };
+        StaffMember: {
+            /** Format: uuid */
+            staffUserId: string;
+            name: string;
+            email: string;
+            /** @enum {string} */
+            role: "OWNER" | "EMPLOYEE";
+            active: boolean;
+            pendingFirstLogin: boolean;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        CreateStaffBody: {
+            email: string;
+            name: string;
+        };
+        CreatedStaff: {
+            staff: components["schemas"]["StaffMember"];
+            temporaryPassword: string | null;
+        };
+        UpdateStaffBody: {
+            active: boolean;
+        };
+        StaffPasswordReset: {
+            temporaryPassword: string;
         };
     };
     responses: never;
@@ -1078,6 +1377,66 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["ChangeStaffPasswordBody"];
+            };
+        };
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PasswordResetController_request: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RequestPasswordResetBody"];
+            };
+        };
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PasswordResetController_confirm: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ConfirmPasswordResetBody"];
             };
         };
         responses: {
@@ -1649,6 +2008,32 @@ export interface operations {
             };
         };
     };
+    MeController_deleteAccount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     MeController_update: {
         parameters: {
             query?: never;
@@ -1759,6 +2144,34 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["MembershipCard"];
                 };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    MeMembershipsController_leave: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
             /** @description Error */
             default: {
@@ -2001,7 +2414,9 @@ export interface operations {
     };
     PanelCustomersController_search: {
         parameters: {
-            query?: never;
+            query: {
+                query: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -2044,6 +2459,281 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CustomerDetail"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ActivityController_list: {
+        parameters: {
+            query?: {
+                from?: string;
+                to?: string;
+                cursor?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActivityPage"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StatsController_get: {
+        parameters: {
+            query?: {
+                from?: string;
+                to?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Stats"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SettingsController_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SettingsView"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SettingsController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MerchantSettings"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SettingsView"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StaffController_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StaffMember"][];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StaffController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateStaffBody"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CreatedStaff"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StaffController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                staffUserId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateStaffBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StaffMember"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    StaffController_resetPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                staffUserId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["StaffPasswordReset"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    ExportController_customers: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/csv": string;
                 };
             };
             /** @description Error */

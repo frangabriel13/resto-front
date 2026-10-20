@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-const clubsy = { primary: "#001d67", secondary: "#fc5d00" };
+export const clubsyColors = { primary: "#001d67", secondary: "#fc5d00" };
 
 function luminance(hex: string): number {
   const [r, g, b] = [1, 3, 5].map((i) => {
@@ -36,8 +36,8 @@ export function brandStyle(colors: {
   primaryColor: string | null;
   secondaryColor: string | null;
 }): CSSProperties {
-  const primary = colors.primaryColor ?? clubsy.primary;
-  const secondary = colors.secondaryColor ?? (colors.primaryColor ? primary : clubsy.secondary);
+  const primary = colors.primaryColor ?? clubsyColors.primary;
+  const secondary = colors.secondaryColor ?? (colors.primaryColor ? primary : clubsyColors.secondary);
   const cta = actionColor(primary, secondary);
   return {
     "--primary": primary,
