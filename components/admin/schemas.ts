@@ -1,23 +1,14 @@
 import { z } from "zod";
 import type { components } from "@/lib/api/schema";
+import {
+  cooldownMinutes,
+  optionalColor,
+  optionalGoogleReviewUrl,
+  optionalHttpsUrl,
+  orNull,
+} from "@/lib/merchants/fields";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-
-// Mismo criterio que la API: solo direcciones https.
-const optionalUrl = z
-  .string()
-  .trim()
-  .max(500, "Hasta 500 caracteres.")
-  .refine((value) => value === "" || /^https:\/\/\S+$/.test(value), {
-    message: "Usá una dirección completa que empiece con https://",
-  });
-
-const optionalColor = z
-  .string()
-  .trim()
-  .refine((value) => value === "" || /^#[0-9a-fA-F]{6}$/.test(value), {
-    message: "Usá el formato #RRGGBB.",
-  });
 
 const name = z.string().trim().min(1, "Ingresá el nombre.").max(100, "Hasta 100 caracteres.");
 
@@ -35,15 +26,11 @@ export type NewMerchantValues = z.infer<typeof newMerchantSchema>;
 export const merchantSettingsSchema = z.object({
   name,
   slug,
-  logoUrl: optionalUrl,
+  logoUrl: optionalHttpsUrl,
   primaryColor: optionalColor,
   secondaryColor: optionalColor,
-  googleReviewUrl: optionalUrl,
-  stampCooldownMinutes: z
-    .string()
-    .trim()
-    .regex(/^\d+$/, "Ingresá una cantidad de minutos.")
-    .refine((value) => Number(value) <= 1440, "Hasta 1440 minutos (24 horas)."),
+  googleReviewUrl: optionalGoogleReviewUrl,
+  stampCooldownMinutes: cooldownMinutes,
 });
 
 export type MerchantSettingsValues = z.infer<typeof merchantSettingsSchema>;
@@ -67,10 +54,10 @@ export function toUpdateMerchantBody(values: MerchantSettingsValues): UpdateMerc
   return {
     name: values.name,
     slug: values.slug,
-    logoUrl: values.logoUrl || null,
-    primaryColor: values.primaryColor || null,
-    secondaryColor: values.secondaryColor || null,
-    googleReviewUrl: values.googleReviewUrl || null,
+    logoUrl: orNull(values.logoUrl),
+    primaryColor: orNull(values.primaryColor),
+    secondaryColor: orNull(values.secondaryColor),
+    googleReviewUrl: orNull(values.googleReviewUrl),
     stampCooldownMinutes: Number(values.stampCooldownMinutes),
   };
 }

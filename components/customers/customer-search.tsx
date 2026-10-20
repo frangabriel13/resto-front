@@ -12,10 +12,6 @@ import { searchMode } from "@/lib/customers/search";
 import { panelCustomerRoute } from "@/lib/staff/routes";
 import type { PanelMembership } from "@/lib/stamps/types";
 
-// TODO(api): el OpenAPI no publica el parámetro `query` de GET /panel/customers; sacar el cast
-// cuando lo publique y se regeneren los tipos.
-const searchParams = (query: string) => ({ params: { query: { query } } }) as Record<string, unknown>;
-
 type Results = { query: string; items: PanelMembership[] } | { query: string; error: string };
 
 const hints = {
@@ -34,7 +30,7 @@ export function CustomerSearch() {
     if (searchMode(trimmed) === "too-short") return;
     let cancelled = false;
     const timer = setTimeout(async () => {
-      const result = await callApi(api.GET("/panel/customers", searchParams(trimmed)));
+      const result = await callApi(api.GET("/panel/customers", { params: { query: { query: trimmed } } }));
       if (cancelled) return;
       setResults(
         result.ok ? { query: trimmed, items: result.data } : { query: trimmed, error: result.message },

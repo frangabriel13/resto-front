@@ -21,6 +21,12 @@ export const staffRoutes = {
 
 export type StaffRoute = (typeof staffRoutes)[keyof typeof staffRoutes];
 
+// Funcionan con o sin sesión. `reset` es la ruta del link que manda la API por mail.
+export const recoveryRoutes = {
+  request: "/panel/recuperar",
+  reset: "/panel/restablecer",
+} as const;
+
 export function isPanelRouteActive(pathname: string, route: PanelRoute): boolean {
   if (route === panelRoutes.home) return pathname === route;
   return pathname === route || pathname.startsWith(`${route}/`);

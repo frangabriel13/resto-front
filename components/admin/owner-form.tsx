@@ -1,15 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleCheckIcon } from "lucide-react";
 import { useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { CopyButton } from "@/components/copy-button";
 import { FormAlert } from "@/components/form/form-alert";
 import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
 import { TextField } from "@/components/form/text-field";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { TemporaryPasswordNotice } from "@/components/team/temporary-password-notice";
 import { FieldGroup } from "@/components/ui/field";
 import type { components } from "@/lib/api/schema";
 import { callApi } from "@/lib/api/call-api";
@@ -46,7 +44,12 @@ export function OwnerForm({ merchantId }: { merchantId: string }) {
 
   return (
     <div className="flex flex-col gap-4">
-      {created && <CreatedOwnerNotice owner={created} />}
+      {created && (
+        <TemporaryPasswordNotice
+          title={`${created.newUser ? "Dueño creado" : "Dueño agregado"}: ${created.email}`}
+          password={created.temporaryPassword}
+        />
+      )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
         <FieldGroup>
           <FormAlert message={form.formState.errors.root?.message} />
@@ -67,34 +70,5 @@ export function OwnerForm({ merchantId }: { merchantId: string }) {
         </FieldGroup>
       </form>
     </div>
-  );
-}
-
-function CreatedOwnerNotice({ owner }: { owner: CreatedOwner }) {
-  return (
-    <Alert className="border-emerald-200 bg-emerald-50">
-      <CircleCheckIcon className="text-emerald-700" />
-      <AlertTitle>
-        {owner.newUser ? "Dueño creado" : "Dueño agregado"}: {owner.email}
-      </AlertTitle>
-      <AlertDescription className="flex flex-col gap-3">
-        {owner.temporaryPassword ? (
-          <>
-            <p>
-              Pasale esta contraseña temporal. La va a tener que cambiar al entrar. No se vuelve a
-              mostrar.
-            </p>
-            <div className="flex flex-wrap items-center gap-2">
-              <code className="rounded-md border bg-background px-2 py-1.5 font-mono text-base text-foreground">
-                {owner.temporaryPassword}
-              </code>
-              <CopyButton value={owner.temporaryPassword} label="Copiar contraseña" />
-            </div>
-          </>
-        ) : (
-          <p>Ya tenía cuenta en Clubsy: entra con su contraseña de siempre.</p>
-        )}
-      </AlertDescription>
-    </Alert>
   );
 }
