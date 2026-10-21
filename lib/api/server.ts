@@ -1,6 +1,7 @@
 import "server-only";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import createClient from "openapi-fetch";
+import { forwardedHeaders } from "./forwarded-headers";
 import type { paths } from "./schema";
 
 // Los `Set-Cookie` de la API no llegan al navegador: lo que toque la sesión va por `api`.
@@ -9,6 +10,6 @@ export async function getServerApi() {
   const cookie = (await cookies()).toString();
   return createClient<paths>({
     baseUrl: process.env.API_URL ?? "http://localhost:3001",
-    headers: cookie ? { cookie } : undefined,
+    headers: forwardedHeaders(cookie, await headers()),
   });
 }

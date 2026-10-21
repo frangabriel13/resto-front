@@ -1,0 +1,13 @@
+.git
+.env
+.env.*
+!.env.example
+node_modules
+.next
+public/vendor
+coverage
+*.tsbuildinfo
+next-env.d.ts
+docker-compose*.yml
+Dockerfile
+.dockerignore

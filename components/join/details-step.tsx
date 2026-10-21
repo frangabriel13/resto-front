@@ -7,6 +7,7 @@ import { FormAlert } from "@/components/form/form-alert";
 import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
 import { TextField } from "@/components/form/text-field";
+import { LegalConsentNote } from "@/components/legal/legal-links";
 import { FieldGroup } from "@/components/ui/field";
 import type { ApiResult } from "@/lib/api/call-api";
 import { detailsSchema, type DetailsValues } from "./schemas";
@@ -50,6 +51,7 @@ export function DetailsStep({
           label={`Quiero recibir novedades y promociones de ${merchantName}. Es opcional.`}
         />
         <SubmitButton pending={form.formState.isSubmitting}>Recibir código</SubmitButton>
+        <LegalConsentNote />
       </FieldGroup>
     </form>
   );

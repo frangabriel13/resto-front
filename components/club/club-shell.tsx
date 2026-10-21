@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { brandStyle } from "@/lib/brand/colors";
+import { LegalLinks } from "@/components/legal/legal-links";
 import icon from "@/public/icon.png";
 import { MerchantLogo } from "./merchant-logo";
 
@@ -36,6 +37,7 @@ export function ClubShell({
           <Image src={icon} alt="" className="size-4" />
           Club de beneficios con Clubsy
         </span>
+        <LegalLinks />
       </footer>
     </main>
   );
