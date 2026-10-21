@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { LegalLinks } from "@/components/legal/legal-links";
 import logo from "@/public/logo.png";
 
 export function AuthShell({ children }: { children: React.ReactNode }) {
@@ -7,6 +8,7 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
       <div className="flex w-full max-w-sm flex-col gap-2">
         <Image src={logo} alt="Clubsy" loading="eager" className="mx-auto h-auto w-40" />
         {children}
+        <LegalLinks className="mt-6" />
       </div>
     </main>
   );

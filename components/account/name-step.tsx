@@ -6,6 +6,7 @@ import { FormAlert } from "@/components/form/form-alert";
 import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
 import { TextField } from "@/components/form/text-field";
+import { LegalConsentNote } from "@/components/legal/legal-links";
 import { FieldGroup } from "@/components/ui/field";
 import type { ApiResult } from "@/lib/api/call-api";
 import { nameSchema, type NameValues } from "./schemas";
@@ -31,6 +32,7 @@ export function NameStep({ onSubmit }: { onSubmit: (name: string) => Promise<Api
         <FormAlert message={form.formState.errors.root?.message} />
         <TextField control={form.control} name="name" label="Tu nombre" autoComplete="given-name" />
         <SubmitButton pending={form.formState.isSubmitting}>Crear mi cuenta</SubmitButton>
+        <LegalConsentNote />
       </FieldGroup>
     </form>
   );

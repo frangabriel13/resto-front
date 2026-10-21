@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { CheckboxField } from "@/components/form/checkbox-field";
 import { FormAlert } from "@/components/form/form-alert";
 import { SubmitButton } from "@/components/form/submit-button";
+import { LegalConsentNote } from "@/components/legal/legal-links";
 import { Button } from "@/components/ui/button";
 import { FieldGroup } from "@/components/ui/field";
 import { callApi, type ApiResult } from "@/lib/api/call-api";
@@ -46,6 +47,7 @@ export function JoinAsCustomer({ customerName, merchantName, join }: JoinAsCusto
         <SubmitButton pending={form.formState.isSubmitting}>
           Sumarme como {customerName}
         </SubmitButton>
+        <LegalConsentNote />
         <Button
           type="button"
           variant="link"

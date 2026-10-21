@@ -1,0 +1,27 @@
+# Producción (Coolify). API_URL y las NEXT_PUBLIC_* quedan fijas al compilar:
+# cambiarlas requiere un build nuevo.
+services:
+  front:
+    build:
+      context: .
+      target: runtime
+      args:
+        API_URL: ${API_URL:?}
+        NEXT_PUBLIC_SENTRY_DSN: ${NEXT_PUBLIC_SENTRY_DSN:?}
+        NEXT_PUBLIC_SENTRY_ENVIRONMENT: ${NEXT_PUBLIC_SENTRY_ENVIRONMENT:-production}
+        NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE: ${NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE:-0}
+        SOURCE_COMMIT: ${SOURCE_COMMIT:-}
+        SENTRY_ORG: ${SENTRY_ORG:-}
+        SENTRY_PROJECT: ${SENTRY_PROJECT:-}
+      secrets:
+        - SENTRY_AUTH_TOKEN
+    environment:
+      API_URL: ${API_URL:?}
+      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:?}
+    expose:
+      - '3000'
+    restart: unless-stopped
+
+secrets:
+  SENTRY_AUTH_TOKEN:
+    environment: SENTRY_AUTH_TOKEN

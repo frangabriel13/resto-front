@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { customerApp } from "@/lib/pwa/manifest";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,7 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: { default: "Clubsy", template: "%s · Clubsy" },
   description: "Tu tarjeta de sellos digital",
-  icons: { icon: "/icon.png", apple: "/icon.png" },
+  icons: { icon: "/icons/icon-192.png", apple: "/icons/apple-touch-icon.png" },
+  manifest: customerApp.manifestUrl,
+  appleWebApp: { capable: true, title: customerApp.shortName, statusBarStyle: "default" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
