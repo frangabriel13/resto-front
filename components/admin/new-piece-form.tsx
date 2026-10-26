@@ -24,7 +24,9 @@ export function NewPieceForm({ merchantId }: { merchantId: string }) {
     const result = await callApi(
       api.POST("/admin/merchants/{merchantId}/pieces", {
         params: { path: { merchantId } },
-        body,
+        // Esta versión del form solo arma piezas del club de siempre: el
+        // destino configurable se edita aparte, no desde esta alta rápida.
+        body: { ...body, destinationType: "CLUBSY", nfcChipType: "NTAG215" },
       }),
     );
     if (!result.ok) {
