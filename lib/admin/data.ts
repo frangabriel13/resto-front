@@ -2,12 +2,15 @@ import "server-only";
 import { notFound } from "next/navigation";
 import { getServerApi } from "@/lib/api/server";
 import { requireAdminSession } from "./session";
+import type { MerchantStatus } from "@/lib/merchants/status";
 import type { AdminMerchant, MerchantSummary, Piece } from "./types";
 
-export async function getMerchants(): Promise<MerchantSummary[]> {
+export async function getMerchants(status: MerchantStatus | null): Promise<MerchantSummary[]> {
   await requireAdminSession();
   const api = await getServerApi();
-  const { data, response } = await api.GET("/admin/merchants");
+  const { data, response } = await api.GET("/admin/merchants", {
+    params: { query: status ? { status } : {} },
+  });
   if (!data) throw new Error(`GET /admin/merchants respondió ${response.status}`);
   return data;
 }

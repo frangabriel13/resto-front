@@ -4,7 +4,20 @@ import { MerchantStatusBadge } from "@/components/merchants/merchant-status-badg
 import type { MerchantSummary } from "@/lib/admin/types";
 import { adminRoutes } from "@/lib/admin/routes";
 
-export function MerchantList({ merchants }: { merchants: MerchantSummary[] }) {
+export function MerchantList({
+  merchants,
+  filtered,
+}: {
+  merchants: MerchantSummary[];
+  filtered: boolean;
+}) {
+  if (merchants.length === 0 && filtered) {
+    return (
+      <p className="rounded-xl border border-dashed px-6 py-12 text-center text-sm text-muted-foreground">
+        No hay comercios en este estado.
+      </p>
+    );
+  }
   if (merchants.length === 0) {
     return (
       <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed px-6 py-12 text-center">

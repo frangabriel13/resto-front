@@ -40,6 +40,8 @@ async function PieceContent({ params }: Pick<PageProps<"/p/[code]">, "params">) 
       />
     );
   }
+  // Los escaneos con destino externo los redirige `proxy.ts` con un 302; esto cubre las navegaciones internas.
+  if (piece.state === "REDIRECT") redirect(piece.url);
   if (piece.state === "CLUB_NOT_OPEN") {
     return (
       <ClubMessage
