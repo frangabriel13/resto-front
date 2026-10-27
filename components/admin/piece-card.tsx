@@ -3,11 +3,14 @@ import { CopyButton } from "@/components/copy-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Piece } from "@/lib/admin/types";
+import { destinationTypeLabels } from "@/lib/pieces/fields";
 import { slugify } from "@/lib/merchants/slug";
 import { pieceQrSvg } from "@/lib/pieces/qr";
 import { pieceUrl } from "@/lib/pieces/url";
 import { cn } from "@/lib/utils";
 import { PieceActions } from "./piece-actions";
+import { PieceDestinationDialog } from "./piece-destination-dialog";
+import { PiecePasswordControl } from "./piece-password-control";
 
 type PieceCardProps = {
   merchantId: string;
@@ -39,6 +42,7 @@ export async function PieceCard({ merchantId, merchantSlug, piece, siteUrl }: Pi
           <Badge variant={piece.active ? "secondary" : "outline"}>
             {piece.active ? "Activa" : "Inactiva"}
           </Badge>
+          <Badge variant="outline">{destinationTypeLabels[piece.destinationType]}</Badge>
         </div>
         <div className="flex flex-col gap-1">
           <span className="text-xs text-muted-foreground">URL para el chip NFC</span>
@@ -54,6 +58,10 @@ export async function PieceCard({ merchantId, merchantSlug, piece, siteUrl }: Pi
           </Button>
         </div>
         <PieceActions merchantId={merchantId} piece={piece} />
+        <div className="flex flex-wrap gap-2 border-t pt-3">
+          <PieceDestinationDialog merchantId={merchantId} piece={piece} />
+          <PiecePasswordControl merchantId={merchantId} piece={piece} />
+        </div>
       </div>
     </li>
   );

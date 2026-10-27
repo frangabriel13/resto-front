@@ -276,6 +276,70 @@ export interface paths {
         patch: operations["AdminPiecesController_update"];
         trace?: never;
     };
+    "/admin/merchants/{merchantId}/pieces/{pieceId}/nfc-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminPiecesController_setPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/pieces/{pieceId}/reveal-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminPiecesController_revealPassword"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/pieces/{pieceId}/replace": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminPiecesController_replace"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/pieces/{pieceId}/scans": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminPiecesController_scans"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/merchants/{merchantId}/owner": {
         parameters: {
             query?: never;
@@ -290,6 +354,54 @@ export interface paths {
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/admin/sales": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminSalesController_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/sales": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminSalesController_create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/sales/{saleId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch: operations["AdminSalesController_update"];
         trace?: never;
     };
     "/panel/reward-rules": {
@@ -316,6 +428,22 @@ export interface paths {
             cookie?: never;
         };
         get: operations["PublicPiecesController_find"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/public/pieces/{code}/visit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PublicPiecesController_visit"];
         put?: never;
         post?: never;
         delete?: never;
@@ -628,6 +756,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["HealthController_check"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -635,7 +779,7 @@ export interface components {
         ApiError: {
             statusCode: number;
             /** @enum {string} */
-            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "NAME_REQUIRED" | "STAMP_TOKEN_INVALID" | "STAMP_TOKEN_EXPIRED" | "CUSTOMER_OF_OTHER_MERCHANT" | "MEMBERSHIP_LEFT" | "COOLDOWN_ACTIVE" | "VOID_NOT_ALLOWED" | "STAMP_IN_REDEEMED_CYCLE" | "STAMP_ALREADY_VOIDED" | "INSUFFICIENT_BALANCE" | "REDEMPTION_ALREADY_VOIDED" | "REDEMPTION_NOT_LAST" | "NEW_CYCLE_HAS_STAMPS" | "INVALID_DATE_RANGE" | "IDEMPOTENCY_KEY_REUSED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "ACTIVE_RULE_REQUIRED" | "RESET_TOKEN_INVALID" | "STAFF_IS_OWNER" | "STAFF_ACCOUNT_SHARED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
+            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "OTP_DELIVERY_FAILED" | "NAME_REQUIRED" | "STAMP_TOKEN_INVALID" | "STAMP_TOKEN_EXPIRED" | "CUSTOMER_OF_OTHER_MERCHANT" | "MEMBERSHIP_LEFT" | "COOLDOWN_ACTIVE" | "VOID_NOT_ALLOWED" | "STAMP_IN_REDEEMED_CYCLE" | "STAMP_ALREADY_VOIDED" | "INSUFFICIENT_BALANCE" | "REDEMPTION_ALREADY_VOIDED" | "REDEMPTION_NOT_LAST" | "NEW_CYCLE_HAS_STAMPS" | "INVALID_DATE_RANGE" | "IDEMPOTENCY_KEY_REUSED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "INVALID_DESTINATION_URL" | "PIECE_ALREADY_REPLACED" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "ACTIVE_RULE_REQUIRED" | "RESET_TOKEN_INVALID" | "STAFF_IS_OWNER" | "STAFF_ACCOUNT_SHARED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
             message: string;
             details?: {
                 [key: string]: unknown;
@@ -732,6 +876,12 @@ export interface components {
             stampCooldownMinutes: number;
             /** @enum {string} */
             status: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+            contactName: string | null;
+            contactEmail: string | null;
+            contactPhone: string | null;
+            salesNotes: string | null;
+            /** Format: date-time */
+            nextActionAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -747,6 +897,13 @@ export interface components {
             /** Format: uri */
             googleReviewUrl?: string | null;
             stampCooldownMinutes?: number;
+            contactName?: string | null;
+            /** Format: email */
+            contactEmail?: string | null;
+            contactPhone?: string | null;
+            salesNotes?: string | null;
+            /** Format: date-time */
+            nextActionAt?: string | null;
         };
         UpdateMerchantBody: {
             name?: string;
@@ -758,6 +915,13 @@ export interface components {
             /** Format: uri */
             googleReviewUrl?: string | null;
             stampCooldownMinutes?: number;
+            contactName?: string | null;
+            /** Format: email */
+            contactEmail?: string | null;
+            contactPhone?: string | null;
+            salesNotes?: string | null;
+            /** Format: date-time */
+            nextActionAt?: string | null;
             /** @enum {string} */
             status?: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
         };
@@ -769,15 +933,74 @@ export interface components {
             type: "NFC_QR";
             label: string;
             active: boolean;
+            /** @enum {string} */
+            destinationType: "CLUBSY" | "GOOGLE_REVIEWS" | "WHATSAPP" | "OTHER";
+            destinationUrl: string | null;
+            /** @enum {string} */
+            nfcChipType: "NTAG213" | "NTAG215" | "NTAG216";
+            hasNfcPassword: boolean;
+            /** @enum {string} */
+            fulfillmentStatus: "PENDING" | "PROGRAMMED" | "DELIVERED" | "REPLACED";
+            /** Format: uuid */
+            saleId: string | null;
+            /** Format: uuid */
+            replacesPieceId: string | null;
+            /** Format: date-time */
+            programmedAt: string | null;
+            /** Format: date-time */
+            deliveredAt: string | null;
             /** Format: date-time */
             createdAt: string;
         };
         CreatePieceBody: {
             label: string;
+            /**
+             * @default CLUBSY
+             * @enum {string}
+             */
+            destinationType: "CLUBSY" | "GOOGLE_REVIEWS" | "WHATSAPP" | "OTHER";
+            /** Format: uri */
+            destinationUrl?: string | null;
+            /**
+             * @default NTAG215
+             * @enum {string}
+             */
+            nfcChipType: "NTAG213" | "NTAG215" | "NTAG216";
+            nfcPassword?: string;
+            /** Format: uuid */
+            saleId?: string;
         };
         UpdatePieceBody: {
             label?: string;
             active?: boolean;
+            /** @enum {string} */
+            destinationType?: "CLUBSY" | "GOOGLE_REVIEWS" | "WHATSAPP" | "OTHER";
+            /** Format: uri */
+            destinationUrl?: string | null;
+            /** @enum {string} */
+            nfcChipType?: "NTAG213" | "NTAG215" | "NTAG216";
+            /** @enum {string} */
+            fulfillmentStatus?: "PENDING" | "PROGRAMMED" | "DELIVERED";
+        };
+        SetNfcPasswordBody: {
+            nfcPassword: string;
+        };
+        RevealedPassword: {
+            nfcPassword: string;
+        };
+        PieceScanStats: {
+            total: number;
+            possibleBotCount: number;
+            recent: components["schemas"]["PieceScan"][];
+        };
+        PieceScan: {
+            /** Format: uuid */
+            id: string;
+            /** Format: date-time */
+            createdAt: string;
+            userAgent: string | null;
+            referer: string | null;
+            possibleBot: boolean;
         };
         CreateOwnerBody: {
             email: string;
@@ -790,6 +1013,46 @@ export interface components {
             name: string;
             newUser: boolean;
             temporaryPassword: string | null;
+        };
+        Sale: {
+            /** Format: uuid */
+            id: string;
+            /** Format: uuid */
+            merchantId: string;
+            product: string;
+            tagCount: number;
+            amount: string | null;
+            paymentMethod: string | null;
+            /** @enum {string} */
+            paymentStatus: "PENDING" | "PAID" | "PARTIAL" | "CANCELED";
+            /** Format: uuid */
+            soldByAdminId: string | null;
+            notes: string | null;
+            pieceCount: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CreateSaleBody: {
+            product: string;
+            /** @default 1 */
+            tagCount: number;
+            amount?: number | null;
+            paymentMethod?: string | null;
+            /**
+             * @default PENDING
+             * @enum {string}
+             */
+            paymentStatus: "PENDING" | "PAID" | "PARTIAL" | "CANCELED";
+            notes?: string | null;
+        };
+        UpdateSaleBody: {
+            /** @enum {string} */
+            paymentStatus?: "PENDING" | "PAID" | "PARTIAL" | "CANCELED";
+            paymentMethod?: string | null;
+            amount?: number | null;
+            notes?: string | null;
         };
         RewardRule: {
             /** Format: uuid */
@@ -832,6 +1095,10 @@ export interface components {
                 rewardDescription: string;
                 conditions: string | null;
             } | null;
+        };
+        PieceVisit: {
+            redirect: boolean;
+            url?: string;
         };
         Me: {
             /** Format: uuid */
@@ -1239,6 +1506,10 @@ export interface components {
         };
         StaffPasswordReset: {
             temporaryPassword: string;
+        };
+        Health: {
+            /** @enum {string} */
+            status: "ok";
         };
     };
     responses: never;
@@ -1856,6 +2127,134 @@ export interface operations {
             };
         };
     };
+    AdminPiecesController_setPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                pieceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SetNfcPasswordBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Piece"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminPiecesController_revealPassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                pieceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RevealedPassword"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminPiecesController_replace: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                pieceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Piece"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminPiecesController_scans: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                pieceId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PieceScanStats"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     AdminOwnersController_create: {
         parameters: {
             query?: never;
@@ -1877,6 +2276,104 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CreatedOwner"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminSalesController_list: {
+        parameters: {
+            query?: {
+                merchantId?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Sale"][];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminSalesController_create: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateSaleBody"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Sale"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminSalesController_update: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                saleId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSaleBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Sale"];
                 };
             };
             /** @description Error */
@@ -1967,6 +2464,36 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["PublicPiece"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PublicPiecesController_visit: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PieceVisit"];
                 };
             };
             /** @description Error */
@@ -2734,6 +3261,34 @@ export interface operations {
                 };
                 content: {
                     "text/csv": string;
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    HealthController_check: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Health"];
                 };
             };
             /** @description Error */
