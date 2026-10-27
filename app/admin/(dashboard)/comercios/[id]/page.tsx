@@ -3,9 +3,10 @@ import { Suspense } from "react";
 import { LoadingBlock } from "@/components/loading-block";
 import { SectionCard } from "@/components/section-card";
 import { BackLink } from "@/components/back-link";
-import { MerchantSettingsForm } from "@/components/admin/merchant-settings-form";
+import { ClubSettingsForm } from "@/components/admin/club-settings-form";
+import { MerchantDataForm } from "@/components/admin/merchant-data-form";
 import { MerchantStatusControl } from "@/components/admin/merchant-status-control";
-import { NewPieceForm } from "@/components/admin/new-piece-form";
+import { NewPieceButton } from "@/components/admin/new-piece-button";
 import { OwnerForm } from "@/components/admin/owner-form";
 import { PieceCard } from "@/components/admin/piece-card";
 import { MerchantStatusBadge } from "@/components/merchants/merchant-status-badge";
@@ -51,20 +52,19 @@ async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]"
         </div>
       </div>
 
-      <SectionCard title="Estado" description={statusHelp[merchant.status]}>
-        <MerchantStatusControl merchantId={merchant.id} status={merchant.status} />
-      </SectionCard>
-
-      <SectionCard title="Datos y marca" description="Lo que ven los clientes en la tarjeta.">
-        <MerchantSettingsForm merchant={merchant} />
+      <SectionCard
+        title="Datos del comercio"
+        description="La ficha comercial (contacto, Google y observaciones) solo la ve Clubsy."
+      >
+        <MerchantDataForm merchant={merchant} />
       </SectionCard>
 
       <SectionCard
         title="Piezas"
-        description="Cada pieza tiene un chip NFC y un QR con su URL. Si se pierde o se rompe, desactivala."
+        description="Cada pieza tiene un chip NFC y un QR con su URL. Lleva al club o a Google, Instagram o WhatsApp, y el destino se cambia sin reprogramar el chip. Si se pierde o se rompe, desactivala."
       >
         <div className="flex flex-col gap-6">
-          <NewPieceForm merchantId={merchant.id} />
+          <NewPieceButton merchantId={merchant.id} merchantReviewUrl={merchant.googleReviewUrl} />
           {pieces.length > 0 && (
             <ul className="flex flex-col gap-3">
               {pieces.map((piece) => (
@@ -72,6 +72,7 @@ async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]"
                   key={piece.id}
                   merchantId={merchant.id}
                   merchantSlug={merchant.slug}
+                  merchantReviewUrl={merchant.googleReviewUrl}
                   piece={piece}
                   siteUrl={site}
                 />
@@ -81,12 +82,32 @@ async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]"
         </div>
       </SectionCard>
 
-      <SectionCard
-        title="Dueño"
-        description="Si es una persona nueva, se crea su usuario con una contraseña temporal."
-      >
-        <OwnerForm merchantId={merchant.id} />
-      </SectionCard>
+      <section aria-labelledby="club" className="flex flex-col gap-4 pt-4">
+        <div className="flex flex-col gap-1">
+          <h2 id="club" className="font-heading text-xl font-semibold text-primary">
+            Club de premios
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Sellos y premio para sus clientes. Un comercio que solo usa carteles lo deja en
+            preparación.
+          </p>
+        </div>
+
+        <SectionCard title="Estado" description={statusHelp[merchant.status]}>
+          <MerchantStatusControl merchantId={merchant.id} status={merchant.status} />
+        </SectionCard>
+
+        <SectionCard title="Tarjeta del cliente" description="Lo que ven los clientes del club.">
+          <ClubSettingsForm merchant={merchant} />
+        </SectionCard>
+
+        <SectionCard
+          title="Dueño"
+          description="Entra al panel para configurar el premio y los empleados. Si es una persona nueva, se crea su usuario con una contraseña temporal."
+        >
+          <OwnerForm merchantId={merchant.id} />
+        </SectionCard>
+      </section>
     </div>
   );
 }

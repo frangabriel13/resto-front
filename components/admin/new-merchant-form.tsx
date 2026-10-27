@@ -2,45 +2,34 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { FormAlert } from "@/components/form/form-alert";
 import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
-import { TextField } from "@/components/form/text-field";
-import { FieldGroup } from "@/components/ui/field";
+import { SectionCard } from "@/components/section-card";
 import { adminRoutes } from "@/lib/admin/routes";
 import { callApi } from "@/lib/api/call-api";
 import { api } from "@/lib/api/client";
 import { slugify } from "@/lib/merchants/slug";
-import { newMerchantSchema, type NewMerchantValues } from "./schemas";
+import { ClubFields } from "./club-fields";
+import { MerchantDataFields } from "./merchant-data-fields";
+import {
+  newMerchantDefaults,
+  newMerchantSchema,
+  toCreateMerchantBody,
+  type NewMerchantValues,
+} from "./schemas";
 
 export function NewMerchantForm() {
   const router = useRouter();
   const form = useForm<NewMerchantValues>({
     resolver: zodResolver(newMerchantSchema),
-    defaultValues: { name: "", slug: "" },
+    defaultValues: newMerchantDefaults,
   });
-  const autoSlug = useRef("");
+  const name = useWatch({ control: form.control, name: "name" });
 
-  // Sigue al nombre mientras el slug sea el que generamos o esté vacío (`isDirty` falla al vaciar el nombre).
-  useEffect(() => {
-    return form.subscribe({
-      name: "name",
-      exact: true,
-      formState: { values: true },
-      callback: ({ values }) => {
-        if (values.slug !== "" && values.slug !== autoSlug.current) return;
-        autoSlug.current = slugify(values.name);
-        form.setValue("slug", autoSlug.current, {
-          shouldValidate: form.formState.isSubmitted,
-        });
-      },
-    });
-  }, [form]);
-
-  async function onSubmit(body: NewMerchantValues) {
-    const result = await callApi(api.POST("/admin/merchants", { body }));
+  async function onSubmit(values: NewMerchantValues) {
+    const result = await callApi(api.POST("/admin/merchants", { body: toCreateMerchantBody(values) }));
     if (!result.ok) {
       showApiError(form, result);
       return;
@@ -50,23 +39,23 @@ export function NewMerchantForm() {
   }
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-      <FieldGroup>
-        <FormAlert message={form.formState.errors.root?.message} />
-        <TextField control={form.control} name="name" label="Nombre del comercio" />
-        <TextField
-          control={form.control}
-          name="slug"
-          label="Slug"
-          autoCapitalize="none"
-          className="font-mono"
-        />
-        <p className="-mt-3 text-sm text-muted-foreground">
-          Identifica al comercio en la dirección de su tarjeta. Solo se puede cambiar mientras está
-          en preparación.
-        </p>
+    <form onSubmit={form.handleSubmit(onSubmit)} noValidate className="flex flex-col gap-6">
+      <FormAlert message={form.formState.errors.root?.message} />
+      <SectionCard
+        title="Datos del comercio"
+        description="Solo el nombre es obligatorio. El resto se puede completar después."
+      >
+        <MerchantDataFields control={form.control} />
+      </SectionCard>
+      <SectionCard
+        title="Club de premios"
+        description="Opcional: un comercio que solo compra carteles no lo necesita. Arranca en preparación."
+      >
+        <ClubFields control={form.control} slugPlaceholder={slugify(name) || undefined} optionalHint />
+      </SectionCard>
+      <div className="sm:w-56">
         <SubmitButton pending={form.formState.isSubmitting}>Crear comercio</SubmitButton>
-      </FieldGroup>
+      </div>
     </form>
   );
 }

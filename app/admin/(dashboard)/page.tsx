@@ -4,13 +4,15 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { LoadingBlock } from "@/components/loading-block";
 import { MerchantList } from "@/components/admin/merchant-list";
+import { MerchantStatusFilter } from "@/components/admin/merchant-status-filter";
 import { Button } from "@/components/ui/button";
 import { getMerchants } from "@/lib/admin/data";
 import { adminRoutes } from "@/lib/admin/routes";
+import { parseStatusFilter } from "@/lib/admin/status-filter";
 
 export const metadata: Metadata = { title: "Comercios" };
 
-export default function AdminMerchantsPage() {
+export default function AdminMerchantsPage({ searchParams }: PageProps<"/admin">) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -26,13 +28,19 @@ export default function AdminMerchantsPage() {
         </Button>
       </div>
       <Suspense fallback={<LoadingBlock />}>
-        <Merchants />
+        <Merchants searchParams={searchParams} />
       </Suspense>
     </div>
   );
 }
 
-async function Merchants() {
-  const merchants = await getMerchants();
-  return <MerchantList merchants={merchants} />;
+async function Merchants({ searchParams }: Pick<PageProps<"/admin">, "searchParams">) {
+  const status = parseStatusFilter((await searchParams).estado);
+  const merchants = await getMerchants(status);
+  return (
+    <div className="flex flex-col gap-4">
+      <MerchantStatusFilter current={status} />
+      <MerchantList merchants={merchants} filtered={status !== null} />
+    </div>
+  );
 }

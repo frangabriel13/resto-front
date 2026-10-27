@@ -6,7 +6,7 @@ export function showApiError<T extends FieldValues>(
   form: UseFormReturn<T>,
   failure: { message: string; error?: ApiError },
 ) {
-  const fields = Object.keys(form.getValues());
+  const fields = fieldPaths(form.getValues());
   const issues = validationIssues(failure.error).filter((issue) => fields.includes(issue.path));
   if (issues.length === 0) {
     form.setError("root", { message: failure.message });
@@ -15,4 +15,13 @@ export function showApiError<T extends FieldValues>(
   for (const issue of issues) {
     form.setError(issue.path as FieldPath<T>, { message: issue.message }, { shouldFocus: true });
   }
+}
+
+// Campos anidados como `profile.address`, igual que los `path` de la API.
+function fieldPaths(values: object, prefix = ""): string[] {
+  return Object.entries(values).flatMap(([key, value]) =>
+    value !== null && typeof value === "object" && !Array.isArray(value)
+      ? fieldPaths(value, `${prefix}${key}.`)
+      : [`${prefix}${key}`],
+  );
 }

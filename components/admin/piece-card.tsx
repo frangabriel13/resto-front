@@ -3,20 +3,30 @@ import { CopyButton } from "@/components/copy-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { Piece } from "@/lib/admin/types";
+import { formatDateTime } from "@/lib/format";
 import { slugify } from "@/lib/merchants/slug";
 import { pieceQrSvg } from "@/lib/pieces/qr";
 import { pieceUrl } from "@/lib/pieces/url";
 import { cn } from "@/lib/utils";
+import { NfcPassword } from "./nfc-password";
 import { PieceActions } from "./piece-actions";
+import { PieceDestination } from "./piece-destination";
 
 type PieceCardProps = {
   merchantId: string;
   merchantSlug: string;
+  merchantReviewUrl: string | null;
   piece: Piece;
   siteUrl: string;
 };
 
-export async function PieceCard({ merchantId, merchantSlug, piece, siteUrl }: PieceCardProps) {
+export async function PieceCard({
+  merchantId,
+  merchantSlug,
+  merchantReviewUrl,
+  piece,
+  siteUrl,
+}: PieceCardProps) {
   const url = pieceUrl(siteUrl, piece.publicCode);
   const svg = await pieceQrSvg(url);
   const fileName = `clubsy-${merchantSlug}-${slugify(piece.label) || "pieza"}.svg`;
@@ -40,6 +50,8 @@ export async function PieceCard({ merchantId, merchantSlug, piece, siteUrl }: Pi
             {piece.active ? "Activa" : "Inactiva"}
           </Badge>
         </div>
+        <PieceDestination piece={piece} />
+        <p className="text-xs text-muted-foreground">Creada el {formatDateTime(piece.createdAt)}</p>
         <div className="flex flex-col gap-1">
           <span className="text-xs text-muted-foreground">URL para el chip NFC</span>
           <code className="rounded-md bg-muted px-2 py-1.5 text-sm break-all">{url}</code>
@@ -53,7 +65,8 @@ export async function PieceCard({ merchantId, merchantSlug, piece, siteUrl }: Pi
             </a>
           </Button>
         </div>
-        <PieceActions merchantId={merchantId} piece={piece} />
+        <NfcPassword merchantId={merchantId} pieceId={piece.id} />
+        <PieceActions merchantId={merchantId} piece={piece} merchantReviewUrl={merchantReviewUrl} />
       </div>
     </li>
   );
