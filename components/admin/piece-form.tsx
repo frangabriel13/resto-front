@@ -11,6 +11,7 @@ import { FieldGroup } from "@/components/ui/field";
 import type { ApiResult } from "@/lib/api/call-api";
 import { pieceSchema, type PieceValues } from "@/lib/pieces/destination";
 import { DestinationTypeField } from "./destination-type-field";
+import { ReviewUrlField } from "./review-url-field";
 
 type PieceFormProps = {
   defaultValues: PieceValues;
@@ -55,13 +56,10 @@ export function PieceForm({
         <DestinationTypeField control={form.control} />
 
         {type === "GOOGLE_REVIEWS" && (
-          <TextField
+          <ReviewUrlField
             control={form.control}
             name="destination.url"
             label="Link de reseñas"
-            type="url"
-            placeholder="https://g.page/…"
-            autoCapitalize="none"
             description={reviewUrlHint(url, merchantReviewUrl)}
           />
         )}
@@ -102,7 +100,7 @@ export function PieceForm({
 }
 
 function reviewUrlHint(url: string, merchantReviewUrl: string | null) {
-  if (!merchantReviewUrl) return "El comercio no tiene link de reseñas cargado: pegá el de Google.";
+  if (!merchantReviewUrl) return "El comercio no tiene link de reseñas cargado: pegá el de Google o armalo con el Place ID.";
   if (url.trim() === merchantReviewUrl) return "Es el link de reseñas cargado en los datos del comercio.";
   return undefined;
 }

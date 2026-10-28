@@ -4,6 +4,7 @@ import type { Control } from "react-hook-form";
 import { TextField } from "@/components/form/text-field";
 import { TextareaField } from "@/components/form/textarea-field";
 import { FieldDescription, FieldLegend, FieldSet } from "@/components/ui/field";
+import { ReviewUrlField } from "./review-url-field";
 import type { MerchantDataValues } from "./schemas";
 import { WhatsAppChatButton } from "./whatsapp-chat-button";
 
@@ -21,14 +22,7 @@ export function MerchantDataFields<T extends MerchantDataValues>({
     <div className="flex flex-col gap-8">
       <div className="grid gap-6 sm:grid-cols-2">
         <TextField control={control} name="name" label="Nombre del comercio" />
-        <TextField
-          control={control}
-          name="googleReviewUrl"
-          label="Link de reseñas de Google"
-          type="url"
-          placeholder="https://…"
-          autoCapitalize="none"
-        />
+        <ReviewUrlField control={control} name="googleReviewUrl" label="Link de reseñas de Google" />
       </div>
 
       <FieldSet>
