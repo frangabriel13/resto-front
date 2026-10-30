@@ -19,7 +19,7 @@ import {
   type ClubSettingsValues,
 } from "./schemas";
 
-export function ClubSettingsForm({ merchant }: { merchant: AdminMerchant }) {
+export function ClubSettingsForm({ merchant, readOnly }: { merchant: AdminMerchant; readOnly: boolean }) {
   const router = useRouter();
   const [saved, setSaved] = useState(false);
   const form = useForm<ClubSettingsValues>({
@@ -45,11 +45,13 @@ export function ClubSettingsForm({ merchant }: { merchant: AdminMerchant }) {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-      <FieldGroup>
+      <fieldset disabled={readOnly} className="min-w-0">
+        <FieldGroup>
         <FormAlert message={form.formState.errors.root?.message} />
         <ClubFields control={form.control} slugLocked={merchant.status !== "DRAFT"} />
         <SaveRow pending={form.formState.isSubmitting} saved={saved && !form.formState.isDirty} />
-      </FieldGroup>
+        </FieldGroup>
+      </fieldset>
     </form>
   );
 }

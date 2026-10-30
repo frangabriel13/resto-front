@@ -3,6 +3,8 @@ import { Suspense } from "react";
 import { LoadingBlock } from "@/components/loading-block";
 import { SectionCard } from "@/components/section-card";
 import { BackLink } from "@/components/back-link";
+import { ArchivedNotice } from "@/components/admin/archived-notice";
+import { ArchiveSection } from "@/components/admin/archive-section";
 import { ClubSettingsForm } from "@/components/admin/club-settings-form";
 import { MerchantDataForm } from "@/components/admin/merchant-data-form";
 import { MerchantStatusControl } from "@/components/admin/merchant-status-control";
@@ -40,6 +42,8 @@ async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]"
   const { id } = await params;
   const { merchant, pieces } = await getMerchantWithPieces(id);
   const site = siteUrl();
+  // Archivado: la API rechaza las ediciones, pero deja ver la contraseña NFC de las piezas.
+  const archived = merchant.archivedAt !== null;
 
   return (
     <div className="flex flex-col gap-6">
@@ -52,11 +56,15 @@ async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]"
         </div>
       </div>
 
+      {merchant.archivedAt && (
+        <ArchivedNotice merchantId={merchant.id} archivedAt={merchant.archivedAt} />
+      )}
+
       <SectionCard
         title="Datos del comercio"
         description="La ficha comercial (contacto, Google y observaciones) solo la ve Clubsy."
       >
-        <MerchantDataForm merchant={merchant} />
+        <MerchantDataForm merchant={merchant} readOnly={archived} />
       </SectionCard>
 
       <SectionCard
@@ -64,7 +72,9 @@ async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]"
         description="Cada pieza tiene un chip NFC y un QR con su URL. Lleva al club o a Google, Instagram o WhatsApp, y el destino se cambia sin reprogramar el chip. Si se pierde o se rompe, desactivala."
       >
         <div className="flex flex-col gap-6">
-          <NewPieceButton merchantId={merchant.id} merchantReviewUrl={merchant.googleReviewUrl} />
+          {!archived && (
+            <NewPieceButton merchantId={merchant.id} merchantReviewUrl={merchant.googleReviewUrl} />
+          )}
           {pieces.length > 0 && (
             <ul className="flex flex-col gap-3">
               {pieces.map((piece) => (
@@ -75,6 +85,7 @@ async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]"
                   merchantReviewUrl={merchant.googleReviewUrl}
                   piece={piece}
                   siteUrl={site}
+                  editable={!archived}
                 />
               ))}
             </ul>
@@ -94,20 +105,26 @@ async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]"
         </div>
 
         <SectionCard title="Estado" description={statusHelp[merchant.status]}>
-          <MerchantStatusControl merchantId={merchant.id} status={merchant.status} />
+          {archived ? (
+            <p className="text-sm text-muted-foreground">Desarchivalo para cambiar el estado.</p>
+          ) : (
+            <MerchantStatusControl merchantId={merchant.id} status={merchant.status} />
+          )}
         </SectionCard>
 
         <SectionCard title="Tarjeta del cliente" description="Lo que ven los clientes del club.">
-          <ClubSettingsForm merchant={merchant} />
+          <ClubSettingsForm merchant={merchant} readOnly={archived} />
         </SectionCard>
 
         <SectionCard
           title="Dueño"
           description="Entra al panel para configurar el premio y los empleados. Si es una persona nueva, se crea su usuario con una contraseña temporal."
         >
-          <OwnerForm merchantId={merchant.id} />
+          <OwnerForm merchantId={merchant.id} readOnly={archived} />
         </SectionCard>
       </section>
+
+      <ArchiveSection merchant={merchant} pieces={pieces} />
     </div>
   );
 }

@@ -16,7 +16,7 @@ import { ownerSchema, type OwnerValues } from "./schemas";
 
 type CreatedOwner = components["schemas"]["CreatedOwner"];
 
-export function OwnerForm({ merchantId }: { merchantId: string }) {
+export function OwnerForm({ merchantId, readOnly }: { merchantId: string; readOnly: boolean }) {
   const [created, setCreated] = useState<CreatedOwner | null>(null);
   const form = useForm<OwnerValues>({
     resolver: zodResolver(ownerSchema),
@@ -51,7 +51,8 @@ export function OwnerForm({ merchantId }: { merchantId: string }) {
         />
       )}
       <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-        <FieldGroup>
+        <fieldset disabled={readOnly} className="min-w-0">
+          <FieldGroup>
           <FormAlert message={form.formState.errors.root?.message} />
           <div className="grid gap-6 sm:grid-cols-2">
             <TextField
@@ -67,7 +68,8 @@ export function OwnerForm({ merchantId }: { merchantId: string }) {
           <div className="sm:w-56">
             <SubmitButton pending={form.formState.isSubmitting}>Agregar dueño</SubmitButton>
           </div>
-        </FieldGroup>
+          </FieldGroup>
+        </fieldset>
       </form>
     </div>
   );
