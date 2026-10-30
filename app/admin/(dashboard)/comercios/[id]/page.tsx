@@ -40,7 +40,7 @@ export default function AdminMerchantPage({ params }: PageProps<"/admin/comercio
 
 async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]">, "params">) {
   const { id } = await params;
-  const { merchant, pieces } = await getMerchantWithPieces(id);
+  const { merchant, pieces, deletion } = await getMerchantWithPieces(id);
   const site = siteUrl();
   // Archivado: la API rechaza las ediciones, pero deja ver la contraseña NFC de las piezas.
   const archived = merchant.archivedAt !== null;
@@ -124,7 +124,7 @@ async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]"
         </SectionCard>
       </section>
 
-      <ArchiveSection merchant={merchant} pieces={pieces} />
+      <ArchiveSection merchant={merchant} pieces={pieces} deletion={deletion} />
     </div>
   );
 }

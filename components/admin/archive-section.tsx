@@ -1,15 +1,18 @@
 import { SectionCard } from "@/components/section-card";
-import { canArchive } from "@/lib/admin/archive";
+import { canArchive, deleteBlockedReason, type DeletionSummary } from "@/lib/admin/archive";
 import type { AdminMerchant, Piece } from "@/lib/admin/types";
 import { ArchiveButton, UnarchiveButton } from "./archive-buttons";
 import { DeleteMerchantDialog } from "./delete-merchant-dialog";
 
-export function ArchiveSection({ merchant, pieces }: { merchant: AdminMerchant; pieces: Piece[] }) {
+type ArchiveSectionProps = { merchant: AdminMerchant; pieces: Piece[]; deletion: DeletionSummary };
+
+export function ArchiveSection({ merchant, pieces, deletion }: ArchiveSectionProps) {
   const archived = merchant.archivedAt !== null;
+  const blocked = deleteBlockedReason(deletion, merchant.status);
   return (
     <SectionCard
       title="Archivar o borrar"
-      description="Archivar lo saca del listado sin borrar nada. Borrar es definitivo y solo se puede si nunca tuvo clientes."
+      description="Archivar lo saca del listado sin borrar nada. Borrar es definitivo: sin clientes se puede en cualquier momento; con clientes, solo archivado."
     >
       <div className="flex flex-col gap-4">
         {archived ? (
@@ -21,7 +24,11 @@ export function ArchiveSection({ merchant, pieces }: { merchant: AdminMerchant; 
             Para archivarlo, primero finalizá el club (en Estado).
           </p>
         )}
-        <DeleteMerchantDialog merchantId={merchant.id} name={merchant.name} pieceCount={pieces.length} />
+        {blocked ? (
+          <p className="text-sm text-muted-foreground">{blocked}</p>
+        ) : (
+          <DeleteMerchantDialog merchantId={merchant.id} name={merchant.name} summary={deletion} />
+        )}
       </div>
     </SectionCard>
   );
