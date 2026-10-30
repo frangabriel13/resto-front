@@ -276,6 +276,38 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/merchants/{id}/deletion-summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminMerchantsController_deletionSummary"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{id}/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminMerchantsController_export"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/merchants/{merchantId}/pieces": {
         parameters: {
             query?: never;
@@ -867,6 +899,16 @@ export interface components {
             profile?: components["schemas"]["MerchantProfileBody"];
             /** @enum {string} */
             status?: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+        };
+        MerchantDeletionSummary: {
+            archived: boolean;
+            canDelete: boolean;
+            customers: number;
+            stamps: number;
+            redemptions: number;
+            pieces: number;
+            customerAccounts: number;
+            staffUsers: number;
         };
         Piece: {
             /** Format: uuid */
@@ -1994,6 +2036,66 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Merchant"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMerchantsController_deletionSummary: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MerchantDeletionSummary"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMerchantsController_export: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/csv": string;
                 };
             };
             /** @description Error */
