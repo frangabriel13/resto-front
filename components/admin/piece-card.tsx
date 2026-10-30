@@ -18,6 +18,7 @@ type PieceCardProps = {
   merchantReviewUrl: string | null;
   piece: Piece;
   siteUrl: string;
+  editable: boolean;
 };
 
 export async function PieceCard({
@@ -26,6 +27,7 @@ export async function PieceCard({
   merchantReviewUrl,
   piece,
   siteUrl,
+  editable,
 }: PieceCardProps) {
   const url = pieceUrl(siteUrl, piece.publicCode);
   const svg = await pieceQrSvg(url);
@@ -66,7 +68,9 @@ export async function PieceCard({
           </Button>
         </div>
         <NfcPassword merchantId={merchantId} pieceId={piece.id} />
-        <PieceActions merchantId={merchantId} piece={piece} merchantReviewUrl={merchantReviewUrl} />
+        {editable && (
+          <PieceActions merchantId={merchantId} piece={piece} merchantReviewUrl={merchantReviewUrl} />
+        )}
       </div>
     </li>
   );

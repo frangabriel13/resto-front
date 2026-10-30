@@ -19,7 +19,7 @@ import {
   type MerchantDataValues,
 } from "./schemas";
 
-export function MerchantDataForm({ merchant }: { merchant: AdminMerchant }) {
+export function MerchantDataForm({ merchant, readOnly }: { merchant: AdminMerchant; readOnly: boolean }) {
   const router = useRouter();
   const [saved, setSaved] = useState(false);
   const form = useForm<MerchantDataValues>({
@@ -45,11 +45,13 @@ export function MerchantDataForm({ merchant }: { merchant: AdminMerchant }) {
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} noValidate>
-      <FieldGroup>
+      <fieldset disabled={readOnly} className="min-w-0">
+        <FieldGroup>
         <FormAlert message={form.formState.errors.root?.message} />
         <MerchantDataFields control={form.control} savedPhone={merchant.profile.contactPhone} />
         <SaveRow pending={form.formState.isSubmitting} saved={saved && !form.formState.isDirty} />
-      </FieldGroup>
+        </FieldGroup>
+      </fieldset>
     </form>
   );
 }

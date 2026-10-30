@@ -1,22 +1,21 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { statusFilterHref, statusFilters } from "@/lib/admin/status-filter";
-import type { MerchantStatus } from "@/lib/merchants/status";
+import { statusFilterHref, statusFilters, type MerchantFilter } from "@/lib/admin/status-filter";
 
-const options = [{ status: null, label: "Todos" }, ...statusFilters];
+const options = [{ filter: null, label: "Todos" }, ...statusFilters];
 
-export function MerchantStatusFilter({ current }: { current: MerchantStatus | null }) {
+export function MerchantStatusFilter({ current }: { current: MerchantFilter | null }) {
   return (
-    <nav aria-label="Filtrar por estado del club" className="flex flex-wrap gap-2">
-      {options.map(({ status, label }) => (
+    <nav aria-label="Filtrar comercios" className="flex flex-wrap gap-2">
+      {options.map(({ filter, label }) => (
         <Button
           key={label}
           asChild
           size="sm"
-          variant={current === status ? "default" : "outline"}
+          variant={current === filter ? "default" : "outline"}
           className="h-9 rounded-full"
         >
-          <Link href={statusFilterHref(status)} aria-current={current === status ? "true" : undefined}>
+          <Link href={statusFilterHref(filter)} aria-current={current === filter ? "true" : undefined}>
             {label}
           </Link>
         </Button>

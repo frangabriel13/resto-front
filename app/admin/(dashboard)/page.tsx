@@ -35,12 +35,12 @@ export default function AdminMerchantsPage({ searchParams }: PageProps<"/admin">
 }
 
 async function Merchants({ searchParams }: Pick<PageProps<"/admin">, "searchParams">) {
-  const status = parseStatusFilter((await searchParams).estado);
-  const merchants = await getMerchants(status);
+  const filter = parseStatusFilter((await searchParams).estado);
+  const merchants = await getMerchants(filter);
   return (
     <div className="flex flex-col gap-4">
-      <MerchantStatusFilter current={status} />
-      <MerchantList merchants={merchants} filtered={status !== null} />
+      <MerchantStatusFilter current={filter} />
+      <MerchantList merchants={merchants} filter={filter} />
     </div>
   );
 }

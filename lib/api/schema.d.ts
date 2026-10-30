@@ -238,10 +238,42 @@ export interface paths {
         get: operations["AdminMerchantsController_get"];
         put?: never;
         post?: never;
-        delete?: never;
+        delete: operations["AdminMerchantsController_delete"];
         options?: never;
         head?: never;
         patch: operations["AdminMerchantsController_update"];
+        trace?: never;
+    };
+    "/admin/merchants/{id}/archive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminMerchantsController_archive"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{id}/unarchive": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminMerchantsController_unarchive"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/admin/merchants/{merchantId}/pieces": {
@@ -683,7 +715,7 @@ export interface components {
         ApiError: {
             statusCode: number;
             /** @enum {string} */
-            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "OTP_DELIVERY_FAILED" | "NAME_REQUIRED" | "STAMP_TOKEN_INVALID" | "STAMP_TOKEN_EXPIRED" | "CUSTOMER_OF_OTHER_MERCHANT" | "MEMBERSHIP_LEFT" | "COOLDOWN_ACTIVE" | "VOID_NOT_ALLOWED" | "STAMP_IN_REDEEMED_CYCLE" | "STAMP_ALREADY_VOIDED" | "INSUFFICIENT_BALANCE" | "REDEMPTION_ALREADY_VOIDED" | "REDEMPTION_NOT_LAST" | "NEW_CYCLE_HAS_STAMPS" | "INVALID_DATE_RANGE" | "IDEMPOTENCY_KEY_REUSED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "ACTIVE_RULE_REQUIRED" | "RESET_TOKEN_INVALID" | "STAFF_IS_OWNER" | "STAFF_ACCOUNT_SHARED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
+            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "OTP_DELIVERY_FAILED" | "NAME_REQUIRED" | "STAMP_TOKEN_INVALID" | "STAMP_TOKEN_EXPIRED" | "CUSTOMER_OF_OTHER_MERCHANT" | "MEMBERSHIP_LEFT" | "COOLDOWN_ACTIVE" | "VOID_NOT_ALLOWED" | "STAMP_IN_REDEEMED_CYCLE" | "STAMP_ALREADY_VOIDED" | "INSUFFICIENT_BALANCE" | "REDEMPTION_ALREADY_VOIDED" | "REDEMPTION_NOT_LAST" | "NEW_CYCLE_HAS_STAMPS" | "INVALID_DATE_RANGE" | "IDEMPOTENCY_KEY_REUSED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "MERCHANT_NOT_ARCHIVABLE" | "MERCHANT_ARCHIVED" | "MERCHANT_HAS_CUSTOMERS" | "ACTIVE_RULE_REQUIRED" | "RESET_TOKEN_INVALID" | "STAFF_IS_OWNER" | "STAFF_ACCOUNT_SHARED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
             message: string;
             details?: {
                 [key: string]: unknown;
@@ -766,6 +798,8 @@ export interface components {
             hasActiveRule: boolean;
             activeOwners: number;
             /** Format: date-time */
+            archivedAt: string | null;
+            /** Format: date-time */
             createdAt: string;
         };
         Merchant: {
@@ -780,6 +814,8 @@ export interface components {
             stampCooldownMinutes: number;
             /** @enum {string} */
             status: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+            /** Format: date-time */
+            archivedAt: string | null;
             /** Format: date-time */
             createdAt: string;
             /** Format: date-time */
@@ -1758,6 +1794,7 @@ export interface operations {
         parameters: {
             query?: {
                 status?: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
+                archived?: "true" | "false";
             };
             header?: never;
             path?: never;
@@ -1846,6 +1883,36 @@ export interface operations {
             };
         };
     };
+    AdminMerchantsController_delete: {
+        parameters: {
+            query: {
+                confirmName: string;
+            };
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
     AdminMerchantsController_update: {
         parameters: {
             query?: never;
@@ -1860,6 +1927,66 @@ export interface operations {
                 "application/json": components["schemas"]["UpdateMerchantBody"];
             };
         };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Merchant"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMerchantsController_archive: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Merchant"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMerchantsController_unarchive: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             200: {
                 headers: {

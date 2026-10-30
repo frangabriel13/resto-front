@@ -1,20 +1,22 @@
 import { ChevronRightIcon, StoreIcon } from "lucide-react";
 import Link from "next/link";
 import { MerchantStatusBadge } from "@/components/merchants/merchant-status-badge";
+import { Badge } from "@/components/ui/badge";
+import type { MerchantFilter } from "@/lib/admin/status-filter";
 import type { MerchantSummary } from "@/lib/admin/types";
 import { adminRoutes } from "@/lib/admin/routes";
 
 export function MerchantList({
   merchants,
-  filtered,
+  filter,
 }: {
   merchants: MerchantSummary[];
-  filtered: boolean;
+  filter: MerchantFilter | null;
 }) {
-  if (merchants.length === 0 && filtered) {
+  if (merchants.length === 0 && filter) {
     return (
       <p className="rounded-xl border border-dashed px-6 py-12 text-center text-sm text-muted-foreground">
-        No hay comercios en este estado.
+        {filter === "ARCHIVED" ? "No hay comercios archivados." : "No hay comercios en este estado."}
       </p>
     );
   }
@@ -40,6 +42,7 @@ export function MerchantList({
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-medium break-words text-primary">{merchant.name}</span>
                 <MerchantStatusBadge status={merchant.status} />
+                {merchant.archivedAt && <Badge variant="outline">Archivado</Badge>}
               </div>
               <span className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
                 <span className="font-mono">{merchant.slug}</span>
