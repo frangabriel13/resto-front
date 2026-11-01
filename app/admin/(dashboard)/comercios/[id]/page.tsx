@@ -1,4 +1,6 @@
+import { ListIcon } from "lucide-react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 import { FormAlert } from "@/components/form/form-alert";
 import { LoadingBlock } from "@/components/loading-block";
@@ -15,6 +17,7 @@ import { NewPieceButton } from "@/components/admin/new-piece-button";
 import { OwnerForm } from "@/components/admin/owner-form";
 import { PieceCard } from "@/components/admin/piece-card";
 import { MerchantStatusBadge } from "@/components/merchants/merchant-status-badge";
+import { Button } from "@/components/ui/button";
 import { getMerchantWithPieces } from "@/lib/admin/data";
 import { adminRoutes } from "@/lib/admin/routes";
 import { siteUrl } from "@/lib/site";
@@ -86,6 +89,18 @@ async function MerchantDetail({
           <MerchantImages merchant={merchant} readOnly={archived} />
           <MerchantPageForm merchant={merchant} readOnly={archived} />
         </div>
+      </SectionCard>
+
+      <SectionCard
+        title="Carta"
+        description="Categorías, ítems y precios que ve el cliente en la página. Sin ítems visibles, el botón no aparece."
+      >
+        <Button asChild variant="outline" className="h-10">
+          <Link href={adminRoutes.merchantMenu(merchant.id)}>
+            <ListIcon />
+            {archived ? "Ver la carta" : "Editar la carta"}
+          </Link>
+        </Button>
       </SectionCard>
 
       <SectionCard

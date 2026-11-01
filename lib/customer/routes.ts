@@ -2,6 +2,7 @@ export const customerRoutes = {
   account: "/cuenta",
   piece: (code: string) => `/p/${encodeURIComponent(code)}`,
   pieceClub: (code: string) => `/p/${encodeURIComponent(code)}/club`,
+  pieceMenu: (code: string) => `/p/${encodeURIComponent(code)}/carta`,
   pieceWifi: (code: string) => `/p/${encodeURIComponent(code)}/wifi`,
   card: (slug: string) => `/c/${encodeURIComponent(slug)}`,
   // Ingresar y volver a `path` (por ejemplo, la tarjeta que quería ver).

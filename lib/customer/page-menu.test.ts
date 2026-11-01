@@ -20,6 +20,7 @@ function piece(overrides: Partial<ClubPiece> = {}, merchant: Partial<ClubPiece["
       ...merchant,
     },
     page: { wifi: null, socials: [] },
+    menu: null,
     rewardRule: null,
     ...overrides,
   } as ClubPiece;
@@ -65,6 +66,23 @@ describe("pageMenu", () => {
       { kind: "wifi", label: "Conectarse al Wi-Fi", href: "/p/abc/wifi" },
     ]);
     expect(labels({ ...full, state: "ACTIVE", canJoin: true }, "abc", guest)[0]).toBe("Sumarse al club");
+  });
+});
+
+describe("pageMenu: carta", () => {
+  const menu = { label: "SERVICES", categories: [] } as unknown as ClubPiece["menu"];
+
+  it("va con su nombre, después del club y antes de la reseña", () => {
+    const full = piece({ menu }, { googleReviewUrl: "https://g.page/r/x/review" });
+    expect(pageMenu(full, "abc", guest)).toEqual([
+      { kind: "club", label: "Sumarse al club", href: "/p/abc/club" },
+      { kind: "menu", label: "Ver servicios", href: "/p/abc/carta" },
+      { kind: "review", label: "Dejar una reseña", url: "https://g.page/r/x/review" },
+    ]);
+  });
+
+  it("sale en cualquier estado del club", () => {
+    expect(labels(piece({ state: "CLUB_NOT_OPEN", canJoin: false, menu }), "abc", guest)).toEqual(["Ver servicios"]);
   });
 });
 

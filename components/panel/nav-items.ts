@@ -2,6 +2,7 @@ import {
   ActivityIcon,
   GiftIcon,
   HouseIcon,
+  ListIcon,
   ScanLineIcon,
   SettingsIcon,
   UserCogIcon,
@@ -22,6 +23,7 @@ export const mainNavItems: NavItem[] = [
 
 const ownerNavItems: NavItem[] = [
   { href: panelRoutes.reward, label: "Premio", icon: GiftIcon },
+  { href: panelRoutes.menu, label: "Carta", icon: ListIcon },
   { href: panelRoutes.staff, label: "Empleados", icon: UserCogIcon },
   { href: panelRoutes.settings, label: "Configuración", icon: SettingsIcon },
 ];
