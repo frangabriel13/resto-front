@@ -8,7 +8,7 @@ type PieceDestinationBody = components["schemas"]["PieceDestinationBody"];
 export type DestinationType = PieceDestination["type"];
 
 export const destinationOptions: { type: DestinationType; label: string; description: string }[] = [
-  { type: "CLUB", label: "Página del comercio", description: "Muestra su menú: club, reseña, Wi-Fi y redes." },
+  { type: "CLUB", label: "Página del comercio", description: "Muestra su menú: club, carta, reseña, Wi-Fi y redes." },
   { type: "GOOGLE_REVIEWS", label: "Reseñas de Google", description: "Abre la página para dejar una reseña." },
   { type: "INSTAGRAM", label: "Instagram", description: "Abre el perfil del comercio." },
   { type: "WHATSAPP", label: "WhatsApp", description: "Abre un chat con el comercio." },

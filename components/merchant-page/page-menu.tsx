@@ -1,9 +1,9 @@
-import { StarIcon, TicketIcon, WifiIcon } from "lucide-react";
+import { ListIcon, StarIcon, TicketIcon, WifiIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import type { PageMenuItem } from "@/lib/customer/page-menu";
 
-const icons = { club: TicketIcon, review: StarIcon, wifi: WifiIcon };
+const icons = { club: TicketIcon, menu: ListIcon, review: StarIcon, wifi: WifiIcon };
 
 export function PageMenu({ items }: { items: PageMenuItem[] }) {
   if (items.length === 0) return null;

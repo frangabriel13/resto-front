@@ -404,6 +404,262 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/merchants/{merchantId}/menu": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["AdminMenuController_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/menu/label": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["AdminMenuController_setLabel"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/menu/categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminMenuController_createCategory"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/menu/categories/{categoryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["AdminMenuController_deleteCategory"];
+        options?: never;
+        head?: never;
+        patch: operations["AdminMenuController_updateCategory"];
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/menu/categories/{categoryId}/move": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminMenuController_moveCategory"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/menu/categories/{categoryId}/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminMenuController_createItem"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/menu/items/{itemId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["AdminMenuController_deleteItem"];
+        options?: never;
+        head?: never;
+        patch: operations["AdminMenuController_updateItem"];
+        trace?: never;
+    };
+    "/admin/merchants/{merchantId}/menu/items/{itemId}/move": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["AdminMenuController_moveItem"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/menu": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["PanelMenuController_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/menu/label": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["PanelMenuController_setLabel"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/menu/categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["PanelMenuController_createCategory"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/menu/categories/{categoryId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["PanelMenuController_deleteCategory"];
+        options?: never;
+        head?: never;
+        patch: operations["PanelMenuController_updateCategory"];
+        trace?: never;
+    };
+    "/panel/menu/categories/{categoryId}/move": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["PanelMenuController_moveCategory"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/menu/categories/{categoryId}/items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["PanelMenuController_createItem"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/panel/menu/items/{itemId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: operations["PanelMenuController_deleteItem"];
+        options?: never;
+        head?: never;
+        patch: operations["PanelMenuController_updateItem"];
+        trace?: never;
+    };
+    "/panel/menu/items/{itemId}/move": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["PanelMenuController_moveItem"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/public/pieces/{code}": {
         parameters: {
             query?: never;
@@ -779,7 +1035,7 @@ export interface components {
         ApiError: {
             statusCode: number;
             /** @enum {string} */
-            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "OTP_DELIVERY_FAILED" | "NAME_REQUIRED" | "STAMP_TOKEN_INVALID" | "STAMP_TOKEN_EXPIRED" | "CUSTOMER_OF_OTHER_MERCHANT" | "MEMBERSHIP_LEFT" | "COOLDOWN_ACTIVE" | "VOID_NOT_ALLOWED" | "STAMP_IN_REDEEMED_CYCLE" | "STAMP_ALREADY_VOIDED" | "INSUFFICIENT_BALANCE" | "REDEMPTION_ALREADY_VOIDED" | "REDEMPTION_NOT_LAST" | "NEW_CYCLE_HAS_STAMPS" | "INVALID_DATE_RANGE" | "IDEMPOTENCY_KEY_REUSED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "MERCHANT_NOT_ARCHIVABLE" | "MERCHANT_ARCHIVED" | "IMAGE_TYPE_NOT_ALLOWED" | "IMAGE_TOO_LARGE" | "IMAGE_STORAGE_UNAVAILABLE" | "IMAGE_UPLOAD_FAILED" | "MERCHANT_HAS_CUSTOMERS" | "ACTIVE_RULE_REQUIRED" | "RESET_TOKEN_INVALID" | "STAFF_IS_OWNER" | "STAFF_ACCOUNT_SHARED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
+            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "OTP_DELIVERY_FAILED" | "NAME_REQUIRED" | "STAMP_TOKEN_INVALID" | "STAMP_TOKEN_EXPIRED" | "CUSTOMER_OF_OTHER_MERCHANT" | "MEMBERSHIP_LEFT" | "COOLDOWN_ACTIVE" | "VOID_NOT_ALLOWED" | "STAMP_IN_REDEEMED_CYCLE" | "STAMP_ALREADY_VOIDED" | "INSUFFICIENT_BALANCE" | "REDEMPTION_ALREADY_VOIDED" | "REDEMPTION_NOT_LAST" | "NEW_CYCLE_HAS_STAMPS" | "INVALID_DATE_RANGE" | "IDEMPOTENCY_KEY_REUSED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "MERCHANT_NOT_ARCHIVABLE" | "MERCHANT_ARCHIVED" | "IMAGE_TYPE_NOT_ALLOWED" | "IMAGE_TOO_LARGE" | "IMAGE_STORAGE_UNAVAILABLE" | "IMAGE_UPLOAD_FAILED" | "MENU_LIMIT_REACHED" | "MERCHANT_HAS_CUSTOMERS" | "ACTIVE_RULE_REQUIRED" | "RESET_TOKEN_INVALID" | "STAFF_IS_OWNER" | "STAFF_ACCOUNT_SHARED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
             message: string;
             details?: {
                 [key: string]: unknown;
@@ -1069,6 +1325,57 @@ export interface components {
             rewardDescription: string;
             conditions: string | null;
         };
+        Menu: {
+            /** @enum {string} */
+            label: "CARTA" | "MENU" | "SERVICES" | "PRODUCTS" | "PRICE_LIST";
+            categories: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                visible: boolean;
+                items: {
+                    /** Format: uuid */
+                    id: string;
+                    name: string;
+                    description: string | null;
+                    price: number | null;
+                    priceFrom: boolean;
+                    visible: boolean;
+                }[];
+            }[];
+        };
+        MenuLabelBody: {
+            /** @enum {string} */
+            label: "CARTA" | "MENU" | "SERVICES" | "PRODUCTS" | "PRICE_LIST";
+        };
+        CreateMenuCategoryBody: {
+            name: string;
+            visible?: boolean;
+        };
+        UpdateMenuCategoryBody: {
+            name?: string;
+            visible?: boolean;
+        };
+        MoveMenuBody: {
+            /** @enum {string} */
+            direction: "up" | "down";
+        };
+        CreateMenuItemBody: {
+            name: string;
+            description?: string | null;
+            price?: number | null;
+            priceFrom?: boolean;
+            visible?: boolean;
+        };
+        UpdateMenuItemBody: {
+            name?: string;
+            description?: string | null;
+            price?: number | null;
+            priceFrom?: boolean;
+            visible?: boolean;
+            /** Format: uuid */
+            categoryId?: string;
+        };
         PublicPiece: {
             /** @enum {string} */
             state: "PIECE_INACTIVE";
@@ -1092,6 +1399,7 @@ export interface components {
                 googleReviewUrl: string | null;
             };
             page: components["schemas"]["PublicMerchantPage"];
+            menu: components["schemas"]["PublicMenu"] | null;
             rewardRule: {
                 stampsRequired: number;
                 rewardDescription: string;
@@ -1110,6 +1418,23 @@ export interface components {
                 /** @enum {string} */
                 type: "INSTAGRAM" | "TIKTOK" | "WHATSAPP" | "FACEBOOK";
                 url: string;
+            }[];
+        };
+        PublicMenu: {
+            /** @enum {string} */
+            label: "CARTA" | "MENU" | "SERVICES" | "PRODUCTS" | "PRICE_LIST";
+            categories: {
+                /** Format: uuid */
+                id: string;
+                name: string;
+                items: {
+                    /** Format: uuid */
+                    id: string;
+                    name: string;
+                    description: string | null;
+                    price: number | null;
+                    priceFrom: boolean;
+                }[];
             }[];
         };
         Me: {
@@ -2482,6 +2807,663 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RewardRule"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMenuController_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMenuController_setLabel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MenuLabelBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMenuController_createCategory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateMenuCategoryBody"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMenuController_deleteCategory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                categoryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMenuController_updateCategory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                categoryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateMenuCategoryBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMenuController_moveCategory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                categoryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MoveMenuBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMenuController_createItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                categoryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateMenuItemBody"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMenuController_deleteItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                itemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMenuController_updateItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                itemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateMenuItemBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMenuController_moveItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                merchantId: string;
+                itemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MoveMenuBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelMenuController_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelMenuController_setLabel: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MenuLabelBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelMenuController_createCategory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateMenuCategoryBody"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelMenuController_deleteCategory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                categoryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelMenuController_updateCategory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                categoryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateMenuCategoryBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelMenuController_moveCategory: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                categoryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MoveMenuBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelMenuController_createItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                categoryId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateMenuItemBody"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelMenuController_deleteItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                itemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelMenuController_updateItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                itemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateMenuItemBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    PanelMenuController_moveItem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                itemId: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MoveMenuBody"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Menu"];
                 };
             };
             /** @description Error */

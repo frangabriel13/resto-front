@@ -28,6 +28,17 @@ export function formatDateTime(iso: string): string {
   return `${shortDateFormat.format(date)} · ${timeFormat.format(date)}`;
 }
 
+const pesosFormat = new Intl.NumberFormat("es-AR", {
+  style: "currency",
+  currency: "ARS",
+  maximumFractionDigits: 0,
+});
+
+// Pesos enteros: "$ 1.500".
+export function formatPesos(amount: number): string {
+  return pesosFormat.format(amount);
+}
+
 // Segundos como "m:ss" (cuenta regresiva para reenviar el código).
 export function formatCountdown(seconds: number): string {
   const safe = Math.max(0, Math.ceil(seconds));

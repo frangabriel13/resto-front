@@ -1,8 +1,10 @@
+import { menuTexts } from "./menu";
 import { customerRoutes } from "./routes";
 import type { ClubPiece } from "./types";
 
 export type PageMenuItem =
   | { kind: "club"; label: string; href: string }
+  | { kind: "menu"; label: string; href: string }
   | { kind: "review"; label: string; url: string }
   | { kind: "wifi"; label: string; href: string };
 
@@ -28,6 +30,9 @@ export function pageMenu(piece: ClubPiece, code: string, visitor: Visitor): Page
   const reviewUrl = piece.merchant.googleReviewUrl;
   return [
     ...(club ? [club] : []),
+    ...(piece.menu
+      ? [{ kind: "menu", label: menuTexts[piece.menu.label].button, href: customerRoutes.pieceMenu(code) } as const]
+      : []),
     ...(reviewUrl ? [{ kind: "review", label: "Dejar una reseña", url: reviewUrl } as const] : []),
     ...(piece.page.wifi
       ? [{ kind: "wifi", label: "Conectarse al Wi-Fi", href: customerRoutes.pieceWifi(code) } as const]

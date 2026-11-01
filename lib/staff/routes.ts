@@ -4,6 +4,7 @@ export const panelRoutes = {
   customers: "/panel/clientes",
   activity: "/panel/actividad",
   reward: "/panel/premio",
+  menu: "/panel/carta",
   staff: "/panel/empleados",
   settings: "/panel/configuracion",
 } as const;
