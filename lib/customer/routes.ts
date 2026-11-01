@@ -1,6 +1,8 @@
 export const customerRoutes = {
   account: "/cuenta",
   piece: (code: string) => `/p/${encodeURIComponent(code)}`,
+  pieceClub: (code: string) => `/p/${encodeURIComponent(code)}/club`,
+  pieceWifi: (code: string) => `/p/${encodeURIComponent(code)}/wifi`,
   card: (slug: string) => `/c/${encodeURIComponent(slug)}`,
   // Ingresar y volver a `path` (por ejemplo, la tarjeta que quería ver).
   login: (path: string) => `/cuenta?volver=${encodeURIComponent(path)}`,

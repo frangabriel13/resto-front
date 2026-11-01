@@ -1,14 +1,14 @@
 import { z } from "zod";
 import type { components } from "@/lib/api/schema";
 import { looksLikePhone } from "@/lib/customer/phone";
-import { isGoogleReviewUrl } from "@/lib/merchants/fields";
+import { instagramUsernamePattern, isGoogleReviewUrl } from "@/lib/merchants/fields";
 
 type PieceDestination = components["schemas"]["PieceDestination"];
 type PieceDestinationBody = components["schemas"]["PieceDestinationBody"];
 export type DestinationType = PieceDestination["type"];
 
 export const destinationOptions: { type: DestinationType; label: string; description: string }[] = [
-  { type: "CLUB", label: "Club de premios", description: "Muestra el club del comercio." },
+  { type: "CLUB", label: "Página del comercio", description: "Muestra su menú: club, reseña, Wi-Fi y redes." },
   { type: "GOOGLE_REVIEWS", label: "Reseñas de Google", description: "Abre la página para dejar una reseña." },
   { type: "INSTAGRAM", label: "Instagram", description: "Abre el perfil del comercio." },
   { type: "WHATSAPP", label: "WhatsApp", description: "Abre un chat con el comercio." },
@@ -32,9 +32,6 @@ export function destinationDetail(destination: PieceDestination): string | null 
   }
 }
 
-// Mismo formato que la API: con o sin @, letras, números, puntos y guiones bajos.
-const instagramUsername = /^@?[A-Za-z0-9._]{1,30}$/;
-
 const destinationSchema = z
   .object({
     type: z.enum(["CLUB", "GOOGLE_REVIEWS", "INSTAGRAM", "WHATSAPP"]),
@@ -48,7 +45,7 @@ const destinationSchema = z
     if (values.type === "GOOGLE_REVIEWS" && !isGoogleReviewUrl(values.url)) {
       fail("url", "Tiene que ser un link https de Google (por ejemplo, https://g.page/…).");
     }
-    if (values.type === "INSTAGRAM" && !instagramUsername.test(values.username)) {
+    if (values.type === "INSTAGRAM" && !instagramUsernamePattern.test(values.username)) {
       fail("username", "Ingresá el usuario, por ejemplo @cafedelaesquina.");
     }
     if (values.type === "WHATSAPP" && !looksLikePhone(values.phone)) {

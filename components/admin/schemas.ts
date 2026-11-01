@@ -4,9 +4,9 @@ import {
   cooldownMinutes,
   optionalColor,
   optionalGoogleReviewUrl,
-  optionalHttpsUrl,
   orNull,
 } from "@/lib/merchants/fields";
+import { emptyPageValues, pageSchema, toPageBody } from "@/lib/merchants/page";
 import { emptyProfileValues, profileSchema, toProfileBody, toProfileValues } from "@/lib/admin/profile";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -43,7 +43,6 @@ export type MerchantDataValues = z.infer<typeof merchantDataSchema>;
 
 export const clubSettingsSchema = z.object({
   slug,
-  logoUrl: optionalHttpsUrl,
   primaryColor: optionalColor,
   secondaryColor: optionalColor,
   stampCooldownMinutes: cooldownMinutes,
@@ -55,6 +54,7 @@ export const newMerchantSchema = merchantDataSchema.extend({
   ...clubSettingsSchema.shape,
   slug: orEmpty(slug),
   stampCooldownMinutes: orEmpty(cooldownMinutes),
+  page: pageSchema,
 });
 
 export type NewMerchantValues = z.infer<typeof newMerchantSchema>;
@@ -68,10 +68,10 @@ export const newMerchantDefaults: NewMerchantValues = {
   googleReviewUrl: "",
   profile: emptyProfileValues,
   slug: "",
-  logoUrl: "",
   primaryColor: "",
   secondaryColor: "",
   stampCooldownMinutes: "",
+  page: emptyPageValues,
 };
 
 export function toMerchantDataValues(merchant: Merchant): MerchantDataValues {
@@ -93,7 +93,6 @@ export function toMerchantDataBody(values: MerchantDataValues): UpdateMerchantBo
 export function toClubSettingsValues(merchant: Merchant): ClubSettingsValues {
   return {
     slug: merchant.slug,
-    logoUrl: merchant.logoUrl ?? "",
     primaryColor: merchant.primaryColor ?? "",
     secondaryColor: merchant.secondaryColor ?? "",
     stampCooldownMinutes: String(merchant.stampCooldownMinutes),
@@ -103,7 +102,6 @@ export function toClubSettingsValues(merchant: Merchant): ClubSettingsValues {
 export function toClubSettingsBody(values: ClubSettingsValues): UpdateMerchantBody {
   return {
     slug: values.slug,
-    logoUrl: orNull(values.logoUrl),
     primaryColor: orNull(values.primaryColor),
     secondaryColor: orNull(values.secondaryColor),
     stampCooldownMinutes: Number(values.stampCooldownMinutes),
@@ -116,7 +114,7 @@ export function toCreateMerchantBody(values: NewMerchantValues): CreateMerchantB
     googleReviewUrl: orNull(values.googleReviewUrl),
     profile: toProfileBody(values.profile),
     slug: values.slug || undefined,
-    logoUrl: orNull(values.logoUrl),
+    page: toPageBody(values.page),
     primaryColor: orNull(values.primaryColor),
     secondaryColor: orNull(values.secondaryColor),
     stampCooldownMinutes: values.stampCooldownMinutes ? Number(values.stampCooldownMinutes) : undefined,

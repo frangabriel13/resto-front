@@ -19,7 +19,7 @@ describe("toCreateMerchantBody", () => {
     const body = toCreateMerchantBody({ ...newMerchantDefaults, name: "Café" });
     expect(body.slug).toBeUndefined();
     expect(body.stampCooldownMinutes).toBeUndefined();
-    expect(body).toMatchObject({ name: "Café", logoUrl: null, googleReviewUrl: null });
+    expect(body).toMatchObject({ name: "Café", googleReviewUrl: null, page: { wifi: null } });
   });
 
   it("manda lo que se cargó", () => {

@@ -308,6 +308,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/merchants/{id}/images/{kind}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["AdminMerchantsController_uploadImage"];
+        post?: never;
+        delete: operations["AdminMerchantsController_removeImage"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/merchants/{merchantId}/pieces": {
         parameters: {
             query?: never;
@@ -660,6 +676,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/panel/settings/cover": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["SettingsController_uploadCover"];
+        post?: never;
+        delete: operations["SettingsController_removeCover"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/panel/staff": {
         parameters: {
             query?: never;
@@ -747,7 +779,7 @@ export interface components {
         ApiError: {
             statusCode: number;
             /** @enum {string} */
-            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "OTP_DELIVERY_FAILED" | "NAME_REQUIRED" | "STAMP_TOKEN_INVALID" | "STAMP_TOKEN_EXPIRED" | "CUSTOMER_OF_OTHER_MERCHANT" | "MEMBERSHIP_LEFT" | "COOLDOWN_ACTIVE" | "VOID_NOT_ALLOWED" | "STAMP_IN_REDEEMED_CYCLE" | "STAMP_ALREADY_VOIDED" | "INSUFFICIENT_BALANCE" | "REDEMPTION_ALREADY_VOIDED" | "REDEMPTION_NOT_LAST" | "NEW_CYCLE_HAS_STAMPS" | "INVALID_DATE_RANGE" | "IDEMPOTENCY_KEY_REUSED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "MERCHANT_NOT_ARCHIVABLE" | "MERCHANT_ARCHIVED" | "MERCHANT_HAS_CUSTOMERS" | "ACTIVE_RULE_REQUIRED" | "RESET_TOKEN_INVALID" | "STAFF_IS_OWNER" | "STAFF_ACCOUNT_SHARED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
+            code: "BAD_REQUEST" | "VALIDATION_ERROR" | "UNAUTHENTICATED" | "FORBIDDEN" | "NOT_FOUND" | "CONFLICT" | "INVALID_CREDENTIALS" | "NO_ACTIVE_MERCHANT" | "PASSWORD_CHANGE_REQUIRED" | "MERCHANT_NOT_SELECTED" | "MERCHANT_ACCESS_REVOKED" | "OTP_INVALID" | "OTP_EXPIRED" | "OTP_TOO_MANY_ATTEMPTS" | "OTP_RESEND_TOO_SOON" | "OTP_LIMIT_REACHED" | "OTP_DELIVERY_FAILED" | "NAME_REQUIRED" | "STAMP_TOKEN_INVALID" | "STAMP_TOKEN_EXPIRED" | "CUSTOMER_OF_OTHER_MERCHANT" | "MEMBERSHIP_LEFT" | "COOLDOWN_ACTIVE" | "VOID_NOT_ALLOWED" | "STAMP_IN_REDEEMED_CYCLE" | "STAMP_ALREADY_VOIDED" | "INSUFFICIENT_BALANCE" | "REDEMPTION_ALREADY_VOIDED" | "REDEMPTION_NOT_LAST" | "NEW_CYCLE_HAS_STAMPS" | "INVALID_DATE_RANGE" | "IDEMPOTENCY_KEY_REUSED" | "MERCHANT_NOT_ACCEPTING_MEMBERS" | "MERCHANT_READ_ONLY" | "SLUG_TAKEN" | "SLUG_LOCKED" | "INVALID_STATUS_TRANSITION" | "MERCHANT_NOT_ARCHIVABLE" | "MERCHANT_ARCHIVED" | "IMAGE_TYPE_NOT_ALLOWED" | "IMAGE_TOO_LARGE" | "IMAGE_STORAGE_UNAVAILABLE" | "IMAGE_UPLOAD_FAILED" | "MERCHANT_HAS_CUSTOMERS" | "ACTIVE_RULE_REQUIRED" | "RESET_TOKEN_INVALID" | "STAFF_IS_OWNER" | "STAFF_ACCOUNT_SHARED" | "STAFF_ALREADY_IN_MERCHANT" | "CURRENT_PASSWORD_INCORRECT" | "RATE_LIMITED" | "INTERNAL_ERROR";
             message: string;
             details?: {
                 [key: string]: unknown;
@@ -853,6 +885,7 @@ export interface components {
             /** Format: date-time */
             updatedAt: string;
             profile: components["schemas"]["MerchantProfile"];
+            page: components["schemas"]["MerchantPage"];
         };
         MerchantProfile: {
             contactName: string | null;
@@ -863,6 +896,19 @@ export interface components {
             /** Format: date */
             googleDataTakenOn: string | null;
             notes: string | null;
+        };
+        MerchantPage: {
+            coverUrl: string | null;
+            wifi: {
+                ssid: string;
+                password: string | null;
+                /** @enum {string} */
+                security: "WPA" | "WEP" | "NONE";
+            } | null;
+            instagramUsername: string | null;
+            tiktokUsername: string | null;
+            whatsappPhone: string | null;
+            facebookUrl: string | null;
         };
         CreateMerchantBody: {
             name: string;
@@ -875,6 +921,7 @@ export interface components {
             googleReviewUrl?: string | null;
             stampCooldownMinutes?: number;
             profile?: components["schemas"]["MerchantProfileBody"];
+            page?: components["schemas"]["MerchantPageBody"];
         };
         MerchantProfileBody: {
             contactName?: string | null;
@@ -885,6 +932,29 @@ export interface components {
             /** Format: date */
             googleDataTakenOn?: string | null;
             notes?: string | null;
+        };
+        MerchantPageBody: {
+            wifi?: components["schemas"]["WifiBody"] | null;
+            instagramUsername?: string | null;
+            tiktokUsername?: string | null;
+            whatsappPhone?: string | null;
+            /** Format: uri */
+            facebookUrl?: string | null;
+        };
+        WifiBody: {
+            /** @enum {string} */
+            security: "NONE";
+            ssid: string;
+        } | {
+            /** @enum {string} */
+            security: "WPA";
+            ssid: string;
+            password: string;
+        } | {
+            /** @enum {string} */
+            security: "WEP";
+            ssid: string;
+            password: string;
         };
         UpdateMerchantBody: {
             name?: string;
@@ -897,6 +967,7 @@ export interface components {
             googleReviewUrl?: string | null;
             stampCooldownMinutes?: number;
             profile?: components["schemas"]["MerchantProfileBody"];
+            page?: components["schemas"]["MerchantPageBody"];
             /** @enum {string} */
             status?: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
         };
@@ -1007,10 +1078,7 @@ export interface components {
             url: string;
         } | {
             /** @enum {string} */
-            state: "CLUB_NOT_OPEN";
-        } | {
-            /** @enum {string} */
-            state: "ACTIVE" | "PAUSED" | "ENDED";
+            state: "CLUB_NOT_OPEN" | "ACTIVE" | "PAUSED" | "ENDED";
             canJoin: boolean;
             merchant: {
                 /** Format: uuid */
@@ -1018,15 +1086,31 @@ export interface components {
                 name: string;
                 slug: string;
                 logoUrl: string | null;
+                coverUrl: string | null;
                 primaryColor: string | null;
                 secondaryColor: string | null;
                 googleReviewUrl: string | null;
             };
+            page: components["schemas"]["PublicMerchantPage"];
             rewardRule: {
                 stampsRequired: number;
                 rewardDescription: string;
                 conditions: string | null;
             } | null;
+        };
+        PublicMerchantPage: {
+            wifi: {
+                ssid: string;
+                password: string | null;
+                /** @enum {string} */
+                security: "WPA" | "WEP" | "NONE";
+                qrPayload: string;
+            } | null;
+            socials: {
+                /** @enum {string} */
+                type: "INSTAGRAM" | "TIKTOK" | "WHATSAPP" | "FACEBOOK";
+                url: string;
+            }[];
         };
         Me: {
             /** Format: uuid */
@@ -1401,6 +1485,7 @@ export interface components {
                 status: "DRAFT" | "ACTIVE" | "PAUSED" | "ENDED";
             };
             settings: components["schemas"]["MerchantSettings"];
+            page: components["schemas"]["MerchantPage"];
         };
         MerchantSettings: {
             primaryColor: string | null;
@@ -1408,6 +1493,14 @@ export interface components {
             /** Format: uri */
             googleReviewUrl: string | null;
             stampCooldownMinutes: number;
+        };
+        UpdateSettingsBody: {
+            primaryColor: string | null;
+            secondaryColor: string | null;
+            /** Format: uri */
+            googleReviewUrl: string | null;
+            stampCooldownMinutes: number;
+            page?: components["schemas"]["MerchantPageBody"];
         };
         StaffMember: {
             /** Format: uuid */
@@ -2096,6 +2189,75 @@ export interface operations {
                 };
                 content: {
                     "text/csv": string;
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMerchantsController_uploadImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                kind: "logo" | "cover";
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": {
+                    /** Format: binary */
+                    file: string;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Merchant"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    AdminMerchantsController_removeImage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+                kind: "logo" | "cover";
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Merchant"];
                 };
             };
             /** @description Error */
@@ -2985,9 +3147,72 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["MerchantSettings"];
+                "application/json": components["schemas"]["UpdateSettingsBody"];
             };
         };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SettingsView"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SettingsController_uploadCover: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": {
+                    /** Format: binary */
+                    file: string;
+                };
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SettingsView"];
+                };
+            };
+            /** @description Error */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiError"];
+                };
+            };
+        };
+    };
+    SettingsController_removeCover: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
         responses: {
             200: {
                 headers: {

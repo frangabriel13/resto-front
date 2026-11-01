@@ -1,14 +1,16 @@
-import { SearchXIcon, StoreIcon, TicketXIcon } from "lucide-react";
+import { SearchXIcon, TicketXIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { ClubLanding } from "@/components/club/club-landing";
 import { ClubMessage } from "@/components/club/club-message";
+import { ClubNotice } from "@/components/club/club-notice";
 import { LoadingBlock } from "@/components/loading-block";
+import { MerchantPageShell } from "@/components/merchant-page/merchant-page-shell";
+import { PageMenu } from "@/components/merchant-page/page-menu";
 import { getCustomerSession, getPublicPiece } from "@/lib/customer/data";
-import { customerRoutes } from "@/lib/customer/routes";
+import { pageMenu, pageNotices } from "@/lib/customer/page-menu";
 
-export const metadata: Metadata = { title: "Club de beneficios" };
+export const metadata: Metadata = { title: "Página del comercio" };
 
 export default function PiecePage({ params }: PageProps<"/p/[code]">) {
   return (
@@ -42,22 +44,16 @@ async function PieceContent({ params }: Pick<PageProps<"/p/[code]">, "params">) 
   }
   // Los escaneos con destino externo los redirige `proxy.ts` con un 302; esto cubre las navegaciones internas.
   if (piece.state === "REDIRECT") redirect(piece.url);
-  if (piece.state === "CLUB_NOT_OPEN") {
-    return (
-      <ClubMessage
-        icon={StoreIcon}
-        title="Este club todavía no abrió"
-        text="Volvé a escanear el código en unos días."
-      />
-    );
-  }
 
-  // Abrir la pieza nunca suma un sello: solo lleva al cliente a su tarjeta.
+  // Abrir la pieza nunca suma un sello: el socio ve el menú y desde ahí va a su tarjeta.
   const session = await getCustomerSession();
-  if (session?.memberships.some((m) => m.merchant.id === piece.merchant.id)) {
-    redirect(customerRoutes.card(piece.merchant.slug));
-  }
+  const isMember = session?.memberships.some((m) => m.merchant.id === piece.merchant.id) ?? false;
+  const notice = pageNotices[piece.state];
+
   return (
-    <ClubLanding piece={piece} pieceCode={code} customerName={session?.customer.name ?? null} />
+    <MerchantPageShell merchant={piece.merchant} socials={piece.page.socials}>
+      {notice && <ClubNotice>{notice}</ClubNotice>}
+      <PageMenu items={pageMenu(piece, code, { isMember, hasSession: session !== null })} />
+    </MerchantPageShell>
   );
 }

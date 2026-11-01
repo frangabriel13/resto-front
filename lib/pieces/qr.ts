@@ -1,8 +1,8 @@
 import "server-only";
 import QRCode from "qrcode";
 
-export function pieceQrSvg(url: string): Promise<string> {
-  return QRCode.toString(url, {
+export function qrSvg(text: string): Promise<string> {
+  return QRCode.toString(text, {
     type: "svg",
     errorCorrectionLevel: "M",
     margin: 2,
