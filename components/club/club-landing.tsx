@@ -1,17 +1,9 @@
-import Link from "next/link";
+import { BackLink } from "@/components/back-link";
 import { JoinClub } from "@/components/join/join-club";
 import { StampPreview } from "@/components/rewards/stamp-preview";
-import { Button } from "@/components/ui/button";
 import { customerRoutes } from "@/lib/customer/routes";
 import type { ClubPiece } from "@/lib/customer/types";
-import { ClubNotice } from "./club-notice";
 import { ClubShell } from "./club-shell";
-import { ReviewLink } from "./review-link";
-
-const stateNotices: Partial<Record<ClubPiece["state"], string>> = {
-  PAUSED: "El club está pausado: por ahora no se suman sellos ni clientes nuevos.",
-  ENDED: "Este club finalizó.",
-};
 
 type ClubLandingProps = {
   piece: ClubPiece;
@@ -19,27 +11,17 @@ type ClubLandingProps = {
   customerName: string | null;
 };
 
+// El premio, las condiciones y el alta; solo con el club abierto a nuevos clientes.
 export function ClubLanding({ piece, pieceCode, customerName }: ClubLandingProps) {
   const { merchant, rewardRule } = piece;
-  const notice = stateNotices[piece.state];
-  const ended = piece.state === "ENDED";
 
   return (
     <ClubShell merchant={merchant}>
-      {notice && <ClubNotice>{notice}</ClubNotice>}
+      <div className="-mb-4">
+        <BackLink href={customerRoutes.piece(pieceCode)}>Volver</BackLink>
+      </div>
 
-      {ended && !customerName && (
-        <section className="flex flex-col gap-3 text-center">
-          <p className="text-sm text-muted-foreground">
-            ¿Eras parte del club? Ingresá para ver tu historial.
-          </p>
-          <Button asChild variant="outline" className="h-11 w-full">
-            <Link href={customerRoutes.login(customerRoutes.card(merchant.slug))}>Ver mi historial</Link>
-          </Button>
-        </section>
-      )}
-
-      {rewardRule && !ended && (
+      {rewardRule && (
         <section className="flex flex-col gap-3">
           <h2 className="font-heading text-lg font-semibold">Juntá sellos y llevate tu premio</h2>
           <StampPreview
@@ -58,14 +40,10 @@ export function ClubLanding({ piece, pieceCode, customerName }: ClubLandingProps
         </section>
       )}
 
-      {piece.canJoin && (
-        <section id="unirme" className="flex flex-col gap-3">
-          <h2 className="font-heading text-lg font-semibold">Sumate al club</h2>
-          <JoinClub merchant={merchant} pieceCode={pieceCode} customerName={customerName} />
-        </section>
-      )}
-
-      <ReviewLink url={merchant.googleReviewUrl} />
+      <section id="unirme" className="flex flex-col gap-3">
+        <h2 className="font-heading text-lg font-semibold">Sumate al club</h2>
+        <JoinClub merchant={merchant} pieceCode={pieceCode} customerName={customerName} />
+      </section>
     </ClubShell>
   );
 }

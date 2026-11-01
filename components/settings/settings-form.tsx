@@ -9,6 +9,7 @@ import { FormAlert } from "@/components/form/form-alert";
 import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
 import { TextField } from "@/components/form/text-field";
+import { PageFields } from "@/components/merchant-page/page-fields";
 import { FieldGroup } from "@/components/ui/field";
 import { callApi } from "@/lib/api/call-api";
 import { clubsyColors } from "@/lib/brand/colors";
@@ -24,7 +25,7 @@ export function SettingsForm({ view, readOnly }: { view: SettingsView; readOnly:
   const [saved, setSaved] = useState(false);
   const form = useForm<SettingsValues>({
     resolver: zodResolver(settingsSchema),
-    values: toSettingsValues(view.settings),
+    values: toSettingsValues(view),
     disabled: readOnly,
   });
   const [primaryColor, secondaryColor, cooldown] = useWatch({
@@ -87,6 +88,7 @@ export function SettingsForm({ view, readOnly }: { view: SettingsView; readOnly:
             inputMode="numeric"
           />
         </div>
+        <PageFields control={form.control} />
         {!readOnly && (
           <div className="flex flex-col gap-2 sm:w-56">
             <SubmitButton pending={form.formState.isSubmitting}>Guardar cambios</SubmitButton>

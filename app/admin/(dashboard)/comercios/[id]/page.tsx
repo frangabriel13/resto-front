@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { FormAlert } from "@/components/form/form-alert";
 import { LoadingBlock } from "@/components/loading-block";
 import { SectionCard } from "@/components/section-card";
 import { BackLink } from "@/components/back-link";
@@ -7,6 +8,8 @@ import { ArchivedNotice } from "@/components/admin/archived-notice";
 import { ArchiveSection } from "@/components/admin/archive-section";
 import { ClubSettingsForm } from "@/components/admin/club-settings-form";
 import { MerchantDataForm } from "@/components/admin/merchant-data-form";
+import { MerchantImages } from "@/components/admin/merchant-images";
+import { MerchantPageForm } from "@/components/admin/merchant-page-form";
 import { MerchantStatusControl } from "@/components/admin/merchant-status-control";
 import { NewPieceButton } from "@/components/admin/new-piece-button";
 import { OwnerForm } from "@/components/admin/owner-form";
@@ -25,21 +28,25 @@ const statusHelp = {
   ENDED: "Los clientes ven su historial. El panel queda en solo lectura.",
 } as const;
 
-export default function AdminMerchantPage({ params }: PageProps<"/admin/comercios/[id]">) {
+export default function AdminMerchantPage({ params, searchParams }: PageProps<"/admin/comercios/[id]">) {
   return (
     <div className="flex max-w-3xl flex-col gap-6">
       <div>
         <BackLink href={adminRoutes.merchants}>Comercios</BackLink>
         <Suspense fallback={<LoadingBlock />}>
-          <MerchantDetail params={params} />
+          <MerchantDetail params={params} searchParams={searchParams} />
         </Suspense>
       </div>
     </div>
   );
 }
 
-async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]">, "params">) {
+async function MerchantDetail({
+  params,
+  searchParams,
+}: Pick<PageProps<"/admin/comercios/[id]">, "params" | "searchParams">) {
   const { id } = await params;
+  const { aviso } = await searchParams;
   const { merchant, pieces, deletion } = await getMerchantWithPieces(id);
   const site = siteUrl();
   // Archivado: la API rechaza las ediciones, pero deja ver la contraseña NFC de las piezas.
@@ -67,9 +74,23 @@ async function MerchantDetail({ params }: Pick<PageProps<"/admin/comercios/[id]"
         <MerchantDataForm merchant={merchant} readOnly={archived} />
       </SectionCard>
 
+      {aviso === "imagen" && (
+        <FormAlert message="El comercio se creó, pero no se pudo subir alguna imagen. Probá de nuevo en “Página del comercio”." />
+      )}
+
+      <SectionCard
+        title="Página del comercio"
+        description="Lo que ve el cliente al escanear un cartel con este destino, también el nombre y la contraseña del Wi-Fi."
+      >
+        <div className="flex flex-col gap-8">
+          <MerchantImages merchant={merchant} readOnly={archived} />
+          <MerchantPageForm merchant={merchant} readOnly={archived} />
+        </div>
+      </SectionCard>
+
       <SectionCard
         title="Piezas"
-        description="Cada pieza tiene un chip NFC y un QR con su URL. Lleva al club o a Google, Instagram o WhatsApp, y el destino se cambia sin reprogramar el chip. Si se pierde o se rompe, desactivala."
+        description="Cada pieza tiene un chip NFC y un QR con su URL. Lleva a la página del comercio o a Google, Instagram o WhatsApp, y el destino se cambia sin reprogramar el chip. Si se pierde o se rompe, desactivala."
       >
         <div className="flex flex-col gap-6">
           {!archived && (

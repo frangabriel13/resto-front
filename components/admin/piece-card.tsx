@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import type { Piece } from "@/lib/admin/types";
 import { formatDateTime } from "@/lib/format";
 import { slugify } from "@/lib/merchants/slug";
-import { pieceQrSvg } from "@/lib/pieces/qr";
+import { qrSvg } from "@/lib/pieces/qr";
 import { pieceUrl } from "@/lib/pieces/url";
 import { cn } from "@/lib/utils";
 import { NfcPassword } from "./nfc-password";
@@ -30,7 +30,7 @@ export async function PieceCard({
   editable,
 }: PieceCardProps) {
   const url = pieceUrl(siteUrl, piece.publicCode);
-  const svg = await pieceQrSvg(url);
+  const svg = await qrSvg(url);
   const fileName = `clubsy-${merchantSlug}-${slugify(piece.label) || "pieza"}.svg`;
 
   return (

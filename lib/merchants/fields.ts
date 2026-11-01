@@ -4,6 +4,9 @@ import { z } from "zod";
 export const hexColorPattern = /^#[0-9a-fA-F]{6}$/;
 const googleReviewHost = /^(?:(?:[a-z0-9-]+\.)*google\.com(?:\.ar)?|(?:maps\.app\.)?goo\.gl|g\.page)$/;
 export const maxCooldownMinutes = 1440;
+// Con o sin @, letras, números, puntos y guiones bajos.
+export const instagramUsernamePattern = /^@?[A-Za-z0-9._]{1,30}$/;
+export const tiktokUsernamePattern = /^@?[A-Za-z0-9._]{2,24}$/;
 
 export function isGoogleReviewUrl(value: string): boolean {
   try {
@@ -14,14 +17,6 @@ export function isGoogleReviewUrl(value: string): boolean {
   }
 }
 
-export const optionalHttpsUrl = z
-  .string()
-  .trim()
-  .max(500, "Hasta 500 caracteres.")
-  .refine((value) => value === "" || /^https:\/\/\S+$/.test(value), {
-    message: "Usá una dirección completa que empiece con https://",
-  });
-
 // Se muestra a todos los clientes: solo Google, para que no sirva para mandarlos a otro sitio.
 export const optionalGoogleReviewUrl = z
   .string()
@@ -30,6 +25,16 @@ export const optionalGoogleReviewUrl = z
   .refine((value) => value === "" || isGoogleReviewUrl(value), {
     message: "Tiene que ser un link https de Google (por ejemplo, https://g.page/…).",
   });
+
+// El footer de la página lo muestra a todos: solo Facebook, para que no sirva para mandarlos a otro sitio.
+export function isFacebookUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" && /^(?:[a-z0-9-]+\.)*facebook\.com$/.test(url.hostname);
+  } catch {
+    return false;
+  }
+}
 
 export const optionalColor = z
   .string()

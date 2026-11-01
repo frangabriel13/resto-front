@@ -45,16 +45,6 @@ export function ClubFields<T extends ClubSettingsValues>({
         inputMode="numeric"
         description={optionalHint ? "Si lo dejás vacío, el valor por defecto." : undefined}
       />
-      <div className="sm:col-span-2">
-        <TextField
-          control={control}
-          name="logoUrl"
-          label="Logo (URL)"
-          type="url"
-          placeholder="https://…"
-          autoCapitalize="none"
-        />
-      </div>
       <ColorField control={control} name="primaryColor" label="Color principal" />
       <ColorField control={control} name="secondaryColor" label="Color secundario" />
     </div>
