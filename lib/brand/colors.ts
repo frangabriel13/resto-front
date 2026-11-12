@@ -31,6 +31,11 @@ export function actionColor(primary: string, secondary: string): string {
   return "#111111";
 }
 
+// Íconos y detalles sobre fondo blanco: el principal si se distingue (3:1), si no casi negro.
+export function inkColor(primary: string): string {
+  return contrastRatio(primary, "#ffffff") >= 3 ? primary : "#111111";
+}
+
 // Pisa los colores del tema con los del comercio, solo dentro del contenedor que lo use.
 export function brandStyle(colors: {
   primaryColor: string | null;
@@ -47,5 +52,6 @@ export function brandStyle(colors: {
     "--ring": secondary,
     "--cta": cta,
     "--cta-foreground": readableTextColor(cta),
+    "--ink": inkColor(primary),
   } as CSSProperties;
 }

@@ -1,41 +1,24 @@
-import { ListIcon, StarIcon, TicketIcon, WifiIcon } from "lucide-react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import type { PageMenuItem } from "@/lib/customer/page-menu";
+import type { PageMenu as PageMenuData } from "@/lib/customer/page-menu";
+import { ClubSection } from "./club-section";
+import { PlaceRow } from "./place-row";
 
-const icons = { club: TicketIcon, menu: ListIcon, review: StarIcon, wifi: WifiIcon };
-
-export function PageMenu({ items }: { items: PageMenuItem[] }) {
-  if (items.length === 0) return null;
+export function PageMenu({ menu }: { menu: PageMenuData }) {
+  const { club, place } = menu;
+  if (!club && place.length === 0) return null;
   return (
-    <nav aria-label="Menú del comercio" className="flex flex-col gap-3">
-      {items.map((item) => {
-        const Icon = icons[item.kind];
-        const content = (
-          <>
-            <Icon />
-            {item.label}
-          </>
-        );
-        // Lo primero del menú se destaca, sea lo que sea que tiene cargado el comercio.
-        const primary = item === items[0];
-        return (
-          <Button
-            key={item.kind}
-            asChild
-            variant={primary ? "default" : "outline"}
-            className={primary ? "h-12 w-full bg-cta text-base text-cta-foreground hover:bg-cta/90" : "h-12 w-full text-base"}
-          >
-            {item.kind === "review" ? (
-              <a href={item.url} target="_blank" rel="noopener noreferrer">
-                {content}
-              </a>
-            ) : (
-              <Link href={item.href}>{content}</Link>
-            )}
-          </Button>
-        );
-      })}
+    <nav aria-label="Menú del comercio" className="flex flex-col">
+      {club && <ClubSection club={club} />}
+      {club && place.length > 0 && <div className="mt-4.5 mb-1 h-px bg-border" />}
+      {place.length > 0 && (
+        <section aria-labelledby="en-el-local" className="flex flex-col">
+          <h2 id="en-el-local" className="mt-2.5 mb-1 text-base font-semibold">
+            En el local
+          </h2>
+          {place.map((item) => (
+            <PlaceRow key={item.kind} item={item} />
+          ))}
+        </section>
+      )}
     </nav>
   );
 }

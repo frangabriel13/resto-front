@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { actionColor, brandStyle, contrastRatio, readableTextColor } from "./colors";
+import { actionColor, brandStyle, contrastRatio, inkColor, readableTextColor } from "./colors";
 
 describe("readableTextColor", () => {
   it("usa texto blanco sobre fondos oscuros", () => {
@@ -67,5 +67,15 @@ describe("brandStyle: botón principal", () => {
       "--cta": "#6f4e37",
       "--cta-foreground": "#ffffff",
     });
+  });
+});
+
+describe("inkColor", () => {
+  it("usa el principal si se distingue sobre el blanco", () => {
+    expect(inkColor("#4a2c1d")).toBe("#4a2c1d");
+  });
+
+  it("con un principal claro, usa casi negro", () => {
+    expect(inkColor("#f7dc6f")).toBe("#111111");
   });
 });

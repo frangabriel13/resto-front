@@ -34,36 +34,42 @@ const socialIcons: Record<SocialType, { label: string; paths: string[] }> = {
 export function SocialLinks({ socials }: { socials: ClubPiece["page"]["socials"] }) {
   if (socials.length === 0) return null;
   return (
-    <ul className="flex flex-wrap justify-center gap-3">
-      {socials.map(({ type, url }) => {
-        const { label, paths } = socialIcons[type];
-        return (
-          <li key={type}>
-            <a
-              href={url}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="flex size-11 items-center justify-center rounded-full border text-primary transition-colors hover:bg-muted"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden
-                className="size-5"
+    <section aria-labelledby="seguinos" className="flex flex-col items-center gap-3">
+      <h2 id="seguinos" className="text-sm font-semibold text-foreground">
+        Seguinos
+      </h2>
+      <ul className="flex flex-wrap justify-center gap-3.5">
+        {socials.map(({ type, url }) => {
+          const { label, paths } = socialIcons[type];
+          return (
+            <li key={type}>
+              {/* Como los íconos de la tarjeta: el principal (`ink`) suave de fondo y lleno en el ícono. */}
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="flex size-11 items-center justify-center rounded-full bg-ink/8 text-ink transition outline-none hover:bg-ink/12 focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-94 active:bg-ink/16"
               >
-                {paths.map((d) => (
-                  <path key={d} d={d} />
-                ))}
-              </svg>
-            </a>
-          </li>
-        );
-      })}
-    </ul>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.8}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden
+                  className="size-6.5"
+                >
+                  {paths.map((d) => (
+                    <path key={d} d={d} />
+                  ))}
+                </svg>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 }

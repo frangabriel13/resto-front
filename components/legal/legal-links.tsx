@@ -2,12 +2,17 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { legalRoutes } from "@/lib/legal/document";
 
-export function LegalLinks({ className }: { className?: string }) {
+// `separated`: en una línea con otros datos, los links van separados con un punto medio.
+export function LegalLinks({ className, separated = false }: { className?: string; separated?: boolean }) {
   return (
-    <nav aria-label="Legales" className={cn("flex justify-center gap-4 text-xs text-muted-foreground", className)}>
+    <nav
+      aria-label="Legales"
+      className={cn("flex justify-center text-xs text-muted-foreground", separated ? "gap-2" : "gap-4", className)}
+    >
       <Link href={legalRoutes.terms} className="underline-offset-4 hover:underline">
         Términos y condiciones
       </Link>
+      {separated && <span aria-hidden>·</span>}
       <Link href={legalRoutes.privacy} className="underline-offset-4 hover:underline">
         Privacidad
       </Link>

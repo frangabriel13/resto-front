@@ -1,11 +1,8 @@
-import Image from "next/image";
-import { MerchantLogo } from "@/components/club/merchant-logo";
-import { LegalLinks } from "@/components/legal/legal-links";
 import { brandStyle } from "@/lib/brand/colors";
 import type { ClubPiece } from "@/lib/customer/types";
-import { cn } from "@/lib/utils";
-import icon from "@/public/icon.png";
-import { SocialLinks } from "./social-links";
+import { MerchantCover } from "./merchant-cover";
+import { MerchantFooter } from "./merchant-footer";
+import { MerchantHeader } from "./merchant-header";
 
 type MerchantPageShellProps = {
   merchant: ClubPiece["merchant"];
@@ -14,36 +11,17 @@ type MerchantPageShellProps = {
   children: React.ReactNode;
 };
 
+// La portada y, montada sobre ella, una sola tarjeta flotante con el logo, el nombre y el contenido.
 export function MerchantPageShell({ merchant, socials, showCover = true, children }: MerchantPageShellProps) {
-  const coverUrl = showCover ? merchant.coverUrl : null;
   return (
     <main style={brandStyle(merchant)} className="flex flex-1 flex-col bg-background">
-      {coverUrl && (
-        <div className="relative aspect-2/1 max-h-72 w-full bg-muted">
-          {/* `unoptimized`: se sirve tal cual desde el bucket de imágenes, como el logo. */}
-          <Image src={coverUrl} alt="" fill unoptimized loading="eager" className="object-cover" />
-        </div>
-      )}
-      <header
-        className={cn(
-          "flex flex-col items-center gap-3 rounded-b-3xl bg-primary px-6 pb-8 text-center text-primary-foreground",
-          !coverUrl && "pt-10",
-        )}
-      >
-        <span className={cn("relative rounded-2xl", coverUrl && "-mt-8 shadow-md")}>
-          <MerchantLogo name={merchant.name} logoUrl={merchant.logoUrl} />
-        </span>
-        <h1 className="font-heading text-2xl font-semibold break-words">{merchant.name}</h1>
-      </header>
-      <div className="mx-auto flex w-full max-w-md flex-col gap-6 px-4 py-6">{children}</div>
-      <footer className="mt-auto flex flex-col items-center gap-4 px-4 pt-4 pb-8 text-xs text-muted-foreground">
-        <SocialLinks socials={socials} />
-        <span className="flex items-center gap-2">
-          <Image src={icon} alt="" className="size-4" />
-          by Clubsy
-        </span>
-        <LegalLinks />
-      </footer>
+      <MerchantCover coverUrl={showCover ? merchant.coverUrl : null} />
+      <div className="relative mx-4.5 -mt-16 rounded-[0.875rem] bg-background px-4 pb-2 shadow-[0_2px_6px_rgb(0_0_0/0.04),0_12px_32px_rgb(0_0_0/0.1)] sm:mx-auto sm:w-full sm:max-w-md">
+        <MerchantHeader merchant={merchant} />
+        <div className="mb-4.5 h-px bg-border" />
+        <div className="flex flex-col gap-5">{children}</div>
+      </div>
+      <MerchantFooter socials={socials} />
     </main>
   );
 }
