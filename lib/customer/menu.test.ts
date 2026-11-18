@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { menuItemPrice } from "./menu";
+import { filterMenu, menuItemPrice, productCount } from "./menu";
 
 // El formato de moneda usa un espacio duro después del signo.
 const normalize = (text: string | null) => text?.replace(/\s/g, " ");
@@ -16,5 +16,28 @@ describe("menuItemPrice", () => {
 
   it("sin precio no muestra nada", () => {
     expect(menuItemPrice({ price: null, priceFrom: false })).toBeNull();
+  });
+});
+
+describe("filterMenu", () => {
+  const categories = [{ id: "cafe" }, { id: "pasteleria" }, { id: "bebidas" }];
+
+  it("con «Todo» muestra todas las categorías", () => {
+    expect(filterMenu(categories, "all")).toEqual(categories);
+  });
+
+  it("con una categoría muestra solo esa", () => {
+    expect(filterMenu(categories, "pasteleria")).toEqual([{ id: "pasteleria" }]);
+  });
+
+  it("si la categoría ya no está, vuelve a mostrar todas", () => {
+    expect(filterMenu(categories, "salado")).toEqual(categories);
+  });
+});
+
+describe("productCount", () => {
+  it("cuenta en singular o plural", () => {
+    expect(productCount(1)).toBe("1 producto");
+    expect(productCount(5)).toBe("5 productos");
   });
 });

@@ -1,66 +1,37 @@
 import { ChevronLeftIcon } from "lucide-react";
 import Link from "next/link";
-import { BackLink } from "@/components/back-link";
-import { Button } from "@/components/ui/button";
-import { menuItemPrice, menuTexts } from "@/lib/customer/menu";
+import { brandStyle } from "@/lib/brand/colors";
+import { menuTexts } from "@/lib/customer/menu";
 import { customerRoutes } from "@/lib/customer/routes";
 import type { ClubPiece } from "@/lib/customer/types";
+import { MenuBrowser } from "./menu-browser";
 
-type PublicMenu = NonNullable<ClubPiece["menu"]>;
+type MenuScreenProps = {
+  merchant: ClubPiece["merchant"];
+  menu: NonNullable<ClubPiece["menu"]>;
+  pieceCode: string;
+};
 
-const anchor = (id: string) => `categoria-${id}`;
-
-export function MenuScreen({ menu, pieceCode }: { menu: PublicMenu; pieceCode: string }) {
-  const back = customerRoutes.piece(pieceCode);
+// La franja del color del comercio con "volver" y, encima, una hoja blanca con la carta. Sin logo,
+// nombre ni pie: es una pantalla de consulta que se abre desde la página del comercio.
+export function MenuScreen({ merchant, menu, pieceCode }: MenuScreenProps) {
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <BackLink href={back}>Volver</BackLink>
-        <h2 className="font-heading text-xl font-semibold">{menuTexts[menu.label].title}</h2>
-      </div>
-
-      {menu.categories.length > 1 && (
-        <nav
-          aria-label="Categorías"
-          className="sticky top-0 z-10 -mx-4 flex gap-2 overflow-x-auto bg-background px-4 py-2"
+    <main style={brandStyle(merchant)} className="flex flex-1 flex-col bg-primary">
+      <div className="px-4 pt-4 pb-4">
+        <Link
+          href={customerRoutes.piece(pieceCode)}
+          aria-label="Volver"
+          className="flex size-10 items-center justify-center rounded-full bg-white text-neutral-900 shadow-[0_4px_12px_rgb(0_0_0/0.15)] outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
         >
-          {menu.categories.map((category) => (
-            <Button key={category.id} asChild variant="outline" size="sm" className="h-9 shrink-0 rounded-full">
-              <a href={`#${anchor(category.id)}`}>{category.name}</a>
-            </Button>
-          ))}
-        </nav>
-      )}
-
-      {menu.categories.map((category) => (
-        // El margen deja el título a la vista debajo del índice fijo.
-        <section key={category.id} id={anchor(category.id)} className="flex scroll-mt-16 flex-col gap-3">
-          <h3 className="font-heading text-lg font-semibold break-words text-primary">{category.name}</h3>
-          <ul className="flex flex-col divide-y">
-            {category.items.map((item) => {
-              const price = menuItemPrice(item);
-              return (
-                <li key={item.id} className="flex flex-col gap-1 py-3 first:pt-0">
-                  <div className="flex items-baseline justify-between gap-4">
-                    <span className="min-w-0 font-medium break-words">{item.name}</span>
-                    {price && <span className="shrink-0 font-medium whitespace-nowrap">{price}</span>}
-                  </div>
-                  {item.description && (
-                    <p className="text-sm break-words text-muted-foreground">{item.description}</p>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      ))}
-
-      <Button asChild variant="outline" className="h-11 w-full">
-        <Link href={back}>
-          <ChevronLeftIcon />
-          Volver
+          <ChevronLeftIcon aria-hidden className="size-4.5" />
         </Link>
-      </Button>
-    </div>
+      </div>
+      <div className="flex-1 rounded-t-[1.625rem] bg-background px-5 pt-5 pb-8">
+        <div className="mx-auto w-full max-w-md">
+          <h1 className="font-heading text-2xl font-semibold tracking-tight">{menuTexts[menu.label].title}</h1>
+          <MenuBrowser categories={menu.categories} />
+        </div>
+      </div>
+    </main>
   );
 }
