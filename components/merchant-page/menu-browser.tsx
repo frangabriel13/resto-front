@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { formatPesos } from "@/lib/format";
-import { filterMenu, type MenuFilter, productCount } from "@/lib/customer/menu";
+import { filterMenu, type MenuFilter } from "@/lib/customer/menu";
 import type { ClubPiece } from "@/lib/customer/types";
 import { cn } from "@/lib/utils";
 
@@ -75,14 +75,8 @@ export function MenuBrowser({ categories }: { categories: Category[] }) {
       )}
       {filterMenu(categories, filter).map((category) => (
         <section key={category.id} aria-labelledby={`categoria-${category.id}`} className="pt-4.5">
-          <h2
-            id={`categoria-${category.id}`}
-            className="mb-1 flex items-baseline justify-between gap-3 text-[1.0625rem] font-semibold"
-          >
-            <span className="min-w-0 break-words">{category.name}</span>
-            <span className="shrink-0 text-xs font-normal text-muted-foreground">
-              {productCount(category.items.length)}
-            </span>
+          <h2 id={`categoria-${category.id}`} className="mb-1 text-[1.0625rem] font-semibold break-words">
+            {category.name}
           </h2>
           <ul>
             {category.items.map((item) => (

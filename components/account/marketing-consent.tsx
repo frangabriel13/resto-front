@@ -43,10 +43,10 @@ export function MarketingConsent({
     <div className="flex flex-col gap-2">
       <div className="flex items-start justify-between gap-4">
         <label htmlFor={id} className="flex flex-col gap-0.5">
-          <span className="font-medium">Quiero recibir novedades de {merchantName}</span>
-          <span className="text-sm text-muted-foreground">Es opcional y lo podés cambiar cuando quieras.</span>
+          <span className="text-sm font-medium">Quiero recibir novedades de {merchantName}</span>
+          <span className="text-[0.8125rem] text-muted-foreground">Es opcional y lo podés cambiar cuando quieras.</span>
         </label>
-        <Switch id={id} checked={consent} disabled={pending} onCheckedChange={change} className="mt-1" />
+        <Switch id={id} checked={consent} disabled={pending} onCheckedChange={change} className="mt-1 data-checked:bg-cta" />
       </div>
       {status?.ok && (
         <p role="status" className="text-sm text-emerald-700">

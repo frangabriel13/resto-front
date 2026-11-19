@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-19T13:00:00Z",
+  "title": "Design System: Clubsy",
+  "extensions": {
+    "colorMeta": {
+      "clubsy-navy": {
+        "role": "primary",
+        "displayName": "Azul Clubsy",
+        "canonical": "#001d67",
+        "tonalRamp": [
+          "#000a24",
+          "#001342",
+          "#001d67",
+          "#1f3a85",
+          "#4a63a6",
+          "#7f93c4",
+          "#b7c2e0",
+          "#e6eaf5"
+        ]
+      },
+      "clubsy-orange": {
+        "role": "secondary",
+        "displayName": "Naranja Clubsy",
+        "canonical": "#fc5d00",
+        "tonalRamp": [
+          "#3d1600",
+          "#7a2c00",
+          "#bd4400",
+          "#fc5d00",
+          "#ff7d33",
+          "#ffa066",
+          "#ffc9a6",
+          "#fff0e6"
+        ]
+      },
+      "near-black": {
+        "role": "neutral",
+        "displayName": "Casi negro",
+        "canonical": "#111111",
+        "tonalRamp": [
+          "#000000",
+          "#111111",
+          "#262626",
+          "#404040",
+          "#525252",
+          "#737373",
+          "#a3a3a3",
+          "#d4d4d4"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Papel",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#d4d4d4",
+          "#e5e5e5",
+          "#ebebeb",
+          "#f0f0f0",
+          "#f5f5f5",
+          "#fafafa",
+          "#fdfdfd",
+          "#ffffff"
+        ]
+      },
+      "ink-text": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "oklch(0.145 0 0)",
+        "tonalRamp": [
+          "oklch(0.1 0 0)",
+          "oklch(0.145 0 0)",
+          "oklch(0.205 0 0)",
+          "oklch(0.269 0 0)",
+          "oklch(0.371 0 0)",
+          "oklch(0.439 0 0)",
+          "oklch(0.556 0 0)",
+          "oklch(0.708 0 0)"
+        ]
+      },
+      "muted-text": {
+        "role": "neutral",
+        "displayName": "Texto apagado",
+        "canonical": "oklch(0.556 0 0)",
+        "tonalRamp": [
+          "oklch(0.269 0 0)",
+          "oklch(0.371 0 0)",
+          "oklch(0.439 0 0)",
+          "oklch(0.556 0 0)",
+          "oklch(0.645 0 0)",
+          "oklch(0.708 0 0)",
+          "oklch(0.82 0 0)",
+          "oklch(0.9 0 0)"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Línea fina",
+        "canonical": "oklch(0.922 0 0)",
+        "tonalRamp": [
+          "oklch(0.708 0 0)",
+          "oklch(0.8 0 0)",
+          "oklch(0.87 0 0)",
+          "oklch(0.9 0 0)",
+          "oklch(0.922 0 0)",
+          "oklch(0.94 0 0)",
+          "oklch(0.96 0 0)",
+          "oklch(0.985 0 0)"
+        ]
+      },
+      "counter-gray": {
+        "role": "neutral",
+        "displayName": "Gris mostrador",
+        "canonical": "oklch(0.97 0 0)",
+        "tonalRamp": [
+          "oklch(0.8 0 0)",
+          "oklch(0.87 0 0)",
+          "oklch(0.9 0 0)",
+          "oklch(0.922 0 0)",
+          "oklch(0.95 0 0)",
+          "oklch(0.97 0 0)",
+          "oklch(0.985 0 0)",
+          "oklch(1 0 0)"
+        ]
+      },
+      "alert-red": {
+        "role": "tertiary",
+        "displayName": "Rojo alerta",
+        "canonical": "oklch(0.577 0.245 27.325)",
+        "tonalRamp": [
+          "oklch(0.3 0.12 27)",
+          "oklch(0.4 0.17 27)",
+          "oklch(0.5 0.21 27)",
+          "oklch(0.577 0.245 27.325)",
+          "oklch(0.66 0.2 27)",
+          "oklch(0.75 0.14 27)",
+          "oklch(0.86 0.08 27)",
+          "oklch(0.96 0.02 27)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "El título de cada pantalla: «La carta», «Sumate al club de premios», «Tus datos»."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "El nombre del comercio debajo de su logo y el nombre de la red Wi-Fi."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Secciones dentro de una hoja: «Cómo funciona», cada categoría de la carta."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Filas, productos, pasos y formularios."
+      },
+      "body-strong": {
+        "displayName": "Body fuerte",
+        "purpose": "El texto de los botones y el nombre de cada fila."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Detalles en gris, el «desde» de un precio, ayudas y condiciones."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Contraseñas del Wi-Fi y el código de 6 números."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "El texto de los botones llenos y el nombre del comercio en el encabezado del alta."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Ayudas, condiciones, números de los sellos y textos chicos de las filas."
+      },
+      "prize": {
+        "displayName": "Prize",
+        "purpose": "El premio en la tarjeta de sellos."
+      }
+    },
+    "shadows": [
+      {
+        "name": "floating-card",
+        "value": "0 2px 6px rgb(0 0 0 / 0.04), 0 12px 32px rgb(0 0 0 / 0.1)",
+        "purpose": "La tarjeta principal montada sobre la franja del color del comercio."
+      },
+      {
+        "name": "logo-badge",
+        "value": "0 8px 24px rgb(0 0 0 / 0.12)",
+        "purpose": "El logo de 84 px apoyado en el borde de la tarjeta flotante."
+      },
+      {
+        "name": "back-button",
+        "value": "0 4px 12px rgb(0 0 0 / 0.15)",
+        "purpose": "El círculo blanco de «volver» sobre la franja."
+      }
+    ],
+    "motion": [
+      {
+        "name": "press",
+        "value": "transform: scale(0.98)",
+        "purpose": "Botones y píldoras se achican apenas al apretarlos."
+      },
+      {
+        "name": "color-fade",
+        "value": "150ms ease",
+        "purpose": "Cambios de fondo en filas, píldoras y botones al tocarlos o al elegirlos."
+      },
+      {
+        "name": "stamp-next",
+        "value": "1.4s ease-in-out 0.4s, 3 veces",
+        "purpose": "El primer sello de la bienvenida (el próximo) late suave; quieto con prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px",
+        "purpose": "La tarjeta flotante y las hojas se centran con un máximo de 28rem; las píldoras pasan de scroll horizontal a varias filas."
+      },
+      {
+        "name": "md",
+        "value": "768px",
+        "purpose": "Los campos bajan de 16 px a 15 px de texto."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "El único botón lleno de cada vista, con el color de acción del comercio.",
+      "html": "<button class=\"ds-btn-primary\">Sumarme al club</button>",
+      "css": ".ds-btn-primary { display: flex; align-items: center; justify-content: center; width: 100%; height: 50px; border: none; border-radius: 10px; background: var(--cta, #fc5d00); color: var(--cta-foreground, #ffffff); font-family: Poppins, system-ui, sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; transition: background-color 150ms ease, transform 100ms ease; } .ds-btn-primary:hover { background: color-mix(in srgb, var(--cta, #fc5d00) 90%, transparent); } .ds-btn-primary:active { transform: scale(0.98); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, #fc5d00 50%, transparent); }"
+    },
+    {
+      "name": "Volver",
+      "kind": "button",
+      "refersTo": "back-button",
+      "description": "El círculo blanco con el chevron, sobre la franja del color del comercio.",
+      "html": "<div class=\"ds-strip\"><button class=\"ds-back\" aria-label=\"Volver\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m15 18-6-6 6-6\"/></svg></button></div>",
+      "css": ".ds-strip { background: var(--primary, #001d67); padding: 16px; } .ds-back { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; border: none; border-radius: 9999px; background: #ffffff; color: #171717; box-shadow: 0 4px 12px rgb(0 0 0 / 0.15); cursor: pointer; } .ds-back:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, #fc5d00 50%, transparent); }"
+    },
+    {
+      "name": "Píldoras de filtro",
+      "kind": "chip",
+      "refersTo": "filter-pill",
+      "description": "Filtro de categorías de la carta: «Todo» primero, una sola elegida.",
+      "html": "<div class=\"ds-pills\"><button class=\"ds-pill ds-pill-on\" aria-pressed=\"true\">Todo</button><button class=\"ds-pill\" aria-pressed=\"false\">Cafetería</button><button class=\"ds-pill\" aria-pressed=\"false\">Pastelería</button></div>",
+      "css": ".ds-pills { display: flex; gap: 8px; } .ds-pill { height: 36px; padding: 0 16px; border: none; border-radius: 9999px; background: oklch(0.97 0 0); color: oklch(0.145 0 0); font-family: Poppins, system-ui, sans-serif; font-size: 13px; font-weight: 500; white-space: nowrap; cursor: pointer; transition: background-color 150ms ease; } .ds-pill:hover { background: oklch(0.922 0 0); } .ds-pill:active { transform: scale(0.97); } .ds-pill-on, .ds-pill-on:hover { background: var(--cta, #fc5d00); color: var(--cta-foreground, #ffffff); }"
+    },
+    {
+      "name": "Campo de texto",
+      "kind": "input",
+      "refersTo": "text-input",
+      "description": "Campo del alta: etiqueta arriba, 48 px de alto, 16 px de texto en el celular.",
+      "html": "<label class=\"ds-field\"><span>Tu celular</span><input class=\"ds-input\" type=\"tel\" placeholder=\"11 2345 6789\"></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: Poppins, system-ui, sans-serif; font-size: 13px; font-weight: 500; color: oklch(0.145 0 0); } .ds-input { height: 48px; padding: 0 14px; border: 1px solid oklch(0.922 0 0); border-radius: 10px; background: #ffffff; font: inherit; font-size: 16px; font-weight: 400; color: oklch(0.145 0 0); } .ds-input::placeholder { color: oklch(0.556 0 0); } .ds-input:focus-visible { outline: none; border-color: #fc5d00; box-shadow: 0 0 0 3px color-mix(in srgb, #fc5d00 50%, transparent); }"
+    },
+    {
+      "name": "Fila del local",
+      "kind": "nav",
+      "refersTo": "icon-disc",
+      "description": "Una opción de «En el local»: ícono en un círculo, texto, detalle en gris y chevron.",
+      "html": "<a class=\"ds-row\" href=\"#\"><span class=\"ds-disc\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 7v14\"/><path d=\"M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z\"/></svg></span><span class=\"ds-row-text\"><span class=\"ds-row-label\">Ver la carta</span><span class=\"ds-row-detail\">Cafetería, Pastelería</span></span><svg class=\"ds-chevron\" viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m9 18 6-6-6-6\"/></svg></a>",
+      "css": ".ds-row { display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 0 8px; border-radius: 10px; color: oklch(0.145 0 0); text-decoration: none; font-family: Poppins, system-ui, sans-serif; transition: background-color 150ms ease; } .ds-row:hover { background: oklch(0.985 0 0); } .ds-row:active { background: oklch(0.97 0 0); } .ds-disc { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; flex-shrink: 0; border-radius: 9999px; background: color-mix(in srgb, var(--ink, #001d67) 8%, transparent); color: var(--ink, #001d67); } .ds-row-text { display: flex; flex: 1; min-width: 0; flex-direction: column; } .ds-row-label { font-size: 14px; font-weight: 500; } .ds-row-detail { font-size: 12px; color: oklch(0.556 0 0); } .ds-chevron { color: oklch(0.556 0 0); }"
+    },
+    {
+      "name": "Tarjeta de sellos",
+      "kind": "card",
+      "refersTo": "floating-card",
+      "description": "La firma del sistema: un ticket con el premio arriba y los sellos numerados abajo; llena del color del comercio o, si el botón usa el mismo color, en un tono suave.",
+      "html": "<div class=\"ds-stamps\"><div class=\"ds-stamp-grid\"><span class=\"ds-stamp\"></span><span class=\"ds-stamp\"></span><span class=\"ds-stamp\"></span><span class=\"ds-stamp\"></span><span class=\"ds-stamp\"></span><span class=\"ds-stamp\"></span><span class=\"ds-stamp\"></span><span class=\"ds-stamp ds-stamp-prize\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"3\" y=\"8\" width=\"18\" height=\"4\" rx=\"1\"/><path d=\"M12 8v13\"/><path d=\"M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7\"/><path d=\"M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5\"/></svg></span></div><p class=\"ds-stamps-text\">Con <b>8 sellos</b> te llevás<span>Un café con medialuna</span></p></div>",
+      "css": ".ds-stamps { display: flex; flex-direction: column; gap: 14px; padding: 16px; border-radius: 14px; background: var(--primary, #001d67); color: var(--primary-foreground, #ffffff); font-family: Poppins, system-ui, sans-serif; } .ds-stamp-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; } .ds-stamp { aspect-ratio: 1; border-radius: 9999px; border: 1.5px dashed color-mix(in srgb, var(--primary-foreground, #ffffff) 55%, transparent); display: flex; align-items: center; justify-content: center; } .ds-stamp-prize { border: none; background: var(--primary-foreground, #ffffff); color: var(--primary, #001d67); } .ds-stamps-text { margin: 0; font-size: 14px; line-height: 1.35; } .ds-stamps-text b { font-weight: 600; } .ds-stamps-text span { display: block; margin-top: 2px; font-size: 16px; font-weight: 600; }"
+    },
+    {
+      "name": "Pasos numerados",
+      "kind": "custom",
+      "refersTo": "icon-disc",
+      "description": "Instrucciones cortas: «Cómo funciona», los pasos del Wi-Fi.",
+      "html": "<ol class=\"ds-steps\"><li><span>1</span>Te sumás con tu celular: te llega un código por WhatsApp.</li><li><span>2</span>En cada compra mostrás el QR de tu tarjeta y el local te suma un sello.</li><li><span>3</span>Con la tarjeta completa, te llevás el premio.</li></ol>",
+      "css": ".ds-steps { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-family: Poppins, system-ui, sans-serif; font-size: 14px; line-height: 1.5; color: oklch(0.371 0 0); } .ds-steps li { display: flex; align-items: flex-start; gap: 12px; } .ds-steps span { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; flex-shrink: 0; border-radius: 9999px; background: color-mix(in srgb, var(--ink, #001d67) 8%, transparent); color: var(--ink, #001d67); font-size: 13px; font-weight: 600; }"
+    },
+    {
+      "name": "Recuadro de condiciones",
+      "kind": "card",
+      "refersTo": "note-box",
+      "description": "Avisos sin urgencia, como las condiciones del premio.",
+      "html": "<div class=\"ds-note\"><strong>Condiciones</strong><p>Un sello por compra mayor a $ 3.000. No acumulable con otras promociones.</p></div>",
+      "css": ".ds-note { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 10px; background: oklch(0.97 0 0); font-family: Poppins, system-ui, sans-serif; } .ds-note strong { font-size: 13px; font-weight: 600; color: oklch(0.145 0 0); } .ds-note p { margin: 0; font-size: 13px; line-height: 1.5; color: oklch(0.439 0 0); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "La tarjeta de cartón, digital",
+    "overview": "Clubsy es la tarjeta de sellos de siempre, la que te daban en la caja del café, llevada al celular sin perder lo que la hacía querible: círculos vacíos que se van llenando, un premio que se ve desde el primer día y la satisfacción de completarla. El sistema es amigable y con energía: bordes bien redondeados, el color del comercio presente en cada pantalla y pequeñas celebraciones cuando pasa algo bueno. Las pantallas del cliente son de una mano y de pocos segundos (en el mostrador, con el celular en la mano), así que todo lo importante va arriba, grande y a un toque.\n\nEl color de cada pantalla no es de Clubsy: es del comercio. Clubsy pone el marco (blanco, Poppins, radios generosos, sombras suaves) y cada local lo llena con su logo, su portada y sus dos colores. Los azules y naranjas de Clubsy son solo el valor por defecto cuando el comercio no cargó los suyos, y la firma \"by Clubsy\" queda chica, al pie.\n\nEste documento recoge el sistema del lado del cliente tal como quedó en el rediseño (etapa 12: la página del comercio, la carta, el Wi-Fi y el alta). El panel del comercio y el admin todavía tienen la base de shadcn previa y se rediseñan después, sobre este mismo sistema. No hay modo oscuro.",
+    "keyCharacteristics": [
+      "Una franja del color del comercio arriba y, montada encima, una hoja blanca o una tarjeta flotante con el contenido.",
+      "Poppins en toda la app, títulos en semibold con el tracking apenas cerrado.",
+      "Radios generosos y escalonados: 10 px los controles, 14 px las tarjetas, 26 px las hojas, píldoras y círculos.",
+      "Un solo botón lleno por pantalla, con el color de acción del comercio.",
+      "Íconos de línea en círculos con el color del comercio al 8 %.",
+      "Sellos como círculos punteados que se llenan; el último es el premio."
+    ],
+    "rules": [
+      {
+        "name": "The Merchant Color Rule",
+        "body": "Ninguna pantalla del cliente usa un color de comercio escrito a mano: todo pasa por los tokens que pisa brandStyle() (primary, primary-foreground, cta, cta-foreground, ink). El texto sobre un color (blanco o casi negro) lo decide el contraste, nunca el diseño.",
+        "section": "colors"
+      },
+      {
+        "name": "The 3:1 Ink Rule",
+        "body": "Un color del comercio se usa sobre blanco (íconos, números, links, el QR) solo si contrasta 3:1; si no, se usa casi negro (#111111). El botón principal sigue la misma prueba: secundario, si no principal, si no casi negro.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Filled Button Rule",
+        "body": "Cada vista tiene como mucho un botón lleno con el color de acción. Lo demás son filas con chevron, links en ink o botones blancos. Si otro bloque grande tendría el mismo color que el botón (la tarjeta de sellos cuando el secundario no contrasta), ese bloque pasa a un tono suave.",
+        "section": "colors"
+      },
+      {
+        "name": "The 16px Field Rule",
+        "body": "Todo campo de texto mide 16 px en el celular (15 px desde escritorio): con menos, Safari agranda la pantalla al tocarlo.",
+        "section": "typography"
+      },
+      {
+        "name": "The Strip-and-Sheet Rule",
+        "body": "Toda pantalla del cliente tiene arriba la franja del color del comercio y, encima, una hoja blanca a todo el ancho (radio de 26 px arriba) o una tarjeta flotante (14 px) que se monta sobre el borde de la franja. Nunca un fondo de color detrás del contenido.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Float-Over-Color Rule",
+        "body": "La sombra es para lo que se monta sobre el color del comercio. Sobre blanco, las cosas se separan con una línea fina o con el gris mostrador.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Last Stamp Is the Prize Rule",
+        "body": "Una tarjeta de sellos se dibuja con círculos punteados y numerados, en filas parejas como la tarjeta del cliente (hasta 7 por fila: 8 sellos van en dos filas de 4), y el último círculo es el premio: lleno, con el ícono de regalo. Con más de 14 sellos, una tira compacta con \"0 de N sellos\" y el regalo al final.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do arrancar cada pantalla del cliente con la franja del color del comercio y una hoja blanca (26 px) o una tarjeta flotante (14 px) encima.",
+      "Do usar los tokens del comercio (primary, cta, ink y sus textos) en lugar de colores fijos, y dejar que el contraste elija el texto.",
+      "Do mantener un solo botón lleno por vista, de 50 px de alto y 10 px de radio.",
+      "Do dibujar las tarjetas de sellos con círculos punteados y numerados, y el premio en el último.",
+      "Do celebrar lo que logra el cliente (un sello, un canje, el alta) con un mensaje cálido y corto.",
+      "Do poner los íconos de línea dentro de un círculo con el color del comercio al 8 %, del tamaño justo para el ícono."
+    ],
+    "donts": [
+      "Don't agregar modo oscuro: la marca de Clubsy va sobre fondo blanco.",
+      "Don't poner el nombre debajo de los íconos de redes ni dejar mucho aire entre el ícono y su círculo.",
+      "Don't usar el color de un comercio sobre blanco si no contrasta 3:1: se usa casi negro.",
+      "Don't usar campos con texto de menos de 16 px en el celular.",
+      "Don't poner contadores que no ayudan a decidir (por ejemplo, la cantidad de productos de cada categoría de la carta).",
+      "Don't competir con la marca del comercio: Clubsy solo firma al pie."
+    ]
+  }
+}

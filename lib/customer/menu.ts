@@ -27,7 +27,3 @@ export function filterMenu<T extends { id: string }>(categories: T[], filter: Me
   // Si la categoría ya no está (la ocultaron con la pantalla abierta), se ve la carta entera.
   return match.length > 0 ? match : categories;
 }
-
-export function productCount(count: number): string {
-  return count === 1 ? "1 producto" : `${count} productos`;
-}

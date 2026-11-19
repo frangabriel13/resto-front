@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cardTitle, carryOverMessage, filledStamps, progressMessage } from "./card";
+import { cardHeadline, cardTitle, carryOverMessage, filledStamps } from "./card";
 
 const progress = (balance: number, stampsRequired = 8) => ({
   balance,
@@ -8,23 +8,30 @@ const progress = (balance: number, stampsRequired = 8) => ({
   canRedeem: balance >= stampsRequired,
 });
 
-describe("progressMessage", () => {
-  it("dice cuántos sellos faltan", () => {
-    expect(progressMessage(progress(3))).toBe("Te faltan 5 sellos para tu premio.");
-    expect(progressMessage(progress(0))).toBe("Te faltan 8 sellos para tu premio.");
+const active = { reward: "Un café", canShowQr: true, ended: false };
+
+describe("cardHeadline", () => {
+  it("dice cuántos sellos faltan y cuál es el premio", () => {
+    expect(cardHeadline(progress(3), active)).toEqual({ title: "Te faltan 5 sellos", detail: "Premio: Un café." });
+    expect(cardHeadline(progress(7), active).title).toBe("Te falta 1 sello");
   });
 
-  it("usa singular cuando falta uno", () => {
-    expect(progressMessage(progress(7))).toBe("Te falta 1 sello para tu premio.");
-  });
-
-  it("avisa que completó la tarjeta", () => {
-    expect(progressMessage(progress(8))).toBe("¡Completaste tu tarjeta!");
+  it("con la tarjeta completa, lleva al QR para canjear", () => {
+    expect(cardHeadline(progress(8), active)).toEqual({
+      title: "¡Completaste tu tarjeta!",
+      detail: "Mostrá tu QR en la caja y llevate tu premio.",
+    });
   });
 
   it("cuenta los sellos de más para la próxima tarjeta", () => {
-    expect(progressMessage(progress(9))).toMatch(/Ya tenés 1 sello para la próxima\.$/);
-    expect(progressMessage(progress(11))).toMatch(/Ya tenés 3 sellos para la próxima\.$/);
+    expect(cardHeadline(progress(9), active).detail).toMatch(/Ya tenés 1 sello para la próxima\.$/);
+    expect(cardHeadline(progress(11), active).detail).toMatch(/Ya tenés 3 sellos para la próxima\.$/);
+  });
+
+  it("sin QR (club finalizado) no lo pide", () => {
+    const ended = { reward: "Un café", canShowQr: false, ended: true };
+    expect(cardHeadline(progress(3), ended).detail).toBe("El club finalizó: ya no se suman sellos.");
+    expect(cardHeadline(progress(8), ended).detail).toBe("Tu premio: Un café.");
   });
 });
 

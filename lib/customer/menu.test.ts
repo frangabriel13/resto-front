@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { filterMenu, menuItemPrice, productCount } from "./menu";
+import { filterMenu, menuItemPrice } from "./menu";
 
 // El formato de moneda usa un espacio duro después del signo.
 const normalize = (text: string | null) => text?.replace(/\s/g, " ");
@@ -32,12 +32,5 @@ describe("filterMenu", () => {
 
   it("si la categoría ya no está, vuelve a mostrar todas", () => {
     expect(filterMenu(categories, "salado")).toEqual(categories);
-  });
-});
-
-describe("productCount", () => {
-  it("cuenta en singular o plural", () => {
-    expect(productCount(1)).toBe("1 producto");
-    expect(productCount(5)).toBe("5 productos");
   });
 });
