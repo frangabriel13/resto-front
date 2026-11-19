@@ -5,6 +5,21 @@
 /* Sin modo oscuro: sin esta línea, Tailwind activaría los `dark:` de shadcn según el sistema. */
 @custom-variant dark (&:is(.dark *));
 
+/* En la bienvenida, el primer sello ("el próximo") late suave tres veces. */
+@theme {
+  --animate-stamp-next: stamp-next 1.4s ease-in-out 0.4s 3;
+
+  @keyframes stamp-next {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.08);
+    }
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -41,6 +56,10 @@
   --color-cta: var(--cta);
   --color-cta-foreground: var(--cta-foreground);
   --color-ink: var(--ink);
+  --color-ticket: var(--ticket);
+  --color-ticket-foreground: var(--ticket-foreground);
+  --color-ticket-prize: var(--ticket-prize);
+  --color-ticket-prize-foreground: var(--ticket-prize-foreground);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -68,6 +87,10 @@
   --cta: #fc5d00;
   --cta-foreground: #ffffff;
   --ink: #001d67;
+  --ticket: #001d67;
+  --ticket-foreground: #ffffff;
+  --ticket-prize: #ffffff;
+  --ticket-prize-foreground: #001d67;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);

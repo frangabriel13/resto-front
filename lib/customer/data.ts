@@ -1,9 +1,11 @@
 import "server-only";
+import { cache } from "react";
 import { getServerApi } from "@/lib/api/server";
 import type { CardLookup, CustomerSession, PublicPiece } from "./types";
 
 // `null` si el código no existe.
-export async function getPublicPiece(code: string): Promise<PublicPiece | null> {
+// Con `cache`, la página y su título (`generateMetadata`) comparten un solo pedido a la API.
+export const getPublicPiece = cache(async (code: string): Promise<PublicPiece | null> => {
   const api = await getServerApi();
   const { data, response } = await api.GET("/public/pieces/{code}", {
     params: { path: { code } },
@@ -11,7 +13,7 @@ export async function getPublicPiece(code: string): Promise<PublicPiece | null> 
   if (response.status === 404 || response.status === 400) return null;
   if (!data) throw new Error(`GET /public/pieces respondió ${response.status}`);
   return data;
-}
+});
 
 // `null` si no hay sesión de cliente.
 export async function getCustomerSession(): Promise<CustomerSession | null> {

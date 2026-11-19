@@ -6,7 +6,12 @@ import { LoadingBlock } from "@/components/loading-block";
 import { getCustomerSession, getPublicPiece } from "@/lib/customer/data";
 import { customerRoutes } from "@/lib/customer/routes";
 
-export const metadata: Metadata = { title: "Sumate al club" };
+export async function generateMetadata({ params }: PageProps<"/p/[code]/club">): Promise<Metadata> {
+  const { code } = await params;
+  const piece = await getPublicPiece(code);
+  const name = piece && "merchant" in piece ? piece.merchant.name : null;
+  return { title: name ? `Sumate al club de ${name}` : "Sumate al club" };
+}
 
 export default function PieceClubPage({ params }: PageProps<"/p/[code]/club">) {
   return (

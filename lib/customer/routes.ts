@@ -1,3 +1,6 @@
+// El QR de la tarjeta, para llegar directo a él (la bienvenida del alta).
+export const stampQrAnchor = "mi-qr";
+
 export const customerRoutes = {
   account: "/cuenta",
   piece: (code: string) => `/p/${encodeURIComponent(code)}`,
@@ -5,6 +8,7 @@ export const customerRoutes = {
   pieceMenu: (code: string) => `/p/${encodeURIComponent(code)}/carta`,
   pieceWifi: (code: string) => `/p/${encodeURIComponent(code)}/wifi`,
   card: (slug: string) => `/c/${encodeURIComponent(slug)}`,
+  cardQr: (slug: string) => `/c/${encodeURIComponent(slug)}#${stampQrAnchor}`,
   // Ingresar y volver a `path` (por ejemplo, la tarjeta que quería ver).
   login: (path: string) => `/cuenta?volver=${encodeURIComponent(path)}`,
   // Después de salir de un club o borrar la cuenta (`accountNotice`).

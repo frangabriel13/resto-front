@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { actionColor, brandStyle, contrastRatio, inkColor, readableTextColor } from "./colors";
+import { actionColor, brandStyle, contrastRatio, inkColor, readableTextColor, ticketColors } from "./colors";
 
 describe("readableTextColor", () => {
   it("usa texto blanco sobre fondos oscuros", () => {
@@ -22,6 +22,13 @@ describe("brandStyle", () => {
     expect(brandStyle({ primaryColor: null, secondaryColor: null })).toMatchObject({
       "--primary": "#001d67",
       "--brand": "#fc5d00",
+    });
+  });
+
+  it("el anillo de foco se ve sobre blanco aunque el secundario sea claro", () => {
+    expect(brandStyle({ primaryColor: "#1a4723", secondaryColor: "#e4ea9a" })).toMatchObject({
+      "--brand": "#e4ea9a",
+      "--ring": "#1a4723",
     });
   });
 
@@ -77,5 +84,23 @@ describe("inkColor", () => {
 
   it("con un principal claro, usa casi negro", () => {
     expect(inkColor("#f7dc6f")).toBe("#111111");
+  });
+});
+
+describe("ticketColors", () => {
+  it("con un botón de otro color, la tarjeta va llena del principal", () => {
+    expect(ticketColors("#001d67", "#fc5d00")).toEqual({
+      background: "#001d67",
+      text: "#ffffff",
+      prize: "#ffffff",
+      prizeText: "#001d67",
+    });
+  });
+
+  it("si el botón usa el principal, la tarjeta pasa a un tono suave y el texto se sigue leyendo", () => {
+    const ticket = ticketColors("#1a4723", "#1a4723");
+    expect(ticket.background).toBe("#d1dad3");
+    expect(ticket.prize).toBe("#1a4723");
+    expect(contrastRatio(ticket.text, ticket.background)).toBeGreaterThanOrEqual(4.5);
   });
 });

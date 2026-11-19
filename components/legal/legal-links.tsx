@@ -23,7 +23,8 @@ export function LegalLinks({ className, separated = false }: { className?: strin
 // Debajo del botón que crea la cuenta o suma al cliente a un club. Abre en otra
 // pestaña para no perder lo que ya cargó en el formulario.
 export function LegalConsentNote() {
-  const linkClass = "font-medium text-foreground underline underline-offset-4";
+  // El relleno vertical agranda la zona de toque del link sin mover el texto.
+  const linkClass = "py-3 font-medium text-foreground underline underline-offset-4";
   return (
     <p className="text-center text-xs text-muted-foreground">
       Al continuar aceptás los{" "}

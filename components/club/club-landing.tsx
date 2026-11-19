@@ -1,9 +1,7 @@
-import { BackLink } from "@/components/back-link";
-import { JoinClub } from "@/components/join/join-club";
-import { StampPreview } from "@/components/rewards/stamp-preview";
-import { customerRoutes } from "@/lib/customer/routes";
+import { JoinFlow } from "@/components/join/join-flow";
+import { brandStyle } from "@/lib/brand/colors";
 import type { ClubPiece } from "@/lib/customer/types";
-import { ClubShell } from "./club-shell";
+import { ClubIntro } from "./club-intro";
 
 type ClubLandingProps = {
   piece: ClubPiece;
@@ -11,39 +9,15 @@ type ClubLandingProps = {
   customerName: string | null;
 };
 
-// El premio, las condiciones y el alta; solo con el club abierto a nuevos clientes.
+// Sumarse al club (diseño de la 12.5): la franja del color del comercio con "volver", el logo y el
+// nombre, y una hoja blanca con el premio y los datos. Solo con el club abierto a nuevos clientes.
 export function ClubLanding({ piece, pieceCode, customerName }: ClubLandingProps) {
   const { merchant, rewardRule } = piece;
-
   return (
-    <ClubShell merchant={merchant}>
-      <div className="-mb-4">
-        <BackLink href={customerRoutes.piece(pieceCode)}>Volver</BackLink>
-      </div>
-
-      {rewardRule && (
-        <section className="flex flex-col gap-3">
-          <h2 className="font-heading text-lg font-semibold">Juntá sellos y llevate tu premio</h2>
-          <StampPreview
-            stampsRequired={rewardRule.stampsRequired}
-            rewardDescription={rewardRule.rewardDescription}
-          />
-          <p className="text-sm text-muted-foreground">
-            Sumás un sello por cada compra: mostrás tu tarjeta y el local lo confirma.
-          </p>
-          {rewardRule.conditions && (
-            <p className="text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">Condiciones: </span>
-              {rewardRule.conditions}
-            </p>
-          )}
-        </section>
-      )}
-
-      <section id="unirme" className="flex flex-col gap-3">
-        <h2 className="font-heading text-lg font-semibold">Sumate al club</h2>
-        <JoinClub merchant={merchant} pieceCode={pieceCode} customerName={customerName} />
-      </section>
-    </ClubShell>
+    <main style={brandStyle(merchant)} className="flex flex-1 flex-col bg-primary">
+      <JoinFlow merchant={merchant} pieceCode={pieceCode} customerName={customerName} reward={rewardRule}>
+        {rewardRule && <ClubIntro rewardRule={rewardRule} />}
+      </JoinFlow>
+    </main>
   );
 }

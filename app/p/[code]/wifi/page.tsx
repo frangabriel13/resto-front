@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { LoadingBlock } from "@/components/loading-block";
-import { MerchantPageShell } from "@/components/merchant-page/merchant-page-shell";
 import { WifiScreen } from "@/components/merchant-page/wifi-screen";
 import { getPublicPiece } from "@/lib/customer/data";
 import { customerRoutes } from "@/lib/customer/routes";
@@ -22,9 +21,5 @@ async function PieceWifiContent({ params }: Pick<PageProps<"/p/[code]/wifi">, "p
   const piece = await getPublicPiece(code);
   if (!piece || !("merchant" in piece) || !piece.page.wifi) redirect(customerRoutes.piece(code));
 
-  return (
-    <MerchantPageShell merchant={piece.merchant} socials={piece.page.socials} showCover={false}>
-      <WifiScreen wifi={piece.page.wifi} pieceCode={code} />
-    </MerchantPageShell>
-  );
+  return <WifiScreen merchant={piece.merchant} wifi={piece.page.wifi} pieceCode={code} />;
 }

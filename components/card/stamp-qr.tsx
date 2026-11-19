@@ -1,15 +1,28 @@
 "use client";
 
 import { RefreshCwIcon, WifiOffIcon } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { stampQrAnchor } from "@/lib/customer/routes";
 import { useStampQr } from "./use-stamp-qr";
 
 export function StampQr({ membershipId, forRedemption }: { membershipId: string; forRedemption: boolean }) {
   const { state, retry } = useStampQr(membershipId);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Al llegar desde la bienvenida del alta ("Mostrar mi QR"), el QR queda a la vista.
+  useEffect(() => {
+    if (window.location.hash === `#${stampQrAnchor}`) sectionRef.current?.scrollIntoView({ block: "center" });
+  }, []);
 
   return (
-    <section aria-labelledby="stamp-qr-title" className="flex flex-col items-center gap-3 rounded-2xl border p-5 text-center">
+    <section
+      ref={sectionRef}
+      id={stampQrAnchor}
+      aria-labelledby="stamp-qr-title"
+      className="flex flex-col items-center gap-3 rounded-2xl border p-5 text-center"
+    >
       <h2 id="stamp-qr-title" className="font-heading text-lg font-semibold">
         {forRedemption ? "Mostrá este QR para canjear tu premio" : "Mostrá este QR en la caja"}
       </h2>
