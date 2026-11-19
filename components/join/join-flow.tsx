@@ -228,7 +228,7 @@ export function JoinFlow({ merchant, pieceCode, customerName, reward, children }
                 </h1>
                 {reward && (
                   <div className="mt-5 w-full">
-                    <StampTicket stampsRequired={reward.stampsRequired} highlightFirst>
+                    <StampTicket stampsRequired={reward.stampsRequired} showNext>
                       <p className="text-xs text-ticket-foreground/82">Tu tarjeta</p>
                       <p className="text-[1.0625rem] font-semibold wrap-anywhere">{step.name}</p>
                       <p className="mt-1 text-[0.8125rem] text-ticket-foreground/82">

@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { CustomerLogout } from "@/components/account/customer-logout";
-import { DeleteAccount } from "@/components/account/delete-account";
+import { AccountDetails } from "@/components/account/account-details";
+import { AccountNotice } from "@/components/account/account-notice";
+import { AccountShell } from "@/components/account/account-shell";
 import { LoginFlow } from "@/components/account/login-flow";
 import { MyClubs } from "@/components/account/my-clubs";
-import { AuthCard } from "@/components/auth/auth-card";
-import { AuthShell } from "@/components/auth/auth-shell";
-import { ClubNotice } from "@/components/club/club-notice";
 import { LoadingBlock } from "@/components/loading-block";
 import { getCustomerSession } from "@/lib/customer/data";
 import { accountNotice, customerRoutes, safeReturnPath } from "@/lib/customer/routes";
@@ -16,11 +14,15 @@ export const metadata: Metadata = { title: "Mi cuenta" };
 
 export default function AccountPage({ searchParams }: PageProps<"/cuenta">) {
   return (
-    <AuthShell>
-      <Suspense fallback={<LoadingBlock />}>
-        <AccountContent searchParams={searchParams} />
-      </Suspense>
-    </AuthShell>
+    <Suspense
+      fallback={
+        <AccountShell subtitle="Mi cuenta">
+          <LoadingBlock />
+        </AccountShell>
+      }
+    >
+      <AccountContent searchParams={searchParams} />
+    </Suspense>
   );
 }
 
@@ -32,27 +34,30 @@ async function AccountContent({ searchParams }: Pick<PageProps<"/cuenta">, "sear
 
   if (!session) {
     return (
-      <div className="flex flex-col gap-4">
-        {notice && <ClubNotice>{notice}</ClubNotice>}
-        <AuthCard
-          title="Ingresá a tu cuenta"
-          description="Con tu celular ves tus tarjetas de todos los clubes."
-        >
-          <LoginFlow returnTo={returnTo ?? customerRoutes.account} />
-        </AuthCard>
-      </div>
+      <AccountShell subtitle="Tus clubes en un solo lugar">
+        {notice && <AccountNotice>{notice}</AccountNotice>}
+        <LoginFlow returnTo={returnTo ?? customerRoutes.account} />
+        <div className="h-8" />
+      </AccountShell>
     );
   }
   if (returnTo) redirect(returnTo);
 
+  const { customer, memberships } = session;
   return (
-    <div className="flex flex-col gap-6">
-      {notice && <ClubNotice>{notice}</ClubNotice>}
-      <AuthCard title="Mis clubes" description="Tocá un club para ver tu tarjeta.">
-        <MyClubs memberships={session.memberships} />
-      </AuthCard>
-      <CustomerLogout customerName={session.customer.name} />
-      <DeleteAccount />
-    </div>
+    <AccountShell subtitle="Mi cuenta">
+      {notice && <AccountNotice>{notice}</AccountNotice>}
+      <h1 className="font-heading text-2xl leading-tight font-semibold tracking-tight wrap-anywhere">
+        Hola, {customer.name}
+      </h1>
+      <p className="mt-1 mb-4.5 text-sm leading-normal text-neutral-600">
+        {memberships.length > 0
+          ? "Tocá un club para ver tu tarjeta y tu QR."
+          : "Acá vas a ver tus tarjetas de todos los clubes."}
+      </p>
+      <MyClubs memberships={memberships} />
+      <AccountDetails customer={customer} />
+      <div className="h-6" />
+    </AccountShell>
   );
 }

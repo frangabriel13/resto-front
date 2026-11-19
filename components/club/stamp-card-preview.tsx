@@ -1,4 +1,4 @@
-import { GiftIcon } from "lucide-react";
+import { CheckIcon, GiftIcon } from "lucide-react";
 import { stampColumns } from "@/lib/rewards/layout";
 import { stampCount } from "@/lib/text";
 import { cn } from "@/lib/utils";
@@ -6,27 +6,25 @@ import { cn } from "@/lib/utils";
 // Con más sellos, los círculos quedarían diminutos: la tarjeta pasa a una tira compacta.
 const maxStampsInGrid = 14;
 
+type StampsState = {
+  stampsRequired: number;
+  // Sellos que ya tiene en esta tarjeta (llenos, con un tilde).
+  filled?: number;
+  // Marca el próximo sello por sumar: punteado más grueso, late suave. Nunca se dibuja lleno.
+  showNext?: boolean;
+  // La tarjeta completa: el premio queda resaltado.
+  prizeReady?: boolean;
+};
+
 // La tarjeta de sellos como un ticket, con los colores de `brandStyle` (`--ticket*`): llena del color
 // del comercio o, si el botón principal ya lo usa, en un tono suave. Arriba lo que corresponda
 // (`children`) y, después del corte, los sellos numerados con el premio en el último.
-export function StampTicket({
-  stampsRequired,
-  highlightFirst = false,
-  children,
-}: {
-  stampsRequired: number;
-  highlightFirst?: boolean;
-  children: React.ReactNode;
-}) {
+export function StampTicket({ children, ...stamps }: StampsState & { children: React.ReactNode }) {
   return (
     <div className="rounded-[0.875rem] bg-ticket text-left text-ticket-foreground">
       <div className="px-4.5 pt-4.5 pb-3.5">{children}</div>
       <TicketCut />
-      {stampsRequired > maxStampsInGrid ? (
-        <CompactStamps stampsRequired={stampsRequired} />
-      ) : (
-        <StampGrid stampsRequired={stampsRequired} highlightFirst={highlightFirst} />
-      )}
+      {stamps.stampsRequired > maxStampsInGrid ? <CompactStamps {...stamps} /> : <StampGrid {...stamps} />}
     </div>
   );
 }
@@ -45,26 +43,41 @@ export function StampCardPreview({ stampsRequired, rewardDescription }: { stamps
   );
 }
 
-function PrizeStamp({ className }: { className?: string }) {
+function PrizeStamp({ ready, className }: { ready: boolean; className?: string }) {
   return (
-    <span className={cn("flex items-center justify-center rounded-full bg-ticket-prize text-ticket-prize-foreground", className)}>
+    <span
+      className={cn(
+        "flex items-center justify-center rounded-full bg-ticket-prize text-ticket-prize-foreground",
+        ready && "ring-2 ring-ticket-prize ring-offset-3 ring-offset-ticket",
+        className,
+      )}
+    >
       <GiftIcon aria-hidden className="size-4.5" />
     </span>
   );
 }
 
-function StampGrid({ stampsRequired, highlightFirst }: { stampsRequired: number; highlightFirst: boolean }) {
+function StampGrid({ stampsRequired, filled = 0, showNext = false, prizeReady = false }: StampsState) {
   return (
     <div
       role="img"
-      aria-label={`Tarjeta de ${stampCount(stampsRequired)}`}
+      aria-label={`${filled} de ${stampCount(stampsRequired)}`}
       className="grid gap-2 px-4.5 pt-3.5 pb-4.5"
       style={{ gridTemplateColumns: `repeat(${stampColumns(stampsRequired)}, minmax(0, 1fr))` }}
     >
       {Array.from({ length: stampsRequired }, (_, index) => {
-        if (index === stampsRequired - 1) return <PrizeStamp key={index} className="aspect-square" />;
-        // En la bienvenida, el primero es "el próximo": sumarse no da sellos, así que no se dibuja lleno.
-        const next = highlightFirst && index === 0;
+        if (index === stampsRequired - 1) return <PrizeStamp key={index} ready={prizeReady} className="aspect-square" />;
+        if (index < filled) {
+          return (
+            <span
+              key={index}
+              className="flex aspect-square items-center justify-center rounded-full bg-ticket-foreground text-ticket"
+            >
+              <CheckIcon aria-hidden strokeWidth={2.6} className="size-4.5" />
+            </span>
+          );
+        }
+        const next = showNext && index === filled;
         return (
           <span
             key={index}
@@ -83,20 +96,23 @@ function StampGrid({ stampsRequired, highlightFirst }: { stampsRequired: number;
   );
 }
 
-function CompactStamps({ stampsRequired }: { stampsRequired: number }) {
+function CompactStamps({ stampsRequired, filled = 0, prizeReady = false }: StampsState) {
+  const percent = Math.round((Math.min(filled, stampsRequired) / stampsRequired) * 100);
   return (
     <div
       role="img"
-      aria-label={`Tarjeta de ${stampCount(stampsRequired)}`}
+      aria-label={`${filled} de ${stampCount(stampsRequired)}`}
       className="flex items-center gap-3 px-4.5 pt-4 pb-4.5"
     >
       <span className="flex flex-1 flex-col gap-1.5">
-        <span className="h-2.5 rounded-full border-[1.5px] border-dashed border-ticket-foreground/50" />
+        <span className="h-2.5 overflow-hidden rounded-full border-[1.5px] border-dashed border-ticket-foreground/50">
+          <span className="block h-full rounded-full bg-ticket-foreground" style={{ width: `${percent}%` }} />
+        </span>
         <span aria-hidden className="text-xs text-ticket-foreground/82">
-          0 de {stampCount(stampsRequired)}
+          {filled} de {stampCount(stampsRequired)}
         </span>
       </span>
-      <PrizeStamp className="size-10 shrink-0" />
+      <PrizeStamp ready={prizeReady} className="size-10 shrink-0" />
     </div>
   );
 }

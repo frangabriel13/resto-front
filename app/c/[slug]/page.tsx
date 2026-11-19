@@ -2,7 +2,7 @@ import { LogInIcon, StoreIcon } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
-import { MembershipCardView } from "@/components/card/membership-card-view";
+import { CardScreen } from "@/components/card/card-screen";
 import { ClubMessage } from "@/components/club/club-message";
 import { LoadingBlock } from "@/components/loading-block";
 import { Button } from "@/components/ui/button";
@@ -46,5 +46,5 @@ async function CardContent({ params }: Pick<PageProps<"/c/[slug]">, "params">) {
       />
     );
   }
-  return <MembershipCardView card={lookup.card} customer={lookup.customer} />;
+  return <CardScreen card={lookup.card} customer={lookup.customer} />;
 }

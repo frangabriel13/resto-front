@@ -7,6 +7,7 @@ import { showApiError } from "@/components/form/show-api-error";
 import { SubmitButton } from "@/components/form/submit-button";
 import { TextField } from "@/components/form/text-field";
 import { LegalConsentNote } from "@/components/legal/legal-links";
+import { joinButtonClass, joinInputClass } from "@/components/join/styles";
 import { FieldGroup } from "@/components/ui/field";
 import type { ApiResult } from "@/lib/api/call-api";
 import { nameSchema, type NameValues } from "./schemas";
@@ -26,12 +27,18 @@ export function NameStep({ onSubmit }: { onSubmit: (name: string) => Promise<Api
   return (
     <form onSubmit={form.handleSubmit(submit)} noValidate>
       <FieldGroup>
-        <p className="text-sm text-muted-foreground">
-          No encontramos una cuenta con ese celular. Decinos tu nombre y la creamos.
-        </p>
         <FormAlert message={form.formState.errors.root?.message} />
-        <TextField control={form.control} name="name" label="Tu nombre" autoComplete="given-name" />
-        <SubmitButton pending={form.formState.isSubmitting}>Crear mi cuenta</SubmitButton>
+        <TextField
+          control={form.control}
+          name="name"
+          label="Tu nombre"
+          autoComplete="given-name"
+          placeholder="Ej.: Lucía"
+          className={joinInputClass}
+        />
+        <SubmitButton pending={form.formState.isSubmitting} className={joinButtonClass}>
+          Crear mi cuenta
+        </SubmitButton>
         <LegalConsentNote />
       </FieldGroup>
     </form>

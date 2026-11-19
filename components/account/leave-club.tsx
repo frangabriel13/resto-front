@@ -39,7 +39,11 @@ export function LeaveClub({ membershipId, merchantName }: { membershipId: string
       <FormAlert message={error} />
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button variant="outline" className="h-11 w-full" disabled={pending}>
+          <Button
+            variant="ghost"
+            className="h-11 self-start px-0 font-medium text-destructive hover:bg-transparent hover:text-destructive"
+            disabled={pending}
+          >
             {pending && <Spinner />}
             Salir del club
           </Button>

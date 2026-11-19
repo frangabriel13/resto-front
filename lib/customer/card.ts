@@ -6,13 +6,19 @@ export function filledStamps({ balance, stampsRequired }: Progress): number {
   return Math.min(balance, stampsRequired);
 }
 
-export function progressMessage(progress: Progress): string {
+// El titular de la tarjeta: cuánto falta o que ya la completó, y qué hacer con eso.
+export function cardHeadline(
+  progress: Progress,
+  { reward, canShowQr, ended }: { reward: string; canShowQr: boolean; ended: boolean },
+): { title: string; detail: string } {
   if (!progress.canRedeem) {
-    return `${progress.remaining === 1 ? "Te falta" : "Te faltan"} ${stamps(progress.remaining)} para tu premio.`;
+    const title = `${progress.remaining === 1 ? "Te falta" : "Te faltan"} ${stamps(progress.remaining)}`;
+    return { title, detail: ended ? "El club finalizó: ya no se suman sellos." : `Premio: ${reward}.` };
   }
   const extra = progress.balance - progress.stampsRequired;
   const next = extra > 0 ? ` Ya tenés ${stamps(extra)} para la próxima.` : "";
-  return `¡Completaste tu tarjeta!${next}`;
+  const detail = canShowQr ? "Mostrá tu QR en la caja y llevate tu premio." : `Tu premio: ${reward}.`;
+  return { title: "¡Completaste tu tarjeta!", detail: `${detail}${next}` };
 }
 
 export function cardTitle(cycle: number): string {
